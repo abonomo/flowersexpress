@@ -1,0 +1,1 @@
+//javascript scripts for every page go here
