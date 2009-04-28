@@ -1,0 +1,31 @@
+body{font-family: Verdana, Arial, Helvetica, sans-serif,sans-serif; font-size: 11px; background: #FFFFFF; color: #333333}
+
+img {  
+	border-style: none;
+}
+
+.text_error {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+.link {
+	color: #555555;
+	font-weight: bold;
+}
+.link:hover {
+	color: #73A742;
+	text-decoration: underline;
+}
+
+.textbox{
+	font-family: Verdana, Arial, Helvetica, sans-serif,sans-serif; 
+	font-size: 11px;
+	color: #555555;
+}
+
+.button{
+	font-family: Verdana, Arial, Helvetica, sans-serif,sans-serif; 
+	font-size: 11px;
+	text-decoration: bold;
+}

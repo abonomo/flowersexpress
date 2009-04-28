@@ -1,0 +1,37 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.9.4
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Apr 28, 2009 at 12:27 AM
+-- Server version: 5.0.75
+-- PHP Version: 5.2.3
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `vklabora_flowersexpress`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employees`
+--
+
+CREATE TABLE IF NOT EXISTS `employees` (
+  `id` int(11) NOT NULL auto_increment,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `auth_level` int(11) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`id`, `email`, `password`, `auth_level`, `first_name`, `last_name`) VALUES
+(1, 'test@test.com', 'test', 2, 'Testo', 'Testigi');
