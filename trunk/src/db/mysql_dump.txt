@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 28, 2009 at 12:27 AM
+-- Generation Time: Apr 28, 2009 at 04:17 AM
 -- Server version: 5.0.75
 -- PHP Version: 5.2.3
 
@@ -19,6 +19,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `employees`
 --
 
+DROP TABLE IF EXISTS `employees`;
 CREATE TABLE IF NOT EXISTS `employees` (
   `id` int(11) NOT NULL auto_increment,
   `email` varchar(255) NOT NULL,
