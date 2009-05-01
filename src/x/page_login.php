@@ -89,7 +89,7 @@ class PageLogin
 	
 	private function show_output($err_msg = '')
 	{
-		ObjOuterArea::echo_top();
+		ObjOuterArea::echo_top(ObjOuterArea::$TAB_NONE);
 		
 			//echo inner area html here
 			if($err_msg != '') echo('<font class="text_error">' . $err_msg . '</font>');	
