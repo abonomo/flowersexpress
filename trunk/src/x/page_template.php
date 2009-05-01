@@ -49,7 +49,8 @@ class PageTemplate
 	
 	private function show_output($err_msg = '')
 	{
-		ObjOuterArea::echo_top();
+		//echo the outer area with the correct tab highlighted for this page
+		ObjOuterArea::echo_top(ObjOuterArea::$TAB_HOME);
 		
 		//echo inner area html here
 		/*
