@@ -2,10 +2,10 @@
 
 require_once('framework.php');
 
-class PageTemplate
+class PageHome
 {
 	//*** CONSTANTS ***
-	private static $THIS_PAGE = 'page_template.php';
+	private static $THIS_PAGE = 'page_home.php';
 	
 	//*** MEMBERS ***
 	
@@ -62,7 +62,8 @@ class PageTemplate
 }
 
 //create an instance of the page and run it
-$page_template = new PageTemplate();
-$page_template->run();
+$page_home = new PageHome();
+$page_home->run();
 
 ?>
+
