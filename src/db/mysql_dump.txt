@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 30, 2009 at 06:28 PM
+-- Generation Time: May 03, 2009 at 06:09 PM
 -- Server version: 4.1.22
 -- PHP Version: 5.2.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `maxvujo_flowersexpressgrace`
+-- Database: `maxvujo_flowersexpressmax`
 --
 
 -- --------------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `action_log` (
 -- Dumping data for table `action_log`
 --
 
-INSERT INTO `action_log` (`id`, `employee_id`, `date`, `table`, `row_id`, `action`) VALUES
+INSERT DELAYED INTO `action_log` (`id`, `employee_id`, `date`, `table`, `row_id`, `action`) VALUES
 (1, 1, '2009-04-30 03:00:00', 'customers', 1, 'insert'),
 (2, 1, '2009-04-29 06:00:00', 'customers', 2, 'insert');
 
@@ -53,7 +53,9 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `company_name` varchar(255) NOT NULL default '',
   `contact_name` varchar(255) NOT NULL default '',
   `contact_dept` varchar(255) NOT NULL default '',
-  `phone_number` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
   `address_line_1` varchar(255) NOT NULL default '',
   `address_line_2` varchar(255) NOT NULL default '',
   `city` varchar(255) NOT NULL default '',
@@ -67,16 +69,18 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `trash_flag` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   FULLTEXT KEY `search_words` (`search_words`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `phone_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
-(1, 'C5342', 'bob is weird', 'Bob''s Flowers', 'Bob', 'Purchasing', '06 2345 2305', '3423 some italian street', '', 'Rome', 'Lazio', 'Italy', 1, 1, '2009-04-30 03:00:00', '2009-04-30 03:00:00', '', 0),
-(2, 'C2680', 'give her discounts', 'Grace''s Flower Shop of Awesomeness', 'Grace', 'Purchasing', '06 2345 2060', '1435 Orange St', '', 'Savona', 'Liguria', 'Italy', 1, 1, '2009-04-29 06:00:00', '2009-04-29 06:00:00', 'grace, awesome', 0),
-(3, 'C8799', 'do not talk to them', 'Flower Shop of DOOM', 'Grim', 'Department of DOOM', '06 2456 0934', '4324 mephistopheles av.', '', 'Ancona', 'Marche', 'Italy', 1, 1, '2009-04-30 04:15:00', '2009-04-30 04:15:00', 'doom', 0);
+INSERT DELAYED INTO `customers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `office_phone_number`, `cell_phone_number`, `fax_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 'C5342', 'bob is weird yoo', 'Bob''s Flowers', 'Bob', 'Purchasing', '06 2345 2305', '12341234', '1234231', '3423 some italian street', '', 'Rome', 'Lazio', 'Italy', 1, 1, '2009-04-30 03:00:00', '2009-05-03 17:50:12', 'C5342 BobQQQ sQQQ Flowers BobQQQ Purchasing 06QQQ 2345 2305 12341234 1234231 3423 some italian street Rome Lazio Italy bobQQQ isQQQ weird yooQQQ', 0),
+(2, 'C2680', 'give her discounts', 'Grace''s Flower Shop of Awesomeness', 'Grace', 'Purchasing', '06 2345 2060', '', '', '1435 Orange St', '', 'Savona', 'Liguria', 'Italy', 1, 1, '2009-04-29 06:00:00', '2009-04-29 06:00:00', 'grace, awesome', 0),
+(3, 'C8799', 'do not talk to them. speak only in satanic verses.', 'Flower Shop of DOOM', 'Grim', 'Department of DOOM', '06 2456 0934', '465', '345345', '4324 mephistopheles av.', '', 'Ancona', 'Marche', 'Italy', 1, 1, '2009-04-30 04:15:00', '2009-05-03 17:51:06', 'C8799 Flower Shop ofQQQ DOOM Grim Department ofQQQ DOOM 06QQQ 2456 0934 465QQQ 345345 4324 mephistopheles avQQQ Ancona Marche Italy doQQQ notQQQ talk toQQQ them speak only inQQQ satanic verses ', 0),
+(8, 'C2888', '', '', '', '', '', '', '', '', '', '', '', '', 1, 1, '2009-05-03 17:40:22', '2009-05-03 17:40:22', 'C2888 ', 0),
+(9, '1423', 'asdf asj i4hsd  lsd', 'asd', '4354', 'df', '4', '12341234', '34', 'ds', '23', '4', '12', '3', 1, 1, '2009-05-03 17:57:58', '2009-05-03 17:57:58', '1423 asdQQQ 4354 dfQQQ 4QQQ 12341234 34QQQ dsQQQ 23QQQ 4QQQ 12QQQ 3QQQ asdf asjQQQ i4hsd lsdQQQ', 0);
 
 -- --------------------------------------------------------
 
@@ -102,8 +106,8 @@ CREATE TABLE IF NOT EXISTS `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `icode`, `email`, `password`, `auth_level`, `first_name`, `last_name`, `search_words`) VALUES
-(1, '', 'test@test.com', 'test', 2, 'Testo', 'Testigi', ''),
+INSERT DELAYED INTO `employees` (`id`, `icode`, `email`, `password`, `auth_level`, `first_name`, `last_name`, `search_words`) VALUES
+(1, '', 'test@test.com', 'test', 3, 'Testo', 'Testigi', ''),
 (2, '', 'a@b.com', 'asdf', 2, 'Jack', 'Johnson', '');
 
 -- --------------------------------------------------------
@@ -136,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `icode`, `notes`, `name`, `type`, `subtype1`, `subtype2`, `description`, `typical_lifespan_days`, `typical_units`, `typical_min_price_per_unit`, `currency`, `search_words`, `trash_flag`) VALUES
+INSERT DELAYED INTO `products` (`id`, `icode`, `notes`, `name`, `type`, `subtype1`, `subtype2`, `description`, `typical_lifespan_days`, `typical_units`, `typical_min_price_per_unit`, `currency`, `search_words`, `trash_flag`) VALUES
 (1, 'R2863', 'I''m not sure what a product code looks like', 'Red Vivendi', 'Rose', 'long stemmed', 'short stemmed', 'these are very popular', 7, '60 roses', 60, 'euros', 'rose, red vivendi,vendela', 0),
 (2, 'P6131', 'bob likes these', 'Black Eyed Susan', 'Daisy', '', '', 'yellow flowers that bloom from july to sept', 10, '50 flowers per box', 45, 'euros', 'daisy, yellow, black eyed susan', 0);
 
@@ -168,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `purchases` (
 -- Dumping data for table `purchases`
 --
 
-INSERT INTO `purchases` (`id`, `icode`, `notes`, `supplier_id`, `shipper_id`, `shipment_details`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+INSERT DELAYED INTO `purchases` (`id`, `icode`, `notes`, `supplier_id`, `shipper_id`, `shipment_details`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
 (1, 'P9002', '', 1, 1, 'next day', 1, 1, '2009-04-28 00:00:00', '2009-04-28 00:00:00', '', 0),
 (2, 'P4234', '', 1, 2, '', 1, 1, '2009-04-30 05:00:00', '2009-04-30 05:00:00', '', 0);
 
@@ -198,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `purchase_comps` (
 -- Dumping data for table `purchase_comps`
 --
 
-INSERT INTO `purchase_comps` (`id`, `purchase_id`, `product_id`, `transit_status`, `units`, `quantity_purchased`, `quantity_sellable`, `expiration_date`, `min_price_per_unit`) VALUES
+INSERT DELAYED INTO `purchase_comps` (`id`, `purchase_id`, `product_id`, `transit_status`, `units`, `quantity_purchased`, `quantity_sellable`, `expiration_date`, `min_price_per_unit`) VALUES
 (1, 1, 1, 0, 'boxes', 20, 20, '2009-05-06 04:00:00', 60),
 (2, 1, 2, 2, 'boxes', 75, 75, '2009-05-09 04:00:00', 48),
 (3, 2, 1, 1, 'boxes', 50, 50, '2009-05-04 00:00:00', 60);
@@ -236,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `sales_orders` (
 -- Dumping data for table `sales_orders`
 --
 
-INSERT INTO `sales_orders` (`id`, `icode`, `notes`, `customer_id`, `shipper_id`, `shipment_details`, `special`, `order_date`, `delivery_date`, `price`, `currency`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+INSERT DELAYED INTO `sales_orders` (`id`, `icode`, `notes`, `customer_id`, `shipper_id`, `shipment_details`, `special`, `order_date`, `delivery_date`, `price`, `currency`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
 (1, 'O1544', '', 2, 1, '', 0, '2009-04-30 02:00:00', '2009-05-01 02:00:00', 200, 'USD', 1, 1, '2009-04-30 02:00:00', '2009-04-30 02:00:00', '', 0);
 
 -- --------------------------------------------------------
@@ -260,7 +264,7 @@ CREATE TABLE IF NOT EXISTS `sales_order_comps` (
 -- Dumping data for table `sales_order_comps`
 --
 
-INSERT INTO `sales_order_comps` (`id`, `sales_order_id`, `purchase_comp_id`, `quantity_ordered`) VALUES
+INSERT DELAYED INTO `sales_order_comps` (`id`, `sales_order_id`, `purchase_comp_id`, `quantity_ordered`) VALUES
 (1, 1, 1, 20),
 (2, 1, 2, 35);
 
@@ -278,7 +282,9 @@ CREATE TABLE IF NOT EXISTS `shippers` (
   `company_name` varchar(255) NOT NULL default '',
   `contact_name` varchar(255) NOT NULL default '',
   `contact_dept` varchar(255) NOT NULL default '',
-  `phone_number` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
   `address_line_1` varchar(255) NOT NULL default '',
   `address_line_2` varchar(255) NOT NULL default '',
   `city` varchar(255) NOT NULL default '',
@@ -298,9 +304,9 @@ CREATE TABLE IF NOT EXISTS `shippers` (
 -- Dumping data for table `shippers`
 --
 
-INSERT INTO `shippers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `phone_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
-(1, 'T7662', 'cheap next day shipping', 'Italian Shipment Express', 'John', 'Customer Relations', '06 2341 1231', '424 Adalberto Av.', '', 'Bologna', 'Emilia-Romagna', 'Italy', 1, 1, '2009-04-30 10:00:00', '2009-04-30 10:00:00', 'next-day, john', 0),
-(2, 'T7687', '', 'DHL', 'Atticus', 'Department of Contacting People', '06 5467 6574', '5345 Main St.', '', 'Springfield', 'IL', 'USA', 1, 1, '2009-04-30 14:00:00', '2009-04-30 14:00:00', 'dhl', 0);
+INSERT DELAYED INTO `shippers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `office_phone_number`, `cell_phone_number`, `fax_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 'T7662', 'cheap next day shipping', 'Italian Shipment Express', 'John', 'Customer Relations', '06 2341 1231', '', '', '424 Adalberto Av.', '', 'Bologna', 'Emilia-Romagna', 'Italy', 1, 1, '2009-04-30 10:00:00', '2009-04-30 10:00:00', 'next-day, john', 0),
+(2, 'T7687', '', 'DHL', 'Atticus', 'Department of Contacting People', '06 5467 6574', '', '', '5345 Main St.', '', 'Springfield', 'IL', 'USA', 1, 1, '2009-04-30 14:00:00', '2009-04-30 14:00:00', 'dhl', 0);
 
 -- --------------------------------------------------------
 
@@ -316,7 +322,9 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   `company_name` varchar(255) NOT NULL default '',
   `contact_name` varchar(255) NOT NULL default '',
   `contact_dept` varchar(255) NOT NULL default '',
-  `phone_number` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
   `address_line_1` varchar(255) NOT NULL default '',
   `address_line_2` varchar(255) NOT NULL default '',
   `city` varchar(255) NOT NULL default '',
@@ -336,9 +344,9 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
 -- Dumping data for table `suppliers`
 --
 
-INSERT INTO `suppliers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `phone_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
-(1, 'F2643', 'they have good roses but their sunflowers aren''t that good', 'Maria''s Flower Emporium', 'Sam', 'Customer Relations', '06 2435 2345', '2342 vivendi st.', '', 'Chieti', 'Abruzzo', 'Italy', 1, 1, '2009-04-30 02:00:00', '2009-04-30 02:00:00', 'maria, roses', 0),
-(2, 'F8765', 'they sell daffodils for cheap', 'Auntie May''s Flower Exports', 'Tom', 'Sales', '06 2347 8655', '234 Teramo av', '', 'Aosta', 'Aosta', 'Italy', 1, 1, '2009-04-30 09:00:00', '2009-04-30 09:00:00', 'may, tom, daffodil', 0);
+INSERT DELAYED INTO `suppliers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `office_phone_number`, `cell_phone_number`, `fax_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 'F2643', 'they have good roses but their sunflowers aren''t that good', 'Maria''s Flower Emporium', 'Sam', 'Customer Relations', '06 2435 2345', '', '', '2342 vivendi st.', '', 'Chieti', 'Abruzzo', 'Italy', 1, 1, '2009-04-30 02:00:00', '2009-04-30 02:00:00', 'maria, roses', 0),
+(2, 'F8765', 'they sell daffodils for cheap', 'Auntie May''s Flower Exports', 'Tom', 'Sales', '06 2347 8655', '', '', '234 Teramo av', '', 'Aosta', 'Aosta', 'Italy', 1, 1, '2009-04-30 09:00:00', '2009-04-30 09:00:00', 'may, tom, daffodil', 0);
 
 -- --------------------------------------------------------
 
@@ -360,5 +368,4 @@ CREATE TABLE IF NOT EXISTS `temp_sales_order_comps` (
 --
 -- Dumping data for table `temp_sales_order_comps`
 --
-
 
