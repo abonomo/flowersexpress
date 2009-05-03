@@ -5,6 +5,14 @@
 	font-weight: bold;
 }
 
+.text_label {
+}
+
+.text_title {
+	font-size: 1.20em;
+	font-weight:bold;
+}
+
 /* input element styles (e.g. textboxes, buttons) */
 .textbox{
 	font-family: Verdana, Arial, Helvetica, sans-serif,sans-serif; 
