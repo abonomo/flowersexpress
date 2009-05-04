@@ -58,8 +58,8 @@ class PageEmployeeMenu
 			<form name="form">
 				<div class="text_title">Employee Menu</div>
 				<input name="f_employee_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_employee_list.php?f_search=\' + form.f_employee_search.value)" /><br>
-				<a href="page_employee_add_edit">Add Employee</a><br>
-				<a href="page_employee_list">List All Employees</a><br>
+				<a href="page_employee_add_edit.php">Add Employee</a><br>
+				<a href="page_employee_list.php">List All Employees</a><br>
 			</form>
 			');
 			

@@ -57,8 +57,8 @@ class PageSupplierMenu
 			<form name="form">
 				<div class="text_title">Supplier Menu</div>
 				<input name="f_supplier_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_supplier_list.php?f_search=\' + form.f_supplier_search.value)" /><br>
-				<a href="page_supplier_add_edit">Add Suppliers</a><br>
-				<a href="page_supplier_list">List All Suppliers</a><br>
+				<a href="page_supplier_add_edit.php">Add Suppliers</a><br>
+				<a href="page_supplier_list.php">List All Suppliers</a><br>
 			</form>
 			');
 			

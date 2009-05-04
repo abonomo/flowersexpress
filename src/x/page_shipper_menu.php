@@ -58,8 +58,8 @@ class PageShipperMenu
 			<form name="form">
 				<div class="text_title">Shipper Menu</div>
 				<input name="f_shipper_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_shipper_list.php?f_search=\' + form.f_shipper_search.value)" /><br>
-				<a href="page_shipper_add_edit">Add Shipper</a><br>
-				<a href="page_shipper_list">List All Shippers</a><br>
+				<a href="page_shipper_add_edit.php">Add Shipper</a><br>
+				<a href="page_shipper_list.php">List All Shippers</a><br>
 			</form>
 			');
 			

@@ -58,8 +58,8 @@ class PageCustomerMenu
 			<form name="form">
 				<div class="text_title">Customer Menu</div>
 				<input name="f_customer_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_customer_list.php?f_search=\' + form.f_customer_search.value)" /><br>
-				<a href="page_customer_add_edit">Add Customer</a><br>
-				<a href="page_customer_list">List All Customers</a><br>
+				<a href="page_customer_add_edit.php">Add Customer</a><br>
+				<a href="page_customer_list.php">List All Customers</a><br>
 			</form>
 			');
 			
