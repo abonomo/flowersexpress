@@ -6,6 +6,15 @@
 }
 
 .text_label {
+	width: 25%;
+	vertical-align: middle;
+	text-align: right;
+}
+
+.form_input {
+	width: 75%;
+	text-align: left;
+	vertical-align: middle;
 }
 
 .text_title {

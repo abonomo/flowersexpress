@@ -31,7 +31,6 @@ class PageSalesOrderMenu
 	
 	private function get_input()
 	{
-		echo "he";
 	}
 	
 	private function verify_input()
@@ -58,7 +57,7 @@ class PageSalesOrderMenu
 			<form name="form">
 				<div class="text_title">Sales Order Menu</div>
 				<input name="f_sales_order_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_sales_order_list.php?f_search=\' + form.f_sales_order_search.value)" /><br>
-				<a href="page_sales_order_add_edit">Add Sales Order</a><br>
+				<a href="page_sales_order_add_edit.php?f_mode=add">Add Sales Order</a><br>
 				<a href="page_sales_order_list">List All Sales Orders</a><br>
 			</form>
 			');
