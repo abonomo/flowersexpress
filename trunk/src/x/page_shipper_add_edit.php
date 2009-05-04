@@ -2,11 +2,11 @@
 
 require_once('framework.php');
 
-class PageCustomerAddEdit
+class PageShipperAddEdit
 {
 	//*** CONSTANTS ***
 	private static $THIS_PAGE = 'page_template.php';
-	private static $NEXT_PAGE = 'page_customer_menu.php';
+	private static $NEXT_PAGE = 'page_shipper_menu.php';
 	
 	//*** MEMBERS ***
 	private $f_mode;	
@@ -84,24 +84,24 @@ class PageCustomerAddEdit
 			$this->f_id = IO::get_input_sl_g('f_id','string');
 		
 			//get values from database
-			$cust_info = DB::get_single_row_fq('
+			$shipper_info = DB::get_single_row_fq('
 				SELECT icode, company_name, contact_name, contact_dept, office_phone_number, cell_phone_number, fax_number, address_line_1, address_line_2, city, province, country, notes
-				FROM customers WHERE id=\'' . $this->f_id . '\''
+				FROM shippers WHERE id=\'' . $this->f_id . '\''
 			);
 			
-			$this->f_icode = $cust_info['icode'];
-			$this->f_company_name = $cust_info['company_name'];
-			$this->f_contact_name = $cust_info['contact_name'];
-			$this->f_contact_dept = $cust_info['contact_dept'];
-			$this->f_office_phone_number = $cust_info['office_phone_number'];
-			$this->f_cell_phone_number = $cust_info['cell_phone_number'];
-			$this->f_fax_number = $cust_info['fax_number'];
-			$this->f_address_line_1 = $cust_info['address_line_1'];
-			$this->f_address_line_2 = $cust_info['address_line_2'];
-			$this->f_city = $cust_info['city'];
-			$this->f_province = $cust_info['province'];
-			$this->f_country = $cust_info['country'];
-			$this->f_notes = $cust_info['notes'];	
+			$this->f_icode = $shipper_info['icode'];
+			$this->f_company_name = $shipper_info['company_name'];
+			$this->f_contact_name = $shipper_info['contact_name'];
+			$this->f_contact_dept = $shipper_info['contact_dept'];
+			$this->f_office_phone_number = $shipper_info['office_phone_number'];
+			$this->f_cell_phone_number = $shipper_info['cell_phone_number'];
+			$this->f_fax_number = $shipper_info['fax_number'];
+			$this->f_address_line_1 = $shipper_info['address_line_1'];
+			$this->f_address_line_2 = $shipper_info['address_line_2'];
+			$this->f_city = $shipper_info['city'];
+			$this->f_province = $shipper_info['province'];
+			$this->f_country = $shipper_info['country'];
+			$this->f_notes = $shipper_info['notes'];	
 		}
 		//if NOT submitting, and in ADD mode, do nothing (empty textboxes)
 	}
@@ -170,7 +170,7 @@ class PageCustomerAddEdit
 			{
 				//insert
 				DB::send_query('
-				UPDATE customers SET
+				UPDATE shippers SET
 				icode=\'' . $this->f_icode . '\',
 				company_name=\'' . $this->f_company_name . '\',
 				contact_name=\'' . $this->f_contact_name . '\',
@@ -195,7 +195,7 @@ class PageCustomerAddEdit
 			{
 				//insert
 				DB::send_query('
-				INSERT INTO customers 
+				INSERT INTO shippers 
 				(icode, company_name, contact_name, contact_dept, office_phone_number, cell_phone_number, fax_number, address_line_1, address_line_2, city, province, country, notes, created_employee_id, updated_employee_id, created_date, updated_date, search_words) 
 				VALUES (
 				\'' . $this->f_icode . '\',
@@ -224,25 +224,25 @@ class PageCustomerAddEdit
 			}
 			
 			//successful insert or update
-			IO::navigate_to('page_customer_view.php?f_id=' . $this->f_id);
+			IO::navigate_to('page_shipper_view.php?f_id=' . $this->f_id);
 		}
 	}
 	
 	private function show_output($outputarray)
 	{
 		//echo the outer area with the correct tab highlighted for this page
-		ObjOuterArea::echo_top(ObjOuterArea::$TAB_CUSTOMERS);
+		ObjOuterArea::echo_top(ObjOuterArea::$TAB_SHIPPERS);
 		
 		//echo inner area html here
 		echo('
                <div align="center">
-                  <form name="form1" method="post" action="page_customer_add_edit.php?f_action=submit&f_mode=' . IO::prepout_url($this->f_mode) . (($this->f_mode == 'edit') ? ('&f_id=' . IO::prepout_url($this->f_id)) : '') . '">
+                  <form name="form1" method="post" action="page_shipper_add_edit.php?f_action=submit&f_mode=' . IO::prepout_url($this->f_mode) . (($this->f_mode == 'edit') ? ('&f_id=' . IO::prepout_url($this->f_id)) : '') . '">
                     <table width="600" border="0" cellpadding="0" cellspacing="0">
                       <tr>
                         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                               <td width="25%" align="right" valign="middle">&nbsp;</td>
-                              <td width="75%" align="left" valign="middle" class="text_title">Add New Customer</td>
+                              <td width="75%" align="left" valign="middle" class="text_title">Add New Shippers</td>
                             </tr>
                         </table></td>
                       </tr>	
@@ -364,7 +364,7 @@ class PageCustomerAddEdit
 }
 
 //create an instance of the page and run it
-$page = new PageCustomerAddEdit();
+$page = new PageShipperAddEdit();
 $page->run();
 
 ?>

@@ -58,8 +58,8 @@ class PagePurchaseMenu
 			<form name="form">
 				<div class="text_title">Purchase Menu</div>
 				<input name="f_purchase_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_purchase_list.php?f_search=\' + form.f_purchase_search.value)" /><br>
-				<a href="page_purchase_add_edit">Add Purchase</a><br>
-				<a href="page_purchase_list">List All purchases</a><br>
+				<a href="page_purchase_add_edit.php">Add Purchase</a><br>
+				<a href="page_purchase_list.php">List All purchases</a><br>
 			</form>
 			');
 			

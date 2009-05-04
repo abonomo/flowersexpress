@@ -58,8 +58,8 @@ class PageProductMenu
 			<form name="form">
 				<div class="text_title">Product Menu</div>
 				<input name="f_product_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_product_list.php?f_search=\' + form.f_product_search.value)" /><br>
-				<a href="page_product_add_edit">Add Product</a><br>
-				<a href="page_product_list">List All Products</a><br>
+				<a href="page_product_add_edit.php">Add Product</a><br>
+				<a href="page_product_list.php">List All Products</a><br>
 			</form>
 			');
 			
