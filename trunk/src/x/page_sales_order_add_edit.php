@@ -203,7 +203,7 @@ class PageSalesOrderAddEdit
 			}
 			
 			//successful insert or update
-			//IO::navigate_to('page_sales_order_view.php?f_id=' . $this->f_id);
+			IO::navigate_to('page_sales_order_view.php?f_id=' . $this->f_id);
 		}
 	}
 	
