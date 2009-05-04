@@ -7,13 +7,13 @@ class ObjOuterArea
 	//pass one of these into echo_top to highlight that tab as currently active
 	public static $TAB_NONE = -1;
 	public static $TAB_HOME = 0;
-	public static $TAB_SALES_ORDER = 1;
-	public static $TAB_PURCHASE = 2;
-	public static $TAB_CUSTOMER = 3;
-	public static $TAB_PRODUCT = 4;
-	public static $TAB_SUPPLIER = 5;
-	public static $TAB_SHIPPER = 6;
-	public static $TAB_REPORT = 7;
+	public static $TAB_SALES_ORDERS = 1;
+	public static $TAB_PURCHASES = 2;
+	public static $TAB_CUSTOMERS = 3;
+	public static $TAB_PRODUCTS = 4;
+	public static $TAB_SUPPLIERS = 5;
+	public static $TAB_SHIPPERS = 6;
+	public static $TAB_REPORTS = 7;
 
 	public static function echo_top($active_tab)
 	{
@@ -79,13 +79,13 @@ class ObjOuterArea
 		<!-- leading space between banner and menu -->
 					  <td bgcolor="#FFFFFF">&nbsp;</td></tr><tr>
 					  <td><a class="' . (($active_tab == self::$TAB_HOME) ? 'active_menu' : 'menu') . '" href="page_home.php">Home</a></tr><tr>
-					  <td><a class="' . (($active_tab == self::$TAB_SALES_ORDER) ? 'active_menu' : 'menu') . '" href="page_sales_order_menu.php">Sales Order</a></td></tr><tr>
-					  <td><a class="' . (($active_tab == self::$TAB_PURCHASE) ? 'active_menu' : 'menu') . '" href="page_purchase_menu.php">Purchase</a></td></tr><tr>
-					  <td><a class="' . (($active_tab == self::$TAB_CUSTOMER) ? 'active_menu' : 'menu') . '" href="page_customer_menu.php">Customer</a></td></tr><tr>
-					  <td><a class="' . (($active_tab == self::$TAB_PRODUCT) ? 'active_menu' : 'menu') . '" href="page_product_menu.php">Product</a></td></tr><tr>					  
-					  <td><a class="' . (($active_tab == self::$TAB_SUPPLIER) ? 'active_menu' : 'menu') . '" href="page_supplier_menu.php">Supplier</a></td></tr><tr>
-					  <td><a class="' . (($active_tab == self::$TAB_SHIPPER) ? 'active_menu' : 'menu') . '" href="page_shipper_menu.php">Shipper</a></td></tr><tr>					  
-					  <td><a class="' . (($active_tab == self::$TAB_REPORT) ? 'active_menu' : 'menu') . '" href="page_report_menu.php">Report</a></td></tr><tr>
+					  <td><a class="' . (($active_tab == self::$TAB_SALES_ORDERS) ? 'active_menu' : 'menu') . '" href="page_sales_order_menu.php">Sales Order</a></td></tr><tr>
+					  <td><a class="' . (($active_tab == self::$TAB_PURCHASES) ? 'active_menu' : 'menu') . '" href="page_purchase_menu.php">Purchase</a></td></tr><tr>
+					  <td><a class="' . (($active_tab == self::$TAB_CUSTOMERS) ? 'active_menu' : 'menu') . '" href="page_customer_menu.php">Customer</a></td></tr><tr>
+					  <td><a class="' . (($active_tab == self::$TAB_PRODUCTS) ? 'active_menu' : 'menu') . '" href="page_product_menu.php">Product</a></td></tr><tr>					  
+					  <td><a class="' . (($active_tab == self::$TAB_SUPPLIERS) ? 'active_menu' : 'menu') . '" href="page_supplier_menu.php">Supplier</a></td></tr><tr>
+					  <td><a class="' . (($active_tab == self::$TAB_SHIPPERS) ? 'active_menu' : 'menu') . '" href="page_shipper_menu.php">Shipper</a></td></tr><tr>					  
+					  <td><a class="' . (($active_tab == self::$TAB_REPORTS) ? 'active_menu' : 'menu') . '" href="page_report_menu.php">Report</a></td></tr><tr>
 					</tr>
 
 				  </tbody>
