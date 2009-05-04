@@ -72,7 +72,7 @@ class PageProductView
 			$this->f_description = $prod_info['description'];
 			$this->f_lifespan = $prod_info['typical_lifespan_days'];
 			$this->f_units = $prod_info['typical_units'];
-			$this->f_min_price = $prod_info['typical_units, typical_min_price_per_unit'];
+			$this->f_min_price = $prod_info['typical_min_price_per_unit'];
 			$this->f_notes = $prod_info['notes'];
 		
 	}
