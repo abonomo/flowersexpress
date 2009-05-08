@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 06, 2009 at 09:24 AM
+-- Generation Time: May 07, 2009 at 08:17 PM
 -- Server version: 4.1.22
 -- PHP Version: 5.2.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `maxvujo_flowersexpressneil`
+-- Database: `maxvujo_flowersexpressmax`
 --
 
 -- --------------------------------------------------------
@@ -255,6 +255,7 @@ CREATE TABLE IF NOT EXISTS `sales_order_comps` (
   `sales_order_id` int(11) NOT NULL default '0',
   `purchase_comp_id` int(11) NOT NULL default '0',
   `quantity_ordered` int(11) NOT NULL default '0',
+  `total_cost` decimal(10,0) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `sales_order_id` (`sales_order_id`),
   KEY `sales_order_3id` (`purchase_comp_id`)
@@ -264,9 +265,9 @@ CREATE TABLE IF NOT EXISTS `sales_order_comps` (
 -- Dumping data for table `sales_order_comps`
 --
 
-INSERT DELAYED INTO `sales_order_comps` (`id`, `sales_order_id`, `purchase_comp_id`, `quantity_ordered`) VALUES
-(1, 1, 1, 20),
-(2, 1, 2, 35);
+INSERT DELAYED INTO `sales_order_comps` (`id`, `sales_order_id`, `purchase_comp_id`, `quantity_ordered`, `total_cost`) VALUES
+(1, 1, 1, 20, 0),
+(2, 1, 2, 35, 0);
 
 -- --------------------------------------------------------
 
