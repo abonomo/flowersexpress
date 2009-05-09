@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 08, 2009 at 07:29 AM
+-- Generation Time: May 09, 2009 at 05:41 PM
 -- Server version: 4.1.22
 -- PHP Version: 5.2.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `maxvujo_flowersexpressmax`
+-- Database: `maxvujo_flowersexpresspaul`
 --
 
 -- --------------------------------------------------------
@@ -97,6 +97,10 @@ CREATE TABLE IF NOT EXISTS `employees` (
   `auth_level` int(11) NOT NULL default '0',
   `first_name` varchar(255) NOT NULL default '',
   `last_name` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `search_words` text NOT NULL,
   PRIMARY KEY  (`id`),
   FULLTEXT KEY `search_words` (`search_words`)
@@ -106,9 +110,9 @@ CREATE TABLE IF NOT EXISTS `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT DELAYED INTO `employees` (`id`, `icode`, `email`, `password`, `auth_level`, `first_name`, `last_name`, `search_words`) VALUES
-(1, '', 'test@test.com', 'test', 3, 'Testo', 'Testigi', ''),
-(2, '', 'a@b.com', 'asdf', 2, 'Jack', 'Johnson', '');
+INSERT DELAYED INTO `employees` (`id`, `icode`, `email`, `password`, `auth_level`, `first_name`, `last_name`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`) VALUES
+(1, '', 'test@test.com', 'test', 3, 'Testo', 'Testigi', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),
+(2, '', 'a@b.com', 'asdf', 2, 'Jack', 'Johnson', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -129,7 +133,10 @@ CREATE TABLE IF NOT EXISTS `products` (
   `typical_lifespan_days` int(11) NOT NULL default '0',
   `typical_units` varchar(255) NOT NULL default '',
   `typical_min_price_per_unit` decimal(10,2) NOT NULL default '0.00',
-  `currency` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `search_words` text NOT NULL,
   `trash_flag` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
@@ -140,9 +147,9 @@ CREATE TABLE IF NOT EXISTS `products` (
 -- Dumping data for table `products`
 --
 
-INSERT DELAYED INTO `products` (`id`, `icode`, `notes`, `name`, `type`, `subtype1`, `subtype2`, `description`, `typical_lifespan_days`, `typical_units`, `typical_min_price_per_unit`, `currency`, `search_words`, `trash_flag`) VALUES
-(1, 'R2863', 'I''m not sure what a product code looks like', 'Red Vivendi', 'Rose', 'long stemmed', 'short stemmed', 'these are very popular', 7, '60 roses', 60.00, 'euros', 'rose, red vivendi,vendela', 0),
-(2, 'P6131', 'bob likes these', 'Black Eyed Susan', 'Daisy', '', '', 'yellow flowers that bloom from july to sept', 10, '50 flowers per box', 45.00, 'euros', 'daisy, yellow, black eyed susan', 0);
+INSERT DELAYED INTO `products` (`id`, `icode`, `notes`, `name`, `type`, `subtype1`, `subtype2`, `description`, `typical_lifespan_days`, `typical_units`, `typical_min_price_per_unit`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 'R2863', 'I''m not sure what a product code looks like', 'Red Vivendi', 'Rose', 'long stemmed', 'short stemmed', 'these are very popular', 7, '60 roses', 60.00, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'rose, red vivendi,vendela', 0),
+(2, 'P6131', 'bob likes these', 'Black Eyed Susan', 'Daisy', '', '', 'yellow flowers that bloom from july to sept', 10, '50 flowers per box', 45.00, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'daisy, yellow, black eyed susan', 0);
 
 -- --------------------------------------------------------
 
@@ -350,3 +357,25 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
 INSERT DELAYED INTO `suppliers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `office_phone_number`, `cell_phone_number`, `fax_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
 (1, 'F2643', 'they have good roses but their sunflowers aren''t that good', 'Maria''s Flower Emporium', 'Sam', 'Customer Relations', '06 2435 2345', '', '', '2342 vivendi st.', '', 'Chieti', 'Abruzzo', 'Italy', 1, 1, '2009-04-30 02:00:00', '2009-04-30 02:00:00', 'maria, roses', 0),
 (2, 'F8765', 'they sell daffodils for cheap', 'Auntie May''s Flower Exports', 'Tom', 'Sales', '06 2347 8655', '', '', '234 Teramo av', '', 'Aosta', 'Aosta', 'Italy', 1, 1, '2009-04-30 09:00:00', '2009-04-30 09:00:00', 'may, tom, daffodil', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `temp_sales_order_comps`
+--
+
+DROP TABLE IF EXISTS `temp_sales_order_comps`;
+CREATE TABLE IF NOT EXISTS `temp_sales_order_comps` (
+  `id` int(11) NOT NULL auto_increment,
+  `sales_order_id` int(11) NOT NULL default '0',
+  `purchase_comp_id` int(11) NOT NULL default '0',
+  `quantity_ordered` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `sales_order_id` (`sales_order_id`),
+  KEY `sales_order_3id` (`purchase_comp_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `temp_sales_order_comps`
+--
+
