@@ -114,16 +114,22 @@ class ObjOuterArea
 		<!-- keep middle and top spaced correctly, insert empty very-wide table -->
 				<table cellpadding="0" cellspacing="0"><tr><td width="1000"></td></tr></table>	
 		');
-
+		
 		//inner area comes next
 	}
 	
-	public static function echo_bottom()
+	public static function echo_bottom($has_back_btn = true)
 	{
-		echo('
+		if($has_back_btn == true)
+		{
+			//print the back button
+			echo(' 
+			<br><br><input class="button" type="button" value="Back" onClick="history.go(-1)">
 					  </td>
-					</tr>
-
+					</tr> ');
+		}
+		echo('
+						
 		<!-- end of all Announcements -->
 
 				  </tbody>
@@ -140,6 +146,8 @@ class ObjOuterArea
 
 			</tr>
 		<!-- end of right"row": text -->
+
+	
 
 		<!-- "3rd" row of page: link to top -->
 

@@ -174,10 +174,6 @@ class PageProductView
 
 				  <tr>
 					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-						  <td width="25%" align="right" valign="top">&nbsp;</td>
-						  <td width="75%" align="left" valign="middle"><input type="submit" name="Submit" value="This page, just blank" class="button"></td>
-						</tr>
 					</table></td>
 				  </tr>
 				</table>
@@ -185,8 +181,6 @@ class PageProductView
 			  </form>
 			</div>		
 
-				  </td>
-				</tr>
 		');
 
 		ObjOuterArea::echo_bottom();
