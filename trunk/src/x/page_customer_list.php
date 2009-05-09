@@ -7,7 +7,7 @@ include('obj_result_box.php');
 class CustomerList
 {
 	private static $OBJ_NAME = 'customer';	//page names based on this
-	private static $NEEDED_FIELDS = 'icode, id, company_name';
+	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number';
 
 	public static function get_needed_fields()
 	{
@@ -100,16 +100,16 @@ class PageCustomerList
 		$offset = 0;
 		$limit = 100;
 	
-		$this->m_rows = DB::get_all_rows_fq('SELECT * FROM customers');
-		/*
+		//$this->m_rows = DB::get_all_rows_fq('SELECT * FROM customers');
+		
+		$encoded_search = DB::encode_small_words_search($this->f_search);
 		$this->m_rows = DB::get_all_rows_fq('
-			SELECT SQL_CALC_FOUND_ROWS ' . CustomerList::get_needed_fields() . ' MATCH(search_words) AGAINST(\'' . $this->f_search . '\' IN BOOLEAN MODE) as relevance
-			FROM customers WHERE MATCH(search_words) AGAINST(\'' . $this->f_search . '\' IN BOOLEAN MODE)
+			SELECT SQL_CALC_FOUND_ROWS ' . CustomerList::get_needed_fields() . ', MATCH(search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) as relevance
+			FROM customers WHERE MATCH(search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE)
 			ORDER BY relevance DESC LIMIT ' . $offset . ',' . $limit
 		);
 
-		$this->m_num_results = get_field_fq('SELECT FOUND_ROWS()');    //total rows found matching the where clause, ignoring the limit clause
-		*/
+		$this->m_num_results = DB::get_field_fq('SELECT FOUND_ROWS()');    //total rows found matching the where clause, ignoring the limit clause
 	}
 	
 	private function echo_order_by_select_box()
