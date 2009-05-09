@@ -50,7 +50,7 @@ class PagePurchaseMenu
 	
 	private function show_output($err_msg = '')
 	{
-		ObjOuterArea::echo_top(ObjOuterArea::$TAB_REPORT);
+		ObjOuterArea::echo_top(ObjOuterArea::$TAB_REPORTS);
 		
 		//echo inner area html here
 		//  TODO : Search algorithm
