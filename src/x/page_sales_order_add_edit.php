@@ -152,11 +152,6 @@ class PageSalesOrderAddEdit
 				trash_flag = 1
 				WHERE id=\'' . $this->f_id . '\'
 				');
-				echo '
-				UPDATE sales_orders SET
-				trash_flag = 1
-				WHERE id=\'' . $this->f_id . '\'
-				';
 			}
 			//add mode submit
 			else
