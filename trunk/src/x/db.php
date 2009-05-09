@@ -100,7 +100,7 @@ class DB
 	public static function bool_get_single_row_fq($query)
 	{
 		$result = self::get_result_fq($query);
-		if(self::is_unique_r($result)) return self::get_single_row_fr($result);
+		if(self::is_unique_result($result)) return self::get_single_row_fr($result);
 		else return false;
 	}
 	
@@ -182,3 +182,4 @@ class DB
 	}	
 }
 ?>
+
