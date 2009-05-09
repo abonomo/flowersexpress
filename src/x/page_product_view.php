@@ -80,7 +80,7 @@ class PageProductView
 	private function show_output($err_msg = '')
 	{
 		//echo the outer area with the correct tab highlighted for this page
-		ObjOuterArea::echo_top(ObjOuterArea::$TAB_PRODUCT);
+		ObjOuterArea::echo_top(ObjOuterArea::$TAB_PRODUCTS);
 		
 		//echo inner area html
 		Echo ('	

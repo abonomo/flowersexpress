@@ -35,7 +35,16 @@
 	text-decoration: bold;
 }
 
-
+/* search result styles */
+.result_box{
+	border-width: 1px;
+	border-style:solid;
+	border-color:#999999;
+	background-color:#CCCCCC;
+	font-family: Verdana, Arial, Helvetica, sans-serif,sans-serif; 
+	font-size: 1.00em;
+	text-decoration: bold;	
+}
 
 /* DON'T BOTHER LOOKING AT THESE */
 /* images */

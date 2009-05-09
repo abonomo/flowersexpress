@@ -87,7 +87,7 @@ class PageCustomerView
 	private function show_output($err_msg = '')
 	{
 		//echo the outer area with the correct tab highlighted for this page
-		ObjOuterArea::echo_top(ObjOuterArea::$TAB_CUSTOMER);
+		ObjOuterArea::echo_top(ObjOuterArea::$TAB_CUSTOMERS);
 		
 		//echo inner area html
 		Echo ('	

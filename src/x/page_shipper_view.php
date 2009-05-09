@@ -87,7 +87,7 @@ class PageShipperView
 	private function show_output($err_msg = '')
 	{
 		//echo the outer area with the correct tab highlighted for this page
-		ObjOuterArea::echo_top(ObjOuterArea::$TAB_SHIPPER);
+		ObjOuterArea::echo_top(ObjOuterArea::$TAB_SHIPPERS);
 		
 		//echo inner area html
 		Echo ('	
