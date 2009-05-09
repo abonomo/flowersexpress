@@ -58,10 +58,10 @@ class PageReportMenu
 			<form name="form">
 				<div class="text_title">Report Menu</div>
 				<input name="f_report_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_report_list.php?f_search=\' + form.f_report_search.value)" /><br>
-				<a href="page_report_sales.php">Sales</a><br>
-				<a href="page_report_purchase.php">Purchase</a><br>
-				<a href="page_report_product.php">Product</a><br>
-				<a href="page_report_inventory.php">Inventory</a><br>
+				<a href="page_report_sales.php">Sales Report</a><br>
+				<a href="page_report_purchase.php">Purchase Report</a><br>
+				<a href="page_report_product.php">Product Information Report</a><br>
+				<a href="page_report_inventory.php">Inventory Report</a><br>
 			</form>
 			');
 			
