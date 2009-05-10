@@ -93,10 +93,10 @@ class ObjOuterArea
 		');
 		
 		//** ADMIN ONLY - view admin tab
-		if(LoginManager::meets_auth_level(LoginManager::$AUTH_LOGIN))
+		if(LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN))
 		{
 			echo('
-					  <td><a class="' . (($active_tab == self::$TAB_EMPLOYEES) ? 'active_menu' : 'menu') . '" href="page_admin_menu.php">Admin</a></td></tr><tr>
+					  <td><a class="' . (($active_tab == self::$TAB_ADMIN) ? 'active_menu' : 'menu') . '" href="page_admin_menu.php">Admin</a></td></tr><tr>
 			');
 		}		
 		
