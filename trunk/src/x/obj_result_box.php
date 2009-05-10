@@ -51,6 +51,8 @@ class ResultBox
 
 class ResultDeleteMenu
 {	
+	public static $MODE_VAL = 'delete';
+	
 	public static function create($obj_name, $obj_id)	//middle of the page name: e.g. page_CUSTOMER_add_edit.php
 	{
 		return('
@@ -61,18 +63,24 @@ class ResultDeleteMenu
 
 class ResultFullMenu
 {	
+	public static $MODE_VAL = 'full';
+
 	public static function create($obj_name, $obj_id)	//middle of the page name: e.g. page_CUSTOMER_add_edit.php
 	{
 		return('
-			<input class="button" type="button" value="&nbsp;View&nbsp;" onclick="document.location=\'page_' . $obj_name . '_view.php?f_id=' . $obj_id .'\'"/><br>
-			<input class="button" type="button" value="&nbsp;Edit&nbsp;" onclick="document.location=\'page_' . $obj_name . '_add_edit.php?f_mode=edit&amp;f_id=' . $obj_id . '\'"/><br>
-			<input class="button" type="button" value="Delete" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { document.location=\'page_' . $obj_name . '_delete.php?f_id=' . $obj_id .'\' }"/>
+			<b>
+			<a href="page_' . $obj_name . '_view.php?f_id=' . $obj_id .'"/>View</a><br>
+			<a href="page_' . $obj_name . '_add_edit.php?f_mode=edit&amp;f_id=' . $obj_id . '\'"/>Edit</a><br>
+			<a href="#" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { document.location=\'page_' . $obj_name . '_delete.php?f_id=' . $obj_id .'\'; } return false;"/>Delete</a>
+			<b>
 		');			
 	}
 }
 
 class ResultSelectMenu
 {
+	public static $MODE_VAL = 'select';
+
 	public static function create($select_btn_url)	//put f_id in url
 	{
 		return('
@@ -81,9 +89,11 @@ class ResultSelectMenu
 	}
 }
 
-//total cost and quantity textboxes
-class ResultSelectQuantityMenu
+//select total cost and quantity textboxes
+class ResultQuantityMenu
 {
+	public static $MODE_VAL = 'quantity';
+
 	public static function create($select_btn_url)	//put f_id in url
 	{
 		return('

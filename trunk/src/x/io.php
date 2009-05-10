@@ -327,6 +327,14 @@ class IO
 		$output_str = htmlspecialchars($output_str);								//-> htmlspecialchars ->
 		return str_replace(' ', '&nbsp;', $output_str);								//-> nbsper ->
 	}		
+	
+	//Description: if some data text is nonempty, add a label, otherwise return label plus some N/A string (e.g. Phone Number: -), where - is the N/A string
+	//Operation: prepout_sl is the underlying operation
+	public static function prepout_sl_label($label, $data, $max_len, $not_avail_str='-')
+	{
+		return (($data != '') ? ($label . IO::prepout_sl($data, $max_len)) : ($label . $not_avail_str) );
+	}
+		
 
 	//Description:	Prepares Multiline DB FORMAT Text For HTML PAGE OUTPUT	
 	//Operation:	[DB FORMAT]->stripslashes->htmlspecialchars->nl2br->[HTML PAGE OUTPUT]	
