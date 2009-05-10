@@ -40,9 +40,10 @@ class ObjOuterArea
 			</script>
 			<script language="Javascript" type="text/JavaScript">
 			<!--
+			var weekday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 			var month = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 			var today = new Date()
-			var dateline = today.getDate() + ".&nbsp;" + month[today.getMonth()] + "&nbsp;" + today.getFullYear()
+			var dateline = weekday[today.getDay()] + ",&nbsp;" + today.getDate() + ".&nbsp;" + month[today.getMonth()] + "&nbsp;" + today.getFullYear()
 			//-->
 			</script>
 		  </head>
