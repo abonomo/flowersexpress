@@ -24,6 +24,16 @@ class PageProductView
 	private $f_min_price;
 	private $f_notes;
 	
+			//ADD THIS FOR UPDATED INFO FUNCTIONALITY
+	private $f_created_first;
+	private $f_created_last;
+	private $f_updated_first;
+	private $f_updated_last;
+	
+	private $f_created_date;
+	private $f_updated_date;
+			//to this
+	
 	//*** FUNCTIONS ***
 	//execution entry point
 	public function run()
@@ -58,11 +68,38 @@ class PageProductView
 	
 	private function get_output()
 	{
-					//get values from database
+		//get values from database 
+		
+		//queries changed with updated info
 			$prod_info = DB::get_single_row_fq('
-				SELECT icode, name, type, notes, subtype1, subtype2, description, typical_lifespan_days, typical_units, typical_min_price_per_unit
-				FROM products WHERE id=\'' . $this->f_id . '\''
+				SELECT  products.icode, 
+						products.name, 
+						products.type, 
+						products.notes, 
+						products.subtype1, 
+						products.subtype2, 
+						products.description, 
+						products.typical_lifespan_days, 
+						products.typical_units, 
+						products.typical_min_price_per_unit, 
+						products.created_employee_id, 
+						products.updated_employee_id,
+						products.created_date,
+						products.updated_date,
+						employees.first_name, 
+						employees.last_name
+				FROM products 
+				LEFT OUTER JOIN employees ON products.created_employee_id = employees.id
+				WHERE products.id=\'' . $this->f_id . '\''
 			);
+			$prod_info_up = DB::get_single_row_fq('
+				SELECT  employees.first_name, 
+						employees.last_name
+				FROM products 
+				LEFT OUTER JOIN employees ON products.updated_employee_id = employees.id
+				WHERE products.id=\'' . $this->f_id . '\''
+			);
+
 			
 			$this->f_icode = $prod_info['icode'];
 			$this->f_name = $prod_info['name'];
@@ -74,7 +111,16 @@ class PageProductView
 			$this->f_units = $prod_info['typical_units'];
 			$this->f_min_price = $prod_info['typical_min_price_per_unit'];
 			$this->f_notes = $prod_info['notes'];
-		
+			
+			//add these for UPDATED INFO
+			$this->f_created_first = $prod_info['first_name'];
+			$this->f_created_last = $prod_info['last_name'];
+			
+			$this->f_updated_first = $prod_info_up['first_name'];
+			$this->f_updated_last = $prod_info_up['last_name'];
+			
+			$this->f_created_date = $prod_info['created_date'];
+			$this->f_updated_date = $prod_info['updated_date'];
 	}
 	
 	private function show_output($err_msg = '')
@@ -156,26 +202,31 @@ class PageProductView
 					  </tr>
 					</table></td>
 				  </tr>
+				  	<tr>
+						<td>&nbsp;</td>
+					</tr>
+				  <!--BEGINNNN updated info area-->
+				  <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+						  <td width="25%" align="right" valign="middle" class="text_label">Created:&nbsp;</td>
+						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_created_first) . '&nbsp;' . IO::prepout_ml_html($this->f_created_last) . '&nbsp;on&nbsp;' . IO::prepout_ml_html($this->f_created_date) . '</td>
+						 </tr>
+				  		<tr>
+						  <td width="25%" align="right" valign="middle" class="text_label">Updated:&nbsp;</td>
+						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_updated_first) . '&nbsp;' . IO::prepout_ml_html($this->f_updated_last) . '&nbsp;on&nbsp;' . IO::prepout_ml_html($this->f_updated_date) . '</td>
+						 </tr>
+					</table></td>
+					<!--ENDDDDDDD updated/created info area-->	
 				  <tr>
 					<td>&nbsp;</td>
-				  </tr>
-				  <tr>
-					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+				  </tr><td>
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
-
-						  <td width="25%" align="right" valign="top" class="text_label">Notes:&nbsp;</td>
+						  <td width="25%" align="right" valign="" class="text_label">Notes:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_notes) . '</td>
 						</tr>
-					</table></td>
-				  </tr>
-				  <tr>
-					<td>&nbsp;</td>
-				  </tr>
-
-				  <tr>
-					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-					</table></td>
-				  </tr>
+						</table>
+						</td>
 				</table>
 
 			  </form>
