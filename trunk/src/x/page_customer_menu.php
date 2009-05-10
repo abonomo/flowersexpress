@@ -31,7 +31,6 @@ class PageCustomerMenu
 	
 	private function get_input()
 	{
-		echo "he";
 	}
 	
 	private function verify_input()
@@ -55,12 +54,22 @@ class PageCustomerMenu
 		//echo inner area html here
 		//  TODO : Search algorithm
 			echo ('
-			<form name="form">
-				<div class="text_title">Customer Menu</div>
+				<form name="form">
+				<div class="text_title">Customer Menu</div>	
 				<input name="f_customer_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_customer_list.php?f_search=\' + form.f_customer_search.value)" /><br>
-				<a href="page_customer_add_edit.php">Add Customer</a><br>
+			');
+			
+			// ** READ/WRITE required to view  **
+			if (LoginManager::meets_auth_level(LoginManager::$AUTH_READ_WRITE) == true)
+			{
+				echo ('
+					<a href="page_customer_add_edit.php">Add Customer</a><br>
+				');
+			}
+			
+			echo ('
 				<a href="page_customer_list.php">List All Customers</a><br>
-			</form>
+				</form>
 			');
 			
 			

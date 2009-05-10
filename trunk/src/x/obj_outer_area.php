@@ -14,6 +14,8 @@ class ObjOuterArea
 	public static $TAB_SUPPLIERS = 5;
 	public static $TAB_SHIPPERS = 6;
 	public static $TAB_REPORTS = 7;
+	public static $TAB_EMPLOYEES = 8;
+	
 
 	public static function echo_top($active_tab)
 	{
@@ -85,7 +87,8 @@ class ObjOuterArea
 					  <td><a class="' . (($active_tab == self::$TAB_PRODUCTS) ? 'active_menu' : 'menu') . '" href="page_product_menu.php">Product</a></td></tr><tr>					  
 					  <td><a class="' . (($active_tab == self::$TAB_SUPPLIERS) ? 'active_menu' : 'menu') . '" href="page_supplier_menu.php">Supplier</a></td></tr><tr>
 					  <td><a class="' . (($active_tab == self::$TAB_SHIPPERS) ? 'active_menu' : 'menu') . '" href="page_shipper_menu.php">Shipper</a></td></tr><tr>					  
-					  <td><a class="' . (($active_tab == self::$TAB_REPORTS) ? 'active_menu' : 'menu') . '" href="page_report_menu.php">Report</a></td></tr><tr>
+					  <td><a class="' . (($active_tab == self::$TAB_REPORTS) ? 'active_menu' : 'menu') . '" href="page_report_menu.php">Report</a></td></tr><tr>			  
+					  <td><a class="' . (($active_tab == self::$TAB_EMPLOYEES) ? 'active_menu' : 'menu') . '" href="page_employee_menu.php">Employee</a></td></tr><tr>
 					</tr>
 
 				  </tbody>

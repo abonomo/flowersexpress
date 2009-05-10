@@ -58,7 +58,17 @@ class PageEmployeeMenu
 			<form name="form">
 				<div class="text_title">Employee Menu</div>
 				<input name="f_employee_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_employee_list.php?f_search=\' + form.f_employee_search.value)" /><br>
+			');
+			
+			// ** ADMIN required to view - can add employee **
+			if (LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN) == true)
+			{
+				echo ('
 				<a href="page_employee_add_edit.php">Add Employee</a><br>
+				');
+			}
+			
+			echo ('
 				<a href="page_employee_list.php">List All Employees</a><br>
 			</form>
 			');

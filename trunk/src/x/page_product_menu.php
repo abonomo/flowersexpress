@@ -48,6 +48,7 @@ class PageProductMenu
 
 	}
 	
+	
 	private function show_output($err_msg = '')
 	{
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_PRODUCTS);
@@ -55,12 +56,22 @@ class PageProductMenu
 		//echo inner area html here
 		//  TODO : Search algorithm
 			echo ('
-			<form name="form">
-				<div class="text_title">Product Menu</div>
+				<form name="form">
+				<div class="text_title">Product Menu</div>	
 				<input name="f_product_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_product_list.php?f_search=\' + form.f_product_search.value)" /><br>
-				<a href="page_product_add_edit.php">Add Product</a><br>
+			');
+			
+			// ** READ/WRITE required to view  **
+			if (LoginManager::meets_auth_level(LoginManager::$AUTH_READ_WRITE) == true)
+			{
+				echo ('
+					<a href="page_product_add_edit.php">Add Product</a><br>
+				');
+			}
+			
+			echo ('
 				<a href="page_product_list.php">List All Products</a><br>
-			</form>
+				</form>
 			');
 			
 			

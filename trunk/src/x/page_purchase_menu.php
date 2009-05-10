@@ -55,12 +55,22 @@ class PagePurchaseMenu
 		//echo inner area html here
 		//  TODO : Search algorithm
 			echo ('
-			<form name="form">
-				<div class="text_title">Purchase Menu</div>
+				<form name="form">
+				<div class="text_title">Purchase Menu</div>	
 				<input name="f_purchase_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_purchase_list.php?f_search=\' + form.f_purchase_search.value)" /><br>
-				<a href="page_purchase_add_edit.php">Add Purchase</a><br>
-				<a href="page_purchase_list.php">List All purchases</a><br>
-			</form>
+			');
+			
+			// ** READ/WRITE required to view  **
+			if (LoginManager::meets_auth_level(LoginManager::$AUTH_READ_WRITE) == true)
+			{
+				echo ('
+					<a href="page_purchase_add_edit.php">Add Purchase</a><br>
+				');
+			}
+			
+			echo ('
+				<a href="page_purchase_list.php">List All Purchases</a><br>
+				</form>
 			');
 			
 			

@@ -54,12 +54,22 @@ class PageSupplierMenu
 		//echo inner area html here
 		//  TODO : Search algorithm
 			echo ('
-			<form name="form">
-				<div class="text_title">Supplier Menu</div>
+				<form name="form">
+				<div class="text_title">Supplier Menu</div>	
 				<input name="f_supplier_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_supplier_list.php?f_search=\' + form.f_supplier_search.value)" /><br>
-				<a href="page_supplier_add_edit.php">Add Suppliers</a><br>
+			');
+			
+			// ** READ/WRITE required to view  **
+			if (LoginManager::meets_auth_level(LoginManager::$AUTH_READ_WRITE) == true)
+			{
+				echo ('
+					<a href="page_supplier_add_edit.php">Add Supplier</a><br>
+				');
+			}
+			
+			echo ('
 				<a href="page_supplier_list.php">List All Suppliers</a><br>
-			</form>
+				</form>
 			');
 			
 			

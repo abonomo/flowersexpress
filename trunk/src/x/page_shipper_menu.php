@@ -55,12 +55,22 @@ class PageShipperMenu
 		//echo inner area html here
 		//  TODO : Search algorithm
 			echo ('
-			<form name="form">
-				<div class="text_title">Shipper Menu</div>
+				<form name="form">
+				<div class="text_title">Shipper Menu</div>	
 				<input name="f_shipper_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_shipper_list.php?f_search=\' + form.f_shipper_search.value)" /><br>
-				<a href="page_shipper_add_edit.php">Add Shipper</a><br>
-				<a href="page_shipper_list.php">List All Shippers</a><br>
-			</form>
+			');
+			
+			// ** READ/WRITE required to view  **
+			if (LoginManager::meets_auth_level(LoginManager::$AUTH_READ_WRITE) == true)
+			{
+				echo ('
+					<a href="page_shipper_add_edit.php">Add Shipper</a><br>
+				');
+			}
+			
+			echo ('
+				<a href="page_shipper_list.php">List All Shipper</a><br>
+				</form>
 			');
 			
 			
