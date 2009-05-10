@@ -40,10 +40,9 @@ class ObjOuterArea
 			</script>
 			<script language="Javascript" type="text/JavaScript">
 			<!--
-			var weekday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 			var month = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 			var today = new Date()
-			var dateline = weekday[today.getDay()] + ",&nbsp;" + today.getDate() + ".&nbsp;" + month[today.getMonth()] + "&nbsp;" + today.getFullYear()
+			var dateline = today.getDate() + ".&nbsp;" + month[today.getMonth()] + "&nbsp;" + today.getFullYear()
 			//-->
 			</script>
 		  </head>
@@ -135,12 +134,18 @@ class ObjOuterArea
 		//inner area comes next
 	}
 	
-	public static function echo_bottom()
+public static function echo_bottom($has_back_btn = true)
 	{
-		echo('
+		if($has_back_btn == true)
+		{
+			//print the back button
+			echo(' 
+			<br><br><input class="button" type="button" value="Back" onClick="history.go(-1)">
 					  </td>
-					</tr>
-
+					</tr> ');
+		}
+		echo('
+						
 		<!-- end of all Announcements -->
 
 				  </tbody>
@@ -157,6 +162,8 @@ class ObjOuterArea
 
 			</tr>
 		<!-- end of right"row": text -->
+
+	
 
 		<!-- "3rd" row of page: link to top -->
 
