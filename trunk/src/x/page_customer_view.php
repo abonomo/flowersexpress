@@ -27,6 +27,16 @@ class PageCustomerView
 	private $f_country;
 	private $f_notes;
 	
+				//ADD THIS FOR UPDATED INFO FUNCTIONALITY
+	private $f_created_first;
+	private $f_created_last;
+	private $f_updated_first;
+	private $f_updated_last;
+	
+	private $f_created_date;
+	private $f_updated_date;
+			//to this
+			
 	//*** FUNCTIONS ***
 	//execution entry point
 	public function run()
@@ -62,11 +72,42 @@ class PageCustomerView
 	private function get_output()
 	{
 					//get values from database
-			$cust_info = DB::get_single_row_fq('
-				SELECT icode, company_name, contact_name, contact_dept, office_phone_number, cell_phone_number, fax_number, address_line_1, address_line_2, city, province, country, notes
-				FROM customers WHERE id=\'' . $this->f_id . '\''
+			$cust_info = DB::get_single_row_fq
+			('
+				SELECT  customers.icode, 
+						customers.company_name, 
+						customers.contact_name, 
+						customers.contact_dept, 
+						customers.office_phone_number, 
+						customers.cell_phone_number, 
+						customers.fax_number, 
+						customers.address_line_1, 
+						customers.address_line_2, 
+						customers.city, 
+						customers.province, 
+						customers.country, 
+						customers.notes,
+						
+						customers.created_employee_id, 
+						customers.updated_employee_id,
+						customers.created_date,
+						customers.updated_date,
+						
+						employees.first_name,
+						employees.last_name
+				FROM customers 
+				LEFT OUTER JOIN employees ON customers.created_employee_id = employees.id
+				WHERE customers.id=\'' . $this->f_id . '\''
 			);
 			
+			$cust_info_up = DB::get_single_row_fq
+			('
+				SELECT  employees.first_name, 
+						employees.last_name
+				FROM customers
+				LEFT OUTER JOIN employees ON customers.updated_employee_id = employees.id
+				WHERE customers.id=\'' . $this->f_id . '\''
+			);
 			
 			$this->f_icode = $cust_info['icode'];
 			$this->f_company_name = $cust_info['company_name'];
@@ -81,6 +122,16 @@ class PageCustomerView
 			$this->f_province = $cust_info['province'];
 			$this->f_country = $cust_info['country'];
 			$this->f_notes = $cust_info['notes'];	
+			
+				//add these for UPDATED INFO
+			$this->f_created_first = $cust_info['first_name'];
+			$this->f_created_last = $cust_info['last_name'];
+			
+			$this->f_updated_first = $cust_info_up['first_name'];
+			$this->f_updated_last = $cust_info_up['last_name'];
+			
+			$this->f_created_date = $cust_info['created_date'];
+			$this->f_updated_date = $cust_info['updated_date'];
 		
 	}
 	
@@ -175,7 +226,24 @@ class PageCustomerView
 				  </tr>
 				  <tr>
 					<td>&nbsp;</td>
+				  </tr>	
+				  <tr>
+				<!--BEGINNNN updated info area-->
+				  <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+						  <td width="25%" align="right" valign="middle" class="text_label">Created:&nbsp;</td>
+						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_created_first) . '&nbsp;' . IO::prepout_ml_html($this->f_created_last) . '&nbsp;on&nbsp;' . IO::prepout_ml_html($this->f_created_date) . '</td>
+						 </tr>
+				  		<tr>
+						  <td width="25%" align="right" valign="middle" class="text_label">Updated:&nbsp;</td>
+						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_updated_first) . '&nbsp;' . IO::prepout_ml_html($this->f_updated_last) . '&nbsp;on&nbsp;' . IO::prepout_ml_html($this->f_updated_date) . '</td>
+						 </tr>
+					</table></td>
+					<!--ENDDDDDDD updated/created info area-->
 				  </tr>
+				  <tr>
+					<td>&nbsp;</td>
+				  </tr>	
 				  <tr>
 					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
