@@ -15,6 +15,7 @@ class ObjOuterArea
 	public static $TAB_SHIPPERS = 6;
 	public static $TAB_REPORTS = 7;
 	public static $TAB_EMPLOYEES = 8;
+	public static $TAB_ADMIN = 9;
 	
 
 	public static function echo_top($active_tab)
@@ -89,6 +90,18 @@ class ObjOuterArea
 					  <td><a class="' . (($active_tab == self::$TAB_SHIPPERS) ? 'active_menu' : 'menu') . '" href="page_shipper_menu.php">Shipper</a></td></tr><tr>					  
 					  <td><a class="' . (($active_tab == self::$TAB_REPORTS) ? 'active_menu' : 'menu') . '" href="page_report_menu.php">Report</a></td></tr><tr>			  
 					  <td><a class="' . (($active_tab == self::$TAB_EMPLOYEES) ? 'active_menu' : 'menu') . '" href="page_employee_menu.php">Employee</a></td></tr><tr>
+		');
+		
+		//** ADMIN ONLY - view admin tab
+		if(LoginManager::meets_auth_level(LoginManager::$AUTH_LOGIN))
+		{
+			echo('
+					  <td><a class="' . (($active_tab == self::$TAB_EMPLOYEES) ? 'active_menu' : 'menu') . '" href="page_admin_menu.php">Admin</a></td></tr><tr>
+			');
+		}		
+		
+		echo('
+		
 					</tr>
 
 				  </tbody>
@@ -117,22 +130,16 @@ class ObjOuterArea
 		<!-- keep middle and top spaced correctly, insert empty very-wide table -->
 				<table cellpadding="0" cellspacing="0"><tr><td width="1000"></td></tr></table>	
 		');
-		
+
 		//inner area comes next
 	}
 	
-	public static function echo_bottom($has_back_btn = true)
+	public static function echo_bottom()
 	{
-		if($has_back_btn == true)
-		{
-			//print the back button
-			echo(' 
-			<br><br><input class="button" type="button" value="Back" onClick="history.go(-1)">
-					  </td>
-					</tr> ');
-		}
 		echo('
-						
+					  </td>
+					</tr>
+
 		<!-- end of all Announcements -->
 
 				  </tbody>
@@ -149,8 +156,6 @@ class ObjOuterArea
 
 			</tr>
 		<!-- end of right"row": text -->
-
-	
 
 		<!-- "3rd" row of page: link to top -->
 
