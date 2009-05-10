@@ -312,7 +312,7 @@ class PageEmployeeAddEdit
                           </tr>
                           <tr>
                             <td width="25%" align="right" valign="middle" class="text_label">Authorization Level:&nbsp;</td>
-                            <td width="75%" align="left" valign="middle"><!-- <input name="f_auth_level" type="text" size="24" class="textbox" value="' . IO::prepout_sl($this->f_auth_level, false) . '"> -->
+                            <td width="75%" align="left" valign="middle">
                             	<select name="f_auth_level">
                             		<option selected="yes" value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
                             		<option value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
