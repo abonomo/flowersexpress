@@ -6,12 +6,8 @@
  * TODO: implement a way so that both admins and employees can access this page
  		* admins can modify everything
  		* employees can only modify themselves
- 		* employees cannot modify their auth_level
+ 		* employees cannot modify their auth_level or employee ID or department name
  * TODO: verify input function...
- * TODO: add employee id add/edit information
- * TODO: add date/time add/edit information
- * TODO: check authorization level, if modified 
- 		* or make it a drop-down select box 
  */
 
 require_once('framework.php');
@@ -163,7 +159,10 @@ class PageEmployeeAddEdit
 					last_name=\'' . $this->f_last_name . '\',
 					office_location=\'' . $this->f_office_location . '\',
 					office_phone_number=\'' . $this->f_office_phone_number . '\',
-					password=\'' . $this->f_password . '\''
+					password=\'' . $this->f_password . '\',
+					updated_employee_id=\'' . LoginManager::get_id() . '\',
+					search_words=\'' . $search_words . '\',
+					updated_date = NOW()'
 				);
 			}
 			else if($this->f_mode == 'delete')
@@ -196,6 +195,10 @@ class PageEmployeeAddEdit
 						office_location,
 						office_phone_number,
 						password,
+						created_employee_id,
+						updated_employee_id,
+						created_date,
+						updated_date,
 						search_words
 					)
 					VALUES
@@ -211,6 +214,10 @@ class PageEmployeeAddEdit
 						\'' . $this->f_office_location . '\',
 						\'' . $this->f_office_phone_number . '\',
 						\'' . $this->f_password . '\',
+						\'' . LoginManager::get_id() . '\',
+						\'' . LoginManager::get_id() . '\',
+						NOW(),
+						NOW(),
 						\'' . $search_words . '\'
 					)'	
 				);
