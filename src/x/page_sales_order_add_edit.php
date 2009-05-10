@@ -58,16 +58,16 @@ class PageSalesOrderAddEdit
 				$this->f_id = IO::get_input_sl_g('f_id','string');
 			}
 		
-			$this->f_icode 				= IO::get_input_sl_p('f_icode','string');
-			$this->f_customer_id 		= IO::get_input_sl_p('f_customer_id','integer');
-			$this->f_shipper_id 		= IO::get_input_sl_p('f_shipper_id','integer');
-			$this->f_shipment_details 	= IO::get_input_ml_p('f_shipment_details','string');
-			$this->f_special 			= IO::get_input_sl_p('f_special','integer');
-			$this->f_order_date 		= date("Y-m-d H:i:s",strtotime(IO::get_input_sl_p('f_order_date','string')));
-			$this->f_delivery_date 		= date("Y-m-d H:i:s",strtotime(IO::get_input_sl_p('f_delivery_date','string')));
-			$this->f_price 				= IO::get_input_sl_p('f_price','float');
-			$this->f_currency 			= IO::get_input_sl_p('f_currency','string');
-			$this->f_notes 				= IO::get_input_ml_p('f_notes','string');
+			$this->f_icode 				= IO::get_input_sl_pg('f_icode','string');
+			$this->f_customer_id 		= IO::get_input_sl_pg('f_customer_id','integer');
+			$this->f_shipper_id 		= IO::get_input_sl_pg('f_shipper_id','integer');
+			$this->f_shipment_details 	= IO::get_input_ml_pg('f_shipment_details','string');
+			$this->f_special 			= IO::get_input_sl_pg('f_special','integer');
+			$this->f_order_date 		= date("Y-m-d H:i:s",strtotime(IO::get_input_sl_pg('f_order_date','string')));
+			$this->f_delivery_date 		= date("Y-m-d H:i:s",strtotime(IO::get_input_sl_pg('f_delivery_date','string')));
+			$this->f_price 				= IO::get_input_sl_pg('f_price','float');
+			$this->f_currency 			= IO::get_input_sl_pg('f_currency','string');
+			$this->f_notes 				= IO::get_input_ml_pg('f_notes','string');
 		}
 		//if NOT submitting, but in EDIT mode, fill the fields from database data
 		else if($this->f_mode == 'edit')
