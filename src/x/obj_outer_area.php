@@ -26,6 +26,7 @@ class ObjOuterArea
 		<html>
 		  <head>
 			<title>Flowers Express - Login</title>
+			<script type="text/javascript" src="style.js"></script>
 			<link href="style.css" rel="stylesheet">
 			<link href="favicon.ico" rel="shortcut icon">
 			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -40,9 +41,10 @@ class ObjOuterArea
 			</script>
 			<script language="Javascript" type="text/JavaScript">
 			<!--
+			var weekday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 			var month = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 			var today = new Date()
-			var dateline = today.getDate() + ".&nbsp;" + month[today.getMonth()] + "&nbsp;" + today.getFullYear()
+			var dateline = weekday[today.getDay()] + ", " + today.getDate() + ". " + month[today.getMonth()] + " " + today.getFullYear()
 			//-->
 			</script>
 		  </head>
