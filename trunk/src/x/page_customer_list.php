@@ -2,6 +2,7 @@
 
 include('framework.php');
 include('obj_result_box.php');
+include('obj_page_num_nav.php');
 
 //basic customer list, no pagination
 class CustomerList
@@ -14,8 +15,9 @@ class CustomerList
 		return self::$NEEDED_FIELDS;
 	}
 	
-	public static function display($cust_info_arr, $action_box_mode)
+	public static function display($action_box_mode, $cust_info_arr)
 	{
+		//display the list of results
 		$cnt = count($cust_info_arr);
 		for($i = 0; $i < $cnt; $i++)
 		{
@@ -64,7 +66,7 @@ class CustomerList
 
 class SearchBar
 {
-	public static function display($obj_name, $search_box_value, $order_by_options, $order_by_value, $asc_or_desc_value)
+	public static function display($obj_name, $search_box_value, $order_by_options, $order_by_value, $asc_or_desc_value, $cur_page_num)
 	{
 		// onclick="document.location=\'page_' . $obj_name . '_list.php?f_search=\' + escape(form_search.f_search.value) + \'&amp;f_order_by=\' + escape(form_search.f_order_by.value) + \'&amp;f_asc_or_desc=\' + escape(form_search.f_asc_or_desc.value)"
 	
@@ -74,6 +76,7 @@ class SearchBar
 			<table width="100%" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="33%" align="left" valign="middle">			
+						<input name="f_page" type="hidden" value="' . $cur_page_num . '"/>
 						<input name="f_search" type="text" width="30" class="textbox" value="' . IO::prepout_sl($search_box_value, false) . '"/>
 						<input name="f_search_btn" class="button" type="submit" value="Search"/>
 					</td>
@@ -101,7 +104,7 @@ class SearchBar
 	private function echo_order_by_select_box($order_by_options, $order_by_value)
 	{
 		echo('
-			Order&nbsp;By:&nbsp;<select name="f_order_by" class="textbox">
+			Order&nbsp;By:&nbsp;<select name="f_order_by" class="textbox" onchange="form_search.submit()">
 		');
 		
 		$cnt = count($order_by_options);
@@ -124,7 +127,7 @@ class SearchBar
 						Ascending:
 					</td>
 					<td align="left" valign="middle">			
-						<input type="radio" name="f_asc_or_desc" value="asc" ' . (($asc_or_desc_value == 'asc') ? 'checked' : '') . '>
+						<input type="radio" name="f_asc_or_desc" value="asc" ' . (($asc_or_desc_value == 'asc') ? 'checked' : '') . ' onchange="form_search.submit()">
 					</td>
 					<td align="left" valign="middle">			
 						&nbsp;&nbsp;&nbsp;
@@ -133,7 +136,7 @@ class SearchBar
 						Descending:
 					</td>
 					<td align="left" valign="middle">			
-						<input type="radio" name="f_asc_or_desc" value="desc" ' . (($asc_or_desc_value == 'desc') ? 'checked' : '') . '>
+						<input type="radio" name="f_asc_or_desc" value="desc" ' . (($asc_or_desc_value == 'desc') ? 'checked' : '') . ' onchange="form_search.submit()">
 					</td>
 				</tr>
 			</table>
@@ -141,12 +144,13 @@ class SearchBar
 	}
 }
 
-
 class PageCustomerList
 {
 	//*** CONSTANTS ***
 	private static $THIS_PAGE = 'page_customer_list.php';
 	private static $OBJ_NAME = 'customer';
+	private static $RESULTS_PER_PAGE = 2;
+	private static $MAX_PAGES_IN_NAV_BAR = 10;
 	
 	//{display value, database field name}
 	private static $ORDER_BY_OPTIONS = array(
@@ -168,6 +172,7 @@ class PageCustomerList
 	private $m_rows;
 	private $m_num_results;
 	
+	private $f_page;
 	private $f_mode;
 	private $f_search;
 	private $f_order_by;
@@ -193,6 +198,7 @@ class PageCustomerList
 	
 	private function get_input()
 	{
+		$this->f_page = IO::get_input_sl_pg('f_page', 'integer', 1);
 		$this->f_mode = IO::get_input_sl_pg('f_mode', 'string');
 		$this->f_search = IO::get_input_sl_pg('f_search', 'string');
 		$this->f_order_by = IO::get_input_sl_pg('f_order_by', 'string', self::$ORDER_BY_OPTIONS[self::$DEFAULT_ORDER_BY_OPTION_INX][1]);
@@ -221,9 +227,8 @@ class PageCustomerList
 	private function process_input()
 	{
 		//TODO: trash sort
-		//CHANGE and FIX
-		$offset = 0;
-		$limit = 100;
+		$offset = ($this->f_page-1)*self::$RESULTS_PER_PAGE;
+		$limit = self::$RESULTS_PER_PAGE;
 		
 		//if empty search text, get and list everything 
 		if($this->f_search == '')
@@ -247,7 +252,7 @@ class PageCustomerList
 			);
 		}
 			
-		$this->m_num_results = DB::get_field_fq('SELECT FOUND_ROWS()');    //total rows found matching the where clause, ignoring the limit clause
+		$this->m_num_results = DB::get_num_rows_found();    //total rows found matching the where clause, ignoring the limit clause
 	}
 	
 	private function show_output($err_msg = '')
@@ -266,10 +271,19 @@ class PageCustomerList
 
 		//draw search bar
 		//prototype: SearchBar::display($obj_name, $search_box_value, $order_by_options, $order_by_value, $asc_or_desc_value
-		SearchBar::display(self::$OBJ_NAME, $this->f_search, self::$ORDER_BY_OPTIONS, $this->f_order_by, $this->f_asc_or_desc);
+		SearchBar::display(self::$OBJ_NAME, $this->f_search, self::$ORDER_BY_OPTIONS, $this->f_order_by, $this->f_asc_or_desc, $this->f_page);
+		
+		//display the top page number navigation bar
+		//public function echo_top_bar($bar_width, $ws_border_top, $ws_border_bottom, $page_num, $num_results, $results_per_page, $action_script_left, $action_script_right, $max_pages=5, $left_col='', $last_page=-1)
+		$page_nav_bar = new PageNavBar();
+		$page_nav_bar->echo_top_bar('80%', 0, 10, $this->f_page, $this->m_num_results, self::$RESULTS_PER_PAGE, 'form_search.f_page.value=', '; form_search.submit();', self::$MAX_PAGES_IN_NAV_BAR);		
 		
 		//draw results
-		CustomerList::display($this->m_rows, $this->f_mode);
+		//prototype: display($action_box_mode, $cust_info_arr, $num_total_results, $cur_page_num, $page_name)
+		CustomerList::display($this->f_mode, $this->m_rows);
+		
+		//display the bottom page number navigation bar
+		$page_nav_bar->echo_bottom_bar(0, 0);		
 		
 		ObjOuterArea::echo_bottom();
 	
