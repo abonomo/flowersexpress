@@ -24,6 +24,19 @@ class PageSalesOrderView
 	private $f_currency;
 	private $f_notes;
 	
+	private $f_shipper_comp_name;
+	private $f_shipper_cont_name;	
+	private $f_customer_comp_name;
+	private $f_customer_cont_name;
+	
+	private $f_created_first;
+	private $f_created_last;
+	private $f_updated_first;
+	private $f_updated_last;
+	
+	private $f_created_date;
+	private $f_updated_date;
+	
 	//*** FUNCTIONS ***
 	//execution entry point
 	public function run()
@@ -79,6 +92,52 @@ class PageSalesOrderView
 			$this->f_created_date			= date("j. M Y", strtotime($sales_order_info['created_date']));
 			$this->f_updated_date			= date("j. M Y", strtotime($sales_order_info['updated_date']));
 			$this->f_trash_flag				= $sales_order_info['trash_flag'];
+			
+			//QUERY for created by user info
+			$sales_info_cre = DB::get_single_row_fq
+			('
+				SELECT  employees.first_name, 
+						employees.last_name
+				FROM employees
+				WHERE employees.id=\'' . $this->f_created_employee_id . '\''
+			);
+			$this->f_created_first 		= $sales_info_cre['first_name'];
+			$this->f_created_last 		= $sales_info_cre['last_name'];
+			
+			//QUERY for Updated by user info
+			$sales_info_up = DB::get_single_row_fq
+			('
+				SELECT  employees.first_name, 
+						employees.last_name
+				FROM sales_orders 
+				LEFT OUTER JOIN employees ON sales_orders.updated_employee_id = employees.id
+				WHERE sales_orders.id=\'' . $this->f_id . '\''
+			);
+
+			$this->f_updated_first 		= $sales_info_up['first_name'];
+			$this->f_updated_last 		= $sales_info_up['last_name'];
+			
+			//QUERY for order's Customer info
+			$sales_cust = DB::get_single_row_fq
+			('
+				SELECT  customers.company_name,
+						customers.contact_name
+				FROM customers
+				WHERE customers.id=\'' . $this->f_customer_id . '\''
+			);
+			$this->f_customer_comp_name	= $sales_cust['company_name'];
+			$this->f_customer_cont_name	= $sales_cust['contact_name'];
+			
+			//QUERY for order's Shipper info
+			$sales_ship = DB::get_single_row_fq
+			('
+				SELECT  shippers.company_name,
+						shippers.contact_name
+				FROM shippers
+				WHERE shippers.id=\'' . $this->f_shipper_id . '\''
+			);
+			$this->f_shipper_comp_name	= $sales_ship['company_name'];
+			$this->f_shipper_cont_name	= $sales_ship['contact_name'];	
 	}
 	
 	private function show_output($err_msg = '')
@@ -118,13 +177,13 @@ class PageSalesOrderView
 				</tr>
 				
 				<tr>
-					<td class="text_label">Customer ID: </td>
-					<td class="form_input">' . IO::prepout_sl($this->f_customer_id, false) . '</td>
+					<td class="text_label">Customer: </td>
+					<td class="form_input"><a href="page_customer_view.php?f_id=' . IO::prepout_sl($this->f_customer_id, false) . '">' . IO::prepout_ml_html($this->f_customer_comp_name) . '</a></td>
 				</tr>
 				
 				<tr>
 					<td class="text_label">Shipper ID: </td>
-					<td class="form_input">' . IO::prepout_sl($this->f_shipper_id, false) . '</td>
+					<td class="form_input"><a href="page_shipper_view.php?f_id=' . IO::prepout_sl($this->f_shipper_id, false) . '">' . IO::prepout_ml_html($this->f_shipper_comp_name) . '</a></td>
 				</tr>
 				
 				<tr>
@@ -158,12 +217,7 @@ class PageSalesOrderView
 				
 				<tr>
 					<td class="text_label">Price: </td>
-					<td class="form_input">' . IO::prepout_sl($this->f_price, false) . '</td>
-				</tr>
-				
-				<tr>
-					<td class="text_label">Currency: </td>
-					<td class="form_input">' . IO::prepout_sl($this->f_currency, false) . '</td>
+					<td class="form_input">' . IO::prepout_sl($this->f_price, false) . '&nbsp;' . IO::prepout_sl($this->f_currency, false) .  '</td>
 				</tr>
 				
 				<tr>
@@ -187,12 +241,12 @@ class PageSalesOrderView
 					
 					<tr>
 						<td class="text_label">Created By: </td>
-						<td class="form_input">' . IO::prepout_sl($this->f_created_employee_id, false) . '</td>
+						<td class="form_input"><a href="page_employee_view.php?f_id=' . IO::prepout_sl($this->f_created_employee_id, false) . '">'  . IO::prepout_sl($this->f_created_first, false) . '&nbsp;' . IO::prepout_sl($this->f_created_last, false)  . '</a></td>
 					</tr>
 					
 					<tr>
 						<td class="text_label">Updated By: </td>
-						<td class="form_input">' . IO::prepout_sl($this->f_updated_employee_id, false) . '</td>
+						<td class="form_input"><a href="page_employee_view.php?f_id=' . IO::prepout_sl($this->f_updated_employee_id, false) . '">'  . IO::prepout_sl($this->f_updated_first, false) . '&nbsp;' . IO::prepout_sl($this->f_updated_last, false)  . '</a></td>
 					</tr>
 				');
 			}
