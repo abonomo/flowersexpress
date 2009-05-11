@@ -11,6 +11,10 @@
 	text-align: right;
 }
 
+.text_tiny {
+	font-size: 1px;
+}
+
 .form_input {
 	width: 75%;
 	text-align: left;

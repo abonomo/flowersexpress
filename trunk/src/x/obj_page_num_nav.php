@@ -5,7 +5,7 @@
 	Revision History: -
 */
 
-class PageNavBar
+class ObjPageNavBar
 {
 	//*** Member Variables ***
 	//member variable for quickly printing the similar but not idential bottom page navigation bar
