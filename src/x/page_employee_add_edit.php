@@ -2,11 +2,9 @@
 
 /*
  * General TODO's for this page:
- * TODO: implement a (good) method for admin to modify passwords
- * TODO: implement a way so that both admins and employees can access this page
- 		* admins can modify everything
- 		* employees can only modify themselves
- 		* employees cannot modify their auth_level or employee ID or department name
+ * TODO: implement a (good) method for admin/users to modify passwords
+ * TODO: should employees be able to modify their office location?
+ * TODO: Change GUI according to if it's admin or a regular employee
  * TODO: verify input function...
  */
 
@@ -18,6 +16,8 @@ class PageEmployeeAddEdit
 	private static $THIS_PAGE = 'page_employee_add_edit.php';
 	
 	//*** MEMBERS ***
+	private $m_err_msg = array();
+	
 	private $f_mode;	
 	private $f_action;
 	
@@ -37,45 +37,65 @@ class PageEmployeeAddEdit
 	
 	//*** FUNCTIONS ***
 	//execution entry point
+	private function isAdmin()
+	{
+		return LoginManager::meets_auth_level((LoginManager::$AUTH_ADMIN));
+	}
+	
 	public function run()
 	{
 		session_start();
 		DB::connect();
 	
-		LoginManager::assert_auth_level(LoginManager::$AUTH_ADMIN);	//CHANGE required authorization level for this page, ADMIN is the strictest
-	
+		LoginManager::assert_auth_level(LoginManager::$AUTH_LOGIN);	
+		
+		//TODO: is this secure?
+		if(!$this->isAdmin())
+		{
+			$this->f_mode = 'edit';
+			$this->f_id = LoginManager::get_id();
+		}
+			
 		$this->get_input(); 
 		
 		$this->verify_input();
 		
 		$this->process_input();
 		
-		$this->show_output();
+		$this->show_output($this->m_err_msg);
 	}
 	
 	private function get_input()
 	{
-		$this->f_mode = IO::get_input_sl_g('f_mode','string');
+		//get mode if admin, otherwise mode is set to 'edit'
+		if($this->isAdmin())
+			$this->f_mode = IO::get_input_sl_g('f_mode','string');
+				
 		$this->f_action = IO::get_input_sl_g('f_action','string');
 		
 		//if submitting in ADD or EDIT mode, get fields from form
 		if($this->f_action == 'submit')
 		{
-			//if submitting in EDIT mode, additionally get the employee id to edit
-			if($this->f_mode == 'edit' || $this->f_mode == 'delete')
+			//if submitting in EDIT mode, additionally get the employee id to edit, only if admin
+			if(($this->f_mode == 'edit' || $this->f_mode == 'delete') && $this->isAdmin())
 			{
 				//get id of employee to edit
-				$this->f_id = IO::get_input_sl_g('f_id','string');
+				$this->f_id = IO::get_input_sl_pg('f_id','string');
 			}
 			
-			$this->f_auth_level 			= IO::get_input_sl_pg('f_auth_level', 'integer');
+			//if admin
+			if($this->isAdmin())
+			{
+				$this->f_auth_level = IO::get_input_sl_pg('f_auth_level', 'integer');
+				$this->f_dept_name	= IO::get_input_sl_pg('f_dept_name','string');
+				$this->f_icode 		= IO::get_input_sl_pg('f_icode', 'string');
+				$this->f_id 		= IO::get_input_sl_pg('f_id', 'integer');
+			}
+			
 			$this->f_cell_phone_number 		= IO::get_input_sl_pg('f_cell_phone_number','string');
-			$this->f_dept_name				= IO::get_input_sl_pg('f_dept_name','string');
 			$this->f_email 					= IO::get_input_sl_pg('f_email','string');
 			$this->f_fax_number				= IO::get_input_sl_pg('f_fax_number','string');
 			$this->f_first_name 			= IO::get_input_sl_pg('f_first_name', 'string');
-			$this->f_icode 					= IO::get_input_sl_pg('f_icode', 'string');
-			$this->f_id 					= IO::get_input_sl_pg('f_id', 'integer');
 			$this->f_last_name 				= IO::get_input_sl_pg('f_last_name', 'string');
 			$this->f_office_location		= IO::get_input_sl_pg('f_office_location','string');
 			$this->f_office_phone_number	= IO::get_input_sl_pg('f_office_phone_number','string');
@@ -87,9 +107,12 @@ class PageEmployeeAddEdit
 		//if NOT submitting, but in EDIT mode, fill the fields from database data
 		else if($this->f_mode == 'edit')
 		{
-			//get id of employee to edit
-			$this->f_id = IO::get_input_sl_pg('f_id','integer');
-			
+			if($this->isAdmin())
+			{
+				//get id of employee to edit
+				$this->f_id = IO::get_input_sl_pg('f_id','integer');
+			}
+						
 			//get values from database
 			$employee_info = DB::get_single_row_fq
 			(
@@ -97,13 +120,17 @@ class PageEmployeeAddEdit
 				FROM employees WHERE id=\'' . $this->f_id . '\''
 			);
 			
-			$this->f_auth_level 			= $employee_info['auth_level'];
+			if($this->isAdmin())
+			{
+				$this->f_auth_level	= $employee_info['auth_level'];
+				$this->f_dept_name	= $employee_info['dept_name'];
+				$this->f_icode		= $employee_info['icode'];
+			}
+			
 			$this->f_cell_phone_number 		= $employee_info['cell_phone_number'];
-			$this->f_dept_name				= $employee_info['dept_name'];
 			$this->f_email					= $employee_info['email'];
 			$this->f_fax_number				= $employee_info['fax_number'];
 			$this->f_first_name 			= $employee_info['first_name'];
-			$this->f_icode					= $employee_info['icode'];
 			$this->f_last_name				= $employee_info['last_name'];
 			$this->f_office_location		= $employee_info['office_location'];
 			$this->f_office_phone_number	= $employee_info['office_phone_number'];
@@ -146,26 +173,51 @@ class PageEmployeeAddEdit
 			{
 				//update database
 				//TODO: password stuff...
-				DB::send_query
-				(
-					'UPDATE employees SET
-					auth_level=\'' . $this->f_auth_level . '\',
-					cell_phone_number=\'' . $this->f_cell_phone_number . '\',
-					dept_name=
-					email=\'' . $this->f_email . '\',
-					fax_number=\'' . $this->f_fax_number . '\',
-					first_name=\'' . $this->f_first_name . '\',
-					icode=\'' . $this->f_icode . '\',
-					last_name=\'' . $this->f_last_name . '\',
-					office_location=\'' . $this->f_office_location . '\',
-					office_phone_number=\'' . $this->f_office_phone_number . '\',
-					password=\'' . $this->f_password . '\',
-					updated_employee_id=\'' . LoginManager::get_id() . '\',
-					search_words=\'' . $search_words . '\',
-					updated_date = NOW()'
-				);
+				
+				if($this->isAdmin())
+				{
+					DB::send_query
+					(
+						'UPDATE employees SET
+						auth_level=\'' . $this->f_auth_level . '\',
+						cell_phone_number=\'' . $this->f_cell_phone_number . '\',
+						dept_name=\'' . $this->f_dept_name . '\',
+						email=\'' . $this->f_email . '\',
+						fax_number=\'' . $this->f_fax_number . '\',
+						first_name=\'' . $this->f_first_name . '\',
+						icode=\'' . $this->f_icode . '\',
+						last_name=\'' . $this->f_last_name . '\',
+						office_location=\'' . $this->f_office_location . '\',
+						office_phone_number=\'' . $this->f_office_phone_number . '\',
+						password=\'' . $this->f_password . '\',
+						updated_employee_id=\'' . LoginManager::get_id() . '\',
+						search_words=\'' . $search_words . '\',
+						updated_date = NOW()
+						WHERE id=\'' . $this->f_id . '\''
+					);
+				}
+				else
+				{
+					DB::send_query
+					(
+						'UPDATE employees SET
+						cell_phone_number=\'' . $this->f_cell_phone_number . '\',
+						email=\'' . $this->f_email . '\',
+						fax_number=\'' . $this->f_fax_number . '\',
+						first_name=\'' . $this->f_first_name . '\',
+						last_name=\'' . $this->f_last_name . '\',
+						office_location=\'' . $this->f_office_location . '\',
+						office_phone_number=\'' . $this->f_office_phone_number . '\',
+						password=\'' . $this->f_password . '\',
+						updated_employee_id=\'' . LoginManager::get_id() . '\',
+						search_words=\'' . $search_words . '\',
+						updated_date = NOW()
+						WHERE id=\'' . $this->f_id . '\''
+					);
+				}
+				
 			}
-			else if($this->f_mode == 'delete')
+			else if($this->f_mode == 'delete' && $this->isAdmin())
 			{
 				//update trash flag
 				DB::send_query
@@ -176,7 +228,7 @@ class PageEmployeeAddEdit
 				);
 			}
 			//add mode submit
-			else
+			else if($this->isAdmin())
 			{
 				//TODO: password stuff...
 				//insert
@@ -352,6 +404,7 @@ class PageEmployeeAddEdit
                   </form>
                 </div>		
 		');
+		
 		
 		ObjOuterArea::echo_bottom();
 	
