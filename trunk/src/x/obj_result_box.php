@@ -70,7 +70,7 @@ class ResultFullMenu
 		return('
 			<b>
 			<a href="page_' . $obj_name . '_view.php?f_id=' . $obj_id .'"/>View</a><br>
-			<a href="page_' . $obj_name . '_add_edit.php?f_mode=edit&amp;f_id=' . $obj_id . '\'"/>Edit</a><br>
+			<a href="page_' . $obj_name . '_add_edit.php?f_mode=edit&amp;f_id=' . $obj_id . '"/>Edit</a><br>
 			<a href="#" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { document.location=\'page_' . $obj_name . '_delete.php?f_id=' . $obj_id .'\'; } return false;"/>Delete</a>
 			<b>
 		');			

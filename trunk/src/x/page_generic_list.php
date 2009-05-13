@@ -94,7 +94,7 @@ class PageGenericList
 		if($this->f_order_by == 'trash_flag') $order_by_clause = 'ORDER BY trash_flag DESC, relevance DESC ';
 		else $order_by_clause = 'ORDER BY trash_flag ASC, ' . $this->f_order_by . ' ' . $this->f_asc_or_desc . ' ';
 		
-		echo $order_by_clause;
+		//echo $order_by_clause;
 		
 		//if empty search text, get and list everything 
 		if($this->f_search == '')
