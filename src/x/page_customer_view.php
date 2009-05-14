@@ -169,7 +169,7 @@ class PageCustomerView
 						  <td width="25%" align="right" valign="middle" class="text_label">ID Code:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_icode) . '');
 						  
-						 //if the sales order has been deleted, print trash icon
+						 //if the customer has been deleted, print trash icon
 						if( $this->f_trash_flag == '1' )
 						{
 							echo ('<img src="../img/trash.gif"/> ');
