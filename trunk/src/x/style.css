@@ -9,6 +9,7 @@
 	width: 25%;
 	vertical-align: middle;
 	text-align: right;
+	font-weight: bold;
 }
 
 .text_tiny {
@@ -88,7 +89,7 @@ table,td,tr,th 	{ font-size: 1.0em; font-family: Verdana, Arial, Helvetica, sans
 		  
 a.active_menu	{ border-bottom:1px solid #FCCD61; background-position: left top; font-size: 1.00em; font-family: Verdana, 
 		  Arial, Helvetica, sans-serif; color: #FFD628; text-indent: 0; word-spacing: 0; text-align: left;   
-		  margin-top: 0; line-height:40px; background-color:#6E0001; padding-left:10px; padding-right:3px;   
+		  margin-top: 0; line-height:40px; background-color:#db013d; padding-left:10px; padding-right:3px;   
 		  padding-top:3px; padding-bottom:3px; background-repeat:repeat-x; background-attachment:fixed;   
 		  border-left-width:1px; border-right-width:1px; border-top-width:1px }
 a.menu		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.00em; background-color:#982023; color:
@@ -97,4 +98,4 @@ a.menu		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.00em;
 #navigation a	{ border-bottom: 1px solid #FCCD61; font-family: Verdana, Arial, Helvetica, sans-serif; line-height:40px;  
 		  font-size: 1.00em; color: #FFFFFF; text-decoration: none; display:block; padding-left:10px; padding-  
 		  right:3px; padding-top:3px; padding-bottom:3px }	
-#navigation a:hover { color:#FFD628; background-color:#6E0001; }
+#navigation a:hover { color:#FFD628; background-color:#db013d; }

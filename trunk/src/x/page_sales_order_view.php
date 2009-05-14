@@ -25,9 +25,9 @@ class PageSalesOrderView
 	private $f_notes;
 	
 	private $f_shipper_comp_name;
-	private $f_shipper_cont_name;	
+	private $f_shipper_icode;	
 	private $f_customer_comp_name;
-	private $f_customer_cont_name;
+	private $f_customer_icode;
 	
 	private $f_created_first;
 	private $f_created_last;
@@ -73,7 +73,21 @@ class PageSalesOrderView
 	{
 					//get values from database
 			$sales_order_info = DB::get_single_row_fq('
-				SELECT icode, customer_id, shipper_id, shipment_details, special, order_date, delivery_date, price, currency, notes, created_employee_id, updated_employee_id, created_date, updated_date, trash_flag
+				SELECT  icode, 
+						customer_id, 
+						shipper_id, 
+						shipment_details, 
+						special, 
+						order_date, 
+						delivery_date, 
+						price, 
+						currency, 
+						notes, 
+						created_employee_id, 
+						updated_employee_id, 
+						created_date, 
+						updated_date, 
+						trash_flag
 				FROM sales_orders WHERE id=\'' . $this->f_id . '\''
 			);
 			
@@ -82,15 +96,15 @@ class PageSalesOrderView
 			$this->f_shipper_id 			= $sales_order_info['shipper_id'];
 			$this->f_shipment_details 		= $sales_order_info['shipment_details'];
 			$this->f_special 				= $sales_order_info['special'];
-			$this->f_order_date 			= date("j. M Y", strtotime($sales_order_info['order_date']));
-			$this->f_delivery_date 			= date("j. M Y", strtotime($sales_order_info['delivery_date']));
+			$this->f_order_date 			= $sales_order_info['order_date'];
+			$this->f_delivery_date 			= $sales_order_info['delivery_date'];
 			$this->f_price 					= $sales_order_info['price'];
 			$this->f_currency 				= $sales_order_info['currency'];
 			$this->f_notes 					= $sales_order_info['notes'];
 			$this->f_created_employee_id	= $sales_order_info['created_employee_id'];
 			$this->f_updated_employee_id	= $sales_order_info['updated_employee_id'];
-			$this->f_created_date			= date("j. M Y", strtotime($sales_order_info['created_date']));
-			$this->f_updated_date			= date("j. M Y", strtotime($sales_order_info['updated_date']));
+			$this->f_created_date			= $sales_order_info['created_date'];
+			$this->f_updated_date			= $sales_order_info['updated_date'];
 			$this->f_trash_flag				= $sales_order_info['trash_flag'];
 			
 			//QUERY for created by user info
@@ -121,23 +135,23 @@ class PageSalesOrderView
 			$sales_cust = DB::get_single_row_fq
 			('
 				SELECT  customers.company_name,
-						customers.contact_name
+						customers.icode
 				FROM customers
 				WHERE customers.id=\'' . $this->f_customer_id . '\''
 			);
 			$this->f_customer_comp_name	= $sales_cust['company_name'];
-			$this->f_customer_cont_name	= $sales_cust['contact_name'];
+			$this->f_customer_icode	= $sales_cust['icode'];
 			
 			//QUERY for order's Shipper info
 			$sales_ship = DB::get_single_row_fq
 			('
 				SELECT  shippers.company_name,
-						shippers.contact_name
+						shippers.icode
 				FROM shippers
 				WHERE shippers.id=\'' . $this->f_shipper_id . '\''
 			);
 			$this->f_shipper_comp_name	= $sales_ship['company_name'];
-			$this->f_shipper_cont_name	= $sales_ship['contact_name'];	
+			$this->f_shipper_icode	= $sales_ship['icode'];	
 	}
 	
 	private function show_output($err_msg = '')
@@ -158,34 +172,48 @@ class PageSalesOrderView
 			</tr>
 		</table>
 		');
-			
-		// see if the sales order has been deleted
-		if( $this->f_trash_flag == '1' )
-		{
-			echo '<p>This sales order has been deleted.</p>';
-		}
-		
+					
 		// show details if it hasn't been deleted or if user is an admin
 		if( $this->f_trash_flag == '0' or LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN) )
 		{
 			echo ('
 			<!-- View fields of a sales order -->
 			<table width="100%">
+			
+				<tr>
+					<td>&nbsp;</td>
+				 </tr>	
+			
 				<tr>
 					<td class="text_label">ID Code: </td>
-					<td class="form_input">' . IO::prepout_sl($this->f_icode, false) . '</td>
+					<td class="form_input">' . IO::prepout_sl($this->f_icode, false) . '');
+						  
+						 //if the sales order has been deleted, print trash icon
+						if( $this->f_trash_flag == '1' )
+						{
+							echo ('<img src="../img/trash.gif"/> ');
+						}
+						
+					echo('
+				</td>
 				</tr>
 				
 				<tr>
 					<td class="text_label">Customer: </td>
-					<td class="form_input"><a href="page_customer_view.php?f_id=' . IO::prepout_sl($this->f_customer_id, false) . '">' . IO::prepout_ml_html($this->f_customer_comp_name) . '</a></td>
+					<td class="form_input">' . IO::prepout_sl($this->f_customer_icode, false) . '&nbsp;:&nbsp;<a href="page_customer_view.php?f_id=' . 
+						IO::prepout_sl($this->f_customer_id, false) . '">' . IO::prepout_ml_html($this->f_customer_comp_name) . '</a></td>
 				</tr>
 				
 				<tr>
-					<td class="text_label">Shipper ID: </td>
-					<td class="form_input"><a href="page_shipper_view.php?f_id=' . IO::prepout_sl($this->f_shipper_id, false) . '">' . IO::prepout_ml_html($this->f_shipper_comp_name) . '</a></td>
+					<td class="text_label">Shipper: </td>
+					<td class="form_input">' . IO::prepout_sl($this->f_shipper_icode, false) . '&nbsp;:&nbsp;<a href="page_shipper_view.php?f_id=' . 
+						IO::prepout_sl($this->f_shipper_id, false) . '">' . IO::prepout_ml_html($this->f_shipper_comp_name) . '</a></td>
 				</tr>
 				
+				<tr>
+					<td>&nbsp;</td>
+				 </tr>	
+				 
 				<tr>
 					<td class="text_label">Shipment Details: </td>
 					<td class="form_input"><div>' . IO::prepout_ml_textarea($this->f_shipment_details) . '</div></td>
@@ -206,6 +234,10 @@ class PageSalesOrderView
 				</tr>
 				
 				<tr>
+					<td>&nbsp;</td>
+				 </tr>	
+				
+				<tr>
 					<td class="text_label">Order Date: </td>
 					<td class="form_input">' . IO::prepout_sl($this->f_order_date, false) . '</td>
 				</tr>
@@ -220,41 +252,33 @@ class PageSalesOrderView
 					<td class="form_input">' . IO::prepout_sl($this->f_price, false) . '&nbsp;' . IO::prepout_sl($this->f_currency, false) .  '</td>
 				</tr>
 				
+				 <tr>
+					<td>&nbsp;</td>
+				 </tr>	
+				  
 				<tr>
+				  <td width="25%" align="right" valign="middle" class="text_label">Created:&nbsp;</td>
+				  <td width="75%" align="left" valign="middle"><a href="page_employee_view.php?f_id=' . IO::prepout_sl($this->f_created_employee_id, false) . '">'  . 
+							IO::prepout_sl($this->f_created_first, false) . '&nbsp;' . IO::prepout_sl($this->f_created_last, false)  . '</a>&nbsp;on&nbsp;' . 
+							IO::prepout_ml_html($this->f_created_date) . '</td>
+				 </tr>
+				 
+				<tr>
+				  <td width="25%" align="right" valign="middle" class="text_label">Updated:&nbsp;</td>
+				  <td width="75%" align="left" valign="middle"><a href="page_employee_view.php?f_id=' . IO::prepout_sl($this->f_updated_employee_id, false) . '">'  . 
+							IO::prepout_sl($this->f_updated_first, false) . '&nbsp;' . IO::prepout_sl($this->f_updated_last, false)  . '</a>&nbsp;on&nbsp;' . 
+							IO::prepout_ml_html($this->f_updated_date) . '</td>
+				 </tr>	
+				 
+				  <tr>
+					<td>&nbsp;</td>
+				 </tr>	
+				 
+				 <tr>
 					<td class="text_label">Notes: </td>
 					<td class="form_input"><div>' . IO::prepout_ml_textarea($this->f_notes) . '</div></td>
 				</tr>
-			');
-			// the following details are only viewable by admins
-			if( LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN ) )
-			{
-				echo ('
-					<tr>
-						<td class="text_label">Created Date: </td>
-						<td class="form_input">' . IO::prepout_sl($this->f_created_date, false) . '</td>
-					</tr>
-					
-					<tr>
-						<td class="text_label">Updated Date: </td>
-						<td class="form_input">' . IO::prepout_sl($this->f_updated_date, false) . '</td>
-					</tr>
-					
-					<tr>
-						<td class="text_label">Created By: </td>
-						<td class="form_input"><a href="page_employee_view.php?f_id=' . IO::prepout_sl($this->f_created_employee_id, false) . '">'  . IO::prepout_sl($this->f_created_first, false) . '&nbsp;' . IO::prepout_sl($this->f_created_last, false)  . '</a></td>
-					</tr>
-					
-					<tr>
-						<td class="text_label">Updated By: </td>
-						<td class="form_input"><a href="page_employee_view.php?f_id=' . IO::prepout_sl($this->f_updated_employee_id, false) . '">'  . IO::prepout_sl($this->f_updated_first, false) . '&nbsp;' . IO::prepout_sl($this->f_updated_last, false)  . '</a></td>
-					</tr>
-				');
-			}
-			echo ('
-				<tr>
-					<td class="text_label"> </td>
-					<td><input type="submit" name="submit" value="Edit Sales Order"></td>
-				</tr>
+				
 			</table>
 			');
 		}
