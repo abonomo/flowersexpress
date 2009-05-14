@@ -31,7 +31,7 @@ class PageSalesOrderMenu
 	
 	private function get_input()
 	{
-		echo "he";
+	
 	}
 	
 	private function verify_input()
