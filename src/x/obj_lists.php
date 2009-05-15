@@ -155,4 +155,153 @@ class ObjProductList
 	}
 }
 
+
+class ObjSupplierList
+{
+	private static $OBJ_NAME = 'supplier';	//page names based on this
+	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number';
+	private static $NEEDED_JOINS = '';
+	
+	// hahaha this isn't clean but I'm going for the 'just implement something' approach
+	private static $m_visibility = '';
+	private static $m_in_trash = '';
+
+	public function get_needed_fields()
+	{
+		return self::$NEEDED_FIELDS;
+	}
+
+	public function get_needed_joins()
+	{
+		return self::$NEEDED_JOINS;
+	}
+	
+	public function display($action_box_mode, $supplier_info_arr)
+	{
+		//display the list of results
+		$cnt = count($supplier_info_arr);
+		for($i = 0; $i < $cnt; $i++)
+		{
+			$data_box_contents = $this->get_data_display($supplier_info_arr[$i]);
+			//select a Supplier for a sales order mode
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit?f_id=' . $supplier_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $supplier_info_arr[$i]['id']);
+		
+			ResultBox::display($data_box_contents, $action_box_contents);
+		}
+	}
+	
+	private function get_data_display($supplier_info)
+	{
+		//decide what is displayed with what labels
+		$obj_title_link_text = IO::prepout_sl_label('', $supplier_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $supplier_info['company_name'], 30, 'No Company Name');
+		$obj_line[0] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Contact Name:&nbsp;', $supplier_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $supplier_info['contact_dept'], 20);
+		$obj_line[1] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Address:&nbsp;', $supplier_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $supplier_info['city'], 20);
+		$obj_line[2] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $supplier_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $supplier_info['cell_phone_number'], 20);
+
+		if( $supplier_info['trash_flag'] == 1 )
+		{
+			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
+			$m_in_trash = '[In trash bin] - ';
+		}
+		
+		//display the object title link and data lines
+		$obj_data_display =
+		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
+			<tr>
+				<td align="left">
+					' . $m_in_trash . '
+					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $supplier_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+		';
+		
+		//append the data lines
+		for($i = 0; $i < count($obj_line); $i++)
+		{
+			$obj_data_display .= $obj_line[$i] . '<br>';
+		}
+		
+		$obj_data_display .=
+		'		</td>
+			</tr>
+		</table>';
+	
+		return $obj_data_display;
+	}
+}
+
+
+class ObjShipperList
+{
+	private static $OBJ_NAME = 'shipper';	//page names based on this
+	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number';
+	private static $NEEDED_JOINS = '';
+	
+	// hahaha this isn't clean but I'm going for the 'just implement something' approach
+	private static $m_visibility = '';
+	private static $m_in_trash = '';
+
+	public function get_needed_fields()
+	{
+		return self::$NEEDED_FIELDS;
+	}
+
+	public function get_needed_joins()
+	{
+		return self::$NEEDED_JOINS;
+	}
+	
+	public function display($action_box_mode, $shipper_info_arr)
+	{
+		//display the list of results
+		$cnt = count($shipper_info_arr);
+		for($i = 0; $i < $cnt; $i++)
+		{
+			$data_box_contents = $this->get_data_display($shipper_info_arr[$i]);
+			//select a Shipper for a sales order mode
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit?f_id=' . $shipper_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $shipper_info_arr[$i]['id']);
+		
+			ResultBox::display($data_box_contents, $action_box_contents);
+		}
+	}
+	
+	private function get_data_display($shipper_info)
+	{
+		//decide what is displayed with what labels
+		$obj_title_link_text = IO::prepout_sl_label('', $shipper_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $shipper_info['company_name'], 30, 'No Company Name');
+		$obj_line[0] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Contact Name:&nbsp;', $shipper_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $shipper_info['contact_dept'], 20);
+		$obj_line[1] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Address:&nbsp;', $shipper_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $shipper_info['city'], 20);
+		$obj_line[2] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $shipper_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $shipper_info['cell_phone_number'], 20);
+
+		if( $shipper_info['trash_flag'] == 1 )
+		{
+			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
+			$m_in_trash = '[In trash bin] - ';
+		}
+		
+		//display the object title link and data lines
+		$obj_data_display =
+		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
+			<tr>
+				<td align="left">
+					' . $m_in_trash . '
+					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $shipper_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+		';
+		
+		//append the data lines
+		for($i = 0; $i < count($obj_line); $i++)
+		{
+			$obj_data_display .= $obj_line[$i] . '<br>';
+		}
+		
+		$obj_data_display .=
+		'		</td>
+			</tr>
+		</table>';
+	
+		return $obj_data_display;
+	}
+}
+
+
 ?>
