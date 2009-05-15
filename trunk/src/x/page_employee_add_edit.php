@@ -5,10 +5,10 @@
  * TODO: implement a (good) method for admin/users to modify passwords
  * TODO: make it so auth_level is changed appropriately when admin is editing employee
  * TODO: better way to change modifiable fields for non-admin users?
- * TODO: check verify input function...anything else to implement here?
  */
 
 require_once('framework.php');
+require_once('page_employee_change_password.php');
 
 class PageEmployeeAddEdit
 {
@@ -37,12 +37,12 @@ class PageEmployeeAddEdit
 	private $f_title;
 	
 	//*** FUNCTIONS ***
-	//execution entry point
 	private function isAdmin()
 	{
 		return LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN);
 	}
 	
+	//execution entry point
 	public function run()
 	{
 		session_start();
@@ -74,8 +74,16 @@ class PageEmployeeAddEdit
 				
 		$this->f_action = IO::get_input_sl_g('f_action','string');
 		
+		if($this->f_action == 'change password')
+		{
+			if($this->isAdmin())
+				$this->f_id = IO::get_input_sl_pg('f_id', 'string');
+				
+			$page_employee_change_password = new PageEmployeeChangePassword($this->f_id);
+			$page_employee_change_password->run();
+		}
 		//if submitting in ADD or EDIT mode, get fields from form
-		if($this->f_action == 'submit')
+		else if($this->f_action == 'submit')
 		{
 			//if submitting in EDIT mode, additionally get the employee id to edit, only if admin
 			if(($this->f_mode == 'edit' || $this->f_mode == 'delete') && $this->isAdmin())
@@ -101,10 +109,6 @@ class PageEmployeeAddEdit
 			$this->f_last_name 				= IO::get_input_sl_pg('f_last_name', 'string');
 			$this->f_office_location		= IO::get_input_sl_pg('f_office_location','string');
 			$this->f_office_phone_number	= IO::get_input_sl_pg('f_office_phone_number','string');
-			
-			//TODO: change password so that it uses 1-way md5 encryption
-			//NOTE: may want to make change a password as an entirely new page
-			$this->f_password = IO::get_input_sl_p('f_password', 'string');
 		} 
 		//if NOT submitting, but in EDIT mode, fill the fields from database data
 		else if($this->f_mode == 'edit')
@@ -116,12 +120,11 @@ class PageEmployeeAddEdit
 			}
 						
 			//get values from database
-			//TODO: password stuff
 			if($this->isAdmin())
 			{
 				$employee_info = DB::get_single_row_fq
 				(
-					'SELECT icode, email, password, auth_level, first_name, last_name, dept_name, office_location, office_phone_number, cell_phone_number, fax_number, title
+					'SELECT icode, email, auth_level, first_name, last_name, dept_name, office_location, office_phone_number, cell_phone_number, fax_number, title
 					FROM employees WHERE id=\'' . $this->f_id . '\''
 				);
 			}
@@ -129,7 +132,7 @@ class PageEmployeeAddEdit
 			{
 				$employee_info = DB::get_single_row_fq
 				(
-					'SELECT email, password, first_name, last_name, office_location, office_phone_number, cell_phone_number, fax_number
+					'SELECT email, first_name, last_name, office_location, office_phone_number, cell_phone_number, fax_number
 					FROM employees WHERE id=\'' . $this->f_id . '\''
 				);
 			}
@@ -150,14 +153,12 @@ class PageEmployeeAddEdit
 			$this->f_last_name				= $employee_info['last_name'];
 			$this->f_office_location		= $employee_info['office_location'];
 			$this->f_office_phone_number	= $employee_info['office_phone_number'];
-			$this->f_password				= $employee_info['password']; //TODO: again, will need to do something different w/ password
 		}
 		//if NOT submitting, and in ADD mode, do nothing (empty textboxes)
 	}
 	
 	private function verify_input()
 	{
-		//TODO: password stuff...anything else?
 		if(strlen($this->f_cell_phone_number) > Config::$DEFAULT_VARCHAR_LEN)
 			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Cell Phone Number is too long.';
 		if(strlen($this->f_dept_name) > Config::$DEFAULT_VARCHAR_LEN)
@@ -176,8 +177,6 @@ class PageEmployeeAddEdit
 			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Office Location is too long.';
 		if(strlen($this->f_office_phone_number) > Config::$DEFAULT_VARCHAR_LEN)
 			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Office Phone Number is too long.';
-		if(strlen($this->f_password) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Password is too long.';
 		if(strlen($this->f_title) > Config::$DEFAULT_VARCHAR_LEN)
 			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Title is too long.';
 		
@@ -211,7 +210,6 @@ class PageEmployeeAddEdit
 			if($this->f_mode == 'edit')
 			{
 				//update database
-				//TODO: password stuff...
 				
 				if($this->isAdmin())
 				{
@@ -228,7 +226,6 @@ class PageEmployeeAddEdit
 						last_name=\'' . $this->f_last_name . '\',
 						office_location=\'' . $this->f_office_location . '\',
 						office_phone_number=\'' . $this->f_office_phone_number . '\',
-						password=\'' . $this->f_password . '\',
 						title=\'' . $this->f_title . '\',
 						updated_employee_id=\'' . LoginManager::get_id() . '\',
 						search_words=\'' . $search_words . '\',
@@ -248,7 +245,6 @@ class PageEmployeeAddEdit
 						last_name=\'' . $this->f_last_name . '\',
 						office_location=\'' . $this->f_office_location . '\',
 						office_phone_number=\'' . $this->f_office_phone_number . '\',
-						password=\'' . $this->f_password . '\',
 						updated_employee_id=\'' . LoginManager::get_id() . '\',
 						search_words=\'' . $search_words . '\',
 						updated_date = NOW()
@@ -270,7 +266,6 @@ class PageEmployeeAddEdit
 			//add mode submit
 			else if($this->isAdmin())
 			{
-				//TODO: password stuff...
 				//insert
 				DB::send_query
 				(
@@ -286,7 +281,6 @@ class PageEmployeeAddEdit
 						last_name,
 						office_location,
 						office_phone_number,
-						password,
 						title,
 						created_employee_id,
 						updated_employee_id,
@@ -306,7 +300,6 @@ class PageEmployeeAddEdit
 						\'' . $this->f_last_name . '\',
 						\'' . $this->f_office_location . '\',
 						\'' . $this->f_office_phone_number . '\',
-						\'' . $this->f_password . '\',
 						\'' . $this->f_title . '\',
 						\'' . LoginManager::get_id() . '\',
 						\'' . LoginManager::get_id() . '\',
@@ -390,10 +383,6 @@ class PageEmployeeAddEdit
                             	</select>
                             </td>
                           </tr>
-                          <tr>
-                            <td width="25%" align="right" valign="middle" class="text_label">Password:&nbsp;</td>
-                            <td width="75%" align="left" valign="middle"><input name="f_password" type="text" size="24" class="textbox" value="' . IO::prepout_sl($this->f_password, false) . '"></td>
-                          </tr>
                         </table></td>
                       </tr>
                       <tr>
@@ -459,10 +448,6 @@ class PageEmployeeAddEdit
                             <td width="25%" align="right" valign="middle" class="text_label">Office Location:&nbsp;</td>
                             <td width="75%" align="left" valign="middle"><input name="f_office_location" type="text" size="40" class="textbox" value="' . IO::prepout_sl($this->f_office_location, false) . '"></td>
                           </tr>
-                          <tr>
-                            <td width="25%" align="right" valign="middle" class="text_label">Password:&nbsp;</td>
-                            <td width="75%" align="left" valign="middle"><input name="f_password" type="text" size="24" class="textbox" value="' . IO::prepout_sl($this->f_password, false) . '"></td>
-                          </tr>
                         </table></td>
                       </tr>
                       <tr>
@@ -474,6 +459,10 @@ class PageEmployeeAddEdit
                       <tr>
                         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
+                            	<td width="25%" align="right" valign="top">&nbsp;</td>
+                              	<td width="75%" align="left" valign="middle"><input type="change password" name="Change Password" value="Change Password" class="button"></td>
+                            </tr>
+                        	<tr>
                               <td width="25%" align="right" valign="top">&nbsp;</td>
                               <td width="75%" align="left" valign="middle"><input type="submit" name="Submit" value="Save" class="button"></td>
                             </tr>
