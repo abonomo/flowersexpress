@@ -162,7 +162,7 @@ class PageSalesOrderView
 		//echo inner area html
 		echo ('
 		<!-- Title of the page -->
-		<form name="sales_order_add_edit" method="post" action="page_sales_order_add_edit.php?f_mode=edit&f_id=' . IO::prepout_url($this->f_id) . '">
+		<form name="sales_order_view" method="post" action="page_sales_order_view.php?f_id=' . IO::prepout_url($this->f_id) . '">
 		<table width="100%">
 			<tr>
 				<td width="25%"> </td>
@@ -171,12 +171,6 @@ class PageSalesOrderView
 				</td>
 			</tr>
 		</table>
-		');
-					
-		// show details if it hasn't been deleted or if user is an admin
-		if( $this->f_trash_flag == '0' or LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN) )
-		{
-			echo ('
 			<!-- View fields of a sales order -->
 			<table width="100%">
 			
@@ -281,7 +275,6 @@ class PageSalesOrderView
 				
 			</table>
 			');
-		}
 
 		ObjOuterArea::echo_bottom();
 	
