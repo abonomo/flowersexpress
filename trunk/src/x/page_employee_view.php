@@ -24,7 +24,6 @@ class PageEmployeeView
 	private $f_cell_phone;
 	private $f_fax_number;
 	
-				//ADD THIS FOR UPDATED INFO FUNCTIONALITY
 	private $f_created_id;
 	private $f_updated_id;	
 	
@@ -35,7 +34,6 @@ class PageEmployeeView
 	
 	private $f_created_date;
 	private $f_updated_date;
-			//to this
 	
 	//*** FUNCTIONS ***
 	//execution entry point
@@ -71,7 +69,7 @@ class PageEmployeeView
 	
 	private function get_output()
 	{
-					//get values from database
+			//QUERY for the employee info
 			$emp_info = DB::get_single_row_fq
 			('
 				SELECT  employees.icode, 
@@ -83,7 +81,7 @@ class PageEmployeeView
 						employees.fax_number, 
 						employees.office_location,  
 						employees.email, 
-						employees.auth_level, 	
+						employees.auth_level, 
 						
 						employees.created_employee_id, 
 						employees.updated_employee_id,
@@ -105,37 +103,35 @@ class PageEmployeeView
 			$this->f_cell_phone 			= $emp_info['cell_phone_number'];
 			$this->f_fax_number 			= $emp_info['fax_number'];
 			
-			$this->f_created_id 			= $emp_info['created_employee_id'];
-			$this->f_updated_id 			= $emp_info['updated_employee_id'];
+			$this->f_created_employee_id 	= $emp_info['created_employee_id'];
+			$this->f_updated_employee_id 	= $emp_info['updated_employee_id'];
 			
 			$this->f_created_date 			= $emp_info['created_date'];
 			$this->f_updated_date 			= $emp_info['updated_date'];
 			
+			//QUERY for the uodated employee info
 			$emp_info_up = DB::get_single_row_fq
 			('
 				SELECT  employees.first_name, 
 						employees.last_name
 				FROM employees
-				WHERE employees.id=\'' . $this->f_updated_id . '\''
+				WHERE employees.id=\'' . $this->f_updated_employee_id . '\''
 			);
 			
+			$this->f_updated_first 			= $emp_info_up['first_name'];
+			$this->f_updated_last 			= $emp_info_up['last_name'];		
+			
+			//QUERY for the created employee info
 			$emp_info_cre = DB::get_single_row_fq
 			('
 				SELECT  employees.first_name, 
 						employees.last_name
 				FROM employees
-				WHERE employees.id=\'' . $this->f_created_id . '\''
+				WHERE employees.id=\'' . $this->f_created_employee_id . '\''
 			);
 
-								//add these for UPDATED INFO
 			$this->f_created_first		 	= $emp_info_cre['first_name'];
 			$this->f_created_last 			= $emp_info_cre['last_name'];
-			
-			$this->f_updated_first 			= $emp_info_up['first_name'];
-			$this->f_updated_last 			= $emp_info_up['last_name'];
-			
-
-		
 	}
 	
 	private function show_output($err_msg = '')
@@ -145,7 +141,7 @@ class PageEmployeeView
 		
 		//echo inner area html
 		Echo ('	
-				   <div align="center">
+			<div align="center">
 			  <form name="form1" method="post" action="page_employee_view.php">
 				<table width="600" border="0" cellpadding="0" cellspacing="0">
 
@@ -156,91 +152,102 @@ class PageEmployeeView
 						  <td width="75%" align="left" valign="middle" class="text_title">View Employee</td>
 						</tr>
 					</table></td>
-				  </tr>		  
+				  </tr>	
+				  
 				  <tr>
 					<td>&nbsp;</td>
-				  </tr>						
+				  </tr>	
+				  
 				  <tr>
 					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+					
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">ID Code:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_icode) . '</td>
 						</tr>
+						
 						<tr>
-
 						  <td width="25%" align="right" valign="middle" class="text_label">Name:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_first_name) . '&nbsp;' . IO::prepout_ml_html($this->f_last_name) .'</td>
 						</tr>
+						
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Department:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_dept_name) . '</td>
 						</tr>
+						
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Office Location:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_office_location) . '</td>
 						</tr>
+						
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Authorization Level:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_auth_level) . '</td>
 						</tr>
+						
 						<tr>
 							<td>&nbsp;</td>
 						</tr>	
+						
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Office Phone:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_office_phone) . '</td>
 						</tr>
+						
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Cell Phone:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_cell_phone) . '</td>
 						</tr>
+						
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Fax:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_fax_number) . '</td>
 						</tr>
+						
 					</table></td>
-
 				  </tr>
+				  
 				  <tr>
 					<td>&nbsp;</td>
 				  </tr>	
+				  
 				  <tr>
-				  </tr>
-			  <tr>
 					<td>&nbsp;</td>
 				  </tr>	
+				  
 				  <tr>
-				<!--BEGINNNN updated info area-->
 				  <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+				  
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Created:&nbsp;</td>
-						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_created_first) . '&nbsp;' . IO::prepout_ml_html($this->f_created_last) . '&nbsp;on&nbsp;' . IO::prepout_ml_html($this->f_created_date) . '</td>
+						  <td width="75%" align="left" valign="middle"><a href="page_employee_view.php?f_id=' . IO::prepout_sl($this->f_created_employee_id, false) . '">'  . 
+									IO::prepout_sl($this->f_created_first, false) . '&nbsp;' . IO::prepout_sl($this->f_created_last, false)  . '</a>&nbsp;on&nbsp;' . 
+									IO::prepout_ml_html($this->f_created_date) . '</td>
 						 </tr>
+						 
 				  		<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Updated:&nbsp;</td>
-						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_updated_first) . '&nbsp;' . IO::prepout_ml_html($this->f_updated_last) . '&nbsp;on&nbsp;' . IO::prepout_ml_html($this->f_updated_date) . '</td>
+						  <td width="75%" align="left" valign="middle"><a href="page_employee_view.php?f_id=' . IO::prepout_sl($this->f_updated_employee_id, false) . '">'  . 
+									IO::prepout_sl($this->f_updated_first, false) . '&nbsp;' . IO::prepout_sl($this->f_updated_last, false)  . '</a>&nbsp;on&nbsp;' . 
+									IO::prepout_ml_html($this->f_updated_date) . '</td>
 						 </tr>
+						 
 					</table></td>
-					<!--ENDDDDDDD updated/created info area-->
 				  </tr>
+				  
 				  <tr>
 					<td>&nbsp;</td>
 				  </tr>	
+				  
 				  <tr>
 					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+					
 						<tr>
-
 						  <td width="25%" align="right" valign="top" class="text_label">Notes:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_notes) . '</td>
 						</tr>
-					</table></td>
-				  </tr>
-				  <tr>
-					<td>&nbsp;</td>
-				  </tr>
-
-				  <tr>
-					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+						
 					</table></td>
 				  </tr>
 				</table>
