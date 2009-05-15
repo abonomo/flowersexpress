@@ -3,12 +3,13 @@
 /*
  * General TODO's for this page:
  * TODO: implement a (good) method for admin/users to modify passwords
- * TODO: make it so auth_level is changed appropriately when admin is editing employee
+ * TODO: string comparison for checking passwords - current code doesn't work and therefore is commented out
+ * TODO: fix password fields for admin
  * TODO: better way to change modifiable fields for non-admin users?
+ * TODO: better way to show output?
  */
 
 require_once('framework.php');
-require_once('page_employee_change_password.php');
 
 class PageEmployeeAddEdit
 {
@@ -17,6 +18,8 @@ class PageEmployeeAddEdit
 	
 	//*** MEMBERS ***
 	private $m_err_msg = array();
+	private $m_oldPassword;
+	private $m_isChangePassword = false;
 	
 	private $f_mode;	
 	private $f_action;
@@ -35,6 +38,9 @@ class PageEmployeeAddEdit
 	private $f_cell_phone_number;
 	private $f_fax_number;
 	private $f_title;
+	private $f_old_password;
+	private $f_new_password;
+	private $f_confirm_password;
 	
 	//*** FUNCTIONS ***
 	private function isAdmin()
@@ -109,6 +115,12 @@ class PageEmployeeAddEdit
 			$this->f_last_name 				= IO::get_input_sl_pg('f_last_name', 'string');
 			$this->f_office_location		= IO::get_input_sl_pg('f_office_location','string');
 			$this->f_office_phone_number	= IO::get_input_sl_pg('f_office_phone_number','string');
+			$this->f_old_password			= IO::get_input_sl_pg('f_old_password','string');
+			$this->f_new_password			= IO::get_input_sl_pg('f_new_password','string');
+			$this->f_confirm_password		= IO::get_input_sl_pg('f_confirm_password','string');
+			
+			if(strlen($this->f_old_password) > 0 || strlen($this->f_new_password) > 0 || strlen($this->f_confirm_password) > 0)
+				$this->m_isChangePassword = true;
 		} 
 		//if NOT submitting, but in EDIT mode, fill the fields from database data
 		else if($this->f_mode == 'edit')
@@ -132,7 +144,7 @@ class PageEmployeeAddEdit
 			{
 				$employee_info = DB::get_single_row_fq
 				(
-					'SELECT email, first_name, last_name, office_location, office_phone_number, cell_phone_number, fax_number
+					'SELECT email, first_name, last_name, office_location, office_phone_number, cell_phone_number, fax_number, password
 					FROM employees WHERE id=\'' . $this->f_id . '\''
 				);
 			}
@@ -153,6 +165,7 @@ class PageEmployeeAddEdit
 			$this->f_last_name				= $employee_info['last_name'];
 			$this->f_office_location		= $employee_info['office_location'];
 			$this->f_office_phone_number	= $employee_info['office_phone_number'];
+			$this->m_oldPassword			= $employee_info['password'];
 		}
 		//if NOT submitting, and in ADD mode, do nothing (empty textboxes)
 	}
@@ -185,6 +198,23 @@ class PageEmployeeAddEdit
 			if(($this->f_auth_level < 1 || $this->f_auth_level > 4) && $this->isAdmin())
 				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Invalid Authorization Level.';
 		
+			//change password stuff
+			if($this->m_isChangePassword)
+			{
+				//verify length
+				if(strlen($this->f_old_password) > Config::$DEFAULT_VARCHAR_LEN)
+					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Old Password Length is too long.';
+				if(strlen($this->f_new_password) > Config::$DEFAULT_VARCHAR_LEN
+					|| strlen($this->f_confirm_password > Config::$DEFAULT_VARCHAR_LEN))
+					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: New Password Length is too long.';
+				//verify other password stuff
+				//TODO: need to test for string equivalence below code isn't working
+				//if($this->f_old_password != $this->m_oldPassword && $this->f_mode == 'edit')
+					//$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Inccorect Current Password.';
+				//if($this->f_confirm_password != $this->f_newPassword)
+					//$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Passwords  do not match.';	
+			}
+				
 			//outputs any errors
 			if(sizeof($this->m_err_msg) > 0) 
 				$this->show_output($this->m_err_msg);
@@ -214,8 +244,10 @@ class PageEmployeeAddEdit
 			//edit mode submit
 			if($this->f_mode == 'edit')
 			{
-				//update database
-				
+				if(LoginManager::verify_password_again($this->f_old_password, $this->f_id))
+					LoginManager::change_password($this->f_new_password, $this->f_id);
+					
+				//update database				
 				if($this->isAdmin())
 				{
 					DB::send_query
@@ -316,6 +348,8 @@ class PageEmployeeAddEdit
 				
 				//fetch the id of the new row
 				$this->f_id = DB::get_field_fq('SELECT LAST_INSERT_ID()');
+				
+				LoginManager::change_password($this->f_new_password, $this->f_id);
 			}
 			//successful insert or update
 			IO::navigate_to('page_employee_view.php?f_id=' . $this->f_id);
@@ -423,6 +457,22 @@ class PageEmployeeAddEdit
                             	</select>
                             </td>
                           </tr>
+                          <tr>
+                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="25%" align="right" valign="middle" class="text_label">Old Password:&nbsp;</td>
+                            <td width="75%" align="left" valign="middle"><input name="f_old_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_old_password, false) . '"></td>
+                          </tr>
+                          <tr>
+                            <td width="25%" align="right" valign="middle" class="text_label">New Password:&nbsp;</td>
+                            <td width="75%" align="left" valign="middle"><input name="f_new_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_new_password, false) . '"></td>
+                          </tr>
+                          <tr>
+                            <td width="25%" align="right" valign="middle" class="text_label">Confirm Password:&nbsp;</td>
+                            <td width="75%" align="left" valign="middle"><input name="f_confirm_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_confirm_password, false) . '"></td>
+                          </tr>
+                        </table></td>
+                      </tr>
                         </table></td>
                       </tr>
                       <tr>

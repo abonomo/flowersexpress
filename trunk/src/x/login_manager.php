@@ -129,16 +129,20 @@ class LoginManager
 	
 	
 	//*** PASSWORD CHANGING ***
-	public static function verify_password_again($the_password)
+	public static function verify_password_again($the_password, $id)
 	{
-		$verify_result = DB::get_result_fq('SELECT id FROM employees WHERE id=\'' . self::get_id() . '\' AND password=\'' . $the_password . '\'');
+		if(!self::meets_auth_level(self::$AUTH_ADMIN) || strlen($id) == 0)
+			$id = self::get_id();
+		$verify_result = DB::get_result_fq('SELECT id FROM employees WHERE id=\'' . $id . '\' AND password=\'' . $the_password . '\'');
 		return DB::is_unique_result($verify_result);
 	}
 	
-	public static function change_password($the_password)
+	public static function change_password($the_password, $id)
 	{
+		if(!self::meets_auth_level(self::$AUTH_ADMIN) || strlen($id) == 0)
+			$id = self::get_id();
 		//TODO: add password encryption function here
-		DB::send_query('UPDATE employees SET password=\'' . $the_password . '\' WHERE id=\'' . self::get_id() . '\'');
+		DB::send_query('UPDATE employees SET password=\'' . $the_password . '\' WHERE id=\'' . $id . '\'');
 		//login session data does not have to be touched
 	}	
 }
