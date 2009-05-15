@@ -18,7 +18,6 @@ class PageEmployeeAddEdit
 	
 	//*** MEMBERS ***
 	private $m_err_msg = array();
-	private $m_oldPassword;
 	private $m_isChangePassword = false;
 	
 	private $f_mode;	
@@ -80,16 +79,8 @@ class PageEmployeeAddEdit
 				
 		$this->f_action = IO::get_input_sl_g('f_action','string');
 		
-		if($this->f_action == 'change password')
-		{
-			if($this->isAdmin())
-				$this->f_id = IO::get_input_sl_pg('f_id', 'string');
-				
-			$page_employee_change_password = new PageEmployeeChangePassword($this->f_id);
-			$page_employee_change_password->run();
-		}
 		//if submitting in ADD or EDIT mode, get fields from form
-		else if($this->f_action == 'submit')
+		if($this->f_action == 'submit')
 		{
 			//if submitting in EDIT mode, additionally get the employee id to edit, only if admin
 			if(($this->f_mode == 'edit' || $this->f_mode == 'delete') && $this->isAdmin())
@@ -144,7 +135,7 @@ class PageEmployeeAddEdit
 			{
 				$employee_info = DB::get_single_row_fq
 				(
-					'SELECT email, first_name, last_name, office_location, office_phone_number, cell_phone_number, fax_number, password
+					'SELECT email, first_name, last_name, office_location, office_phone_number, cell_phone_number, fax_number
 					FROM employees WHERE id=\'' . $this->f_id . '\''
 				);
 			}
@@ -165,7 +156,6 @@ class PageEmployeeAddEdit
 			$this->f_last_name				= $employee_info['last_name'];
 			$this->f_office_location		= $employee_info['office_location'];
 			$this->f_office_phone_number	= $employee_info['office_phone_number'];
-			$this->m_oldPassword			= $employee_info['password'];
 		}
 		//if NOT submitting, and in ADD mode, do nothing (empty textboxes)
 	}
@@ -208,9 +198,10 @@ class PageEmployeeAddEdit
 					|| strlen($this->f_confirm_password > Config::$DEFAULT_VARCHAR_LEN))
 					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: New Password Length is too long.';
 				//verify other password stuff
-				//TODO: need to test for string equivalence below code isn't working
-				//if($this->f_old_password != $this->m_oldPassword && $this->f_mode == 'edit')
+				//TODO: not working...
+				//if((!LoginManager::verify_password_again($this->f_old_password, $this->f_id)) && $this->f_mode == 'edit')
 					//$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Inccorect Current Password.';
+				//TODO: need to test for string equivalence below code isn't working
 				//if($this->f_confirm_password != $this->f_newPassword)
 					//$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Passwords  do not match.';	
 			}
