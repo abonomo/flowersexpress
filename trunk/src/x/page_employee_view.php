@@ -44,7 +44,7 @@ class PageEmployeeView
 		session_start();
 		DB::connect();
 	
-		LoginManager::assert_auth_level(LoginManager::$AUTH_READ_WRITE);
+		LoginManager::assert_auth_level(LoginManager::$AUTH_READ_ONLY);
 	
 		$this->get_input(); 
 		

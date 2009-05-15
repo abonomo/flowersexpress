@@ -159,31 +159,36 @@ class PageEmployeeAddEdit
 	
 	private function verify_input()
 	{
-		if(strlen($this->f_cell_phone_number) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Cell Phone Number is too long.';
-		if(strlen($this->f_dept_name) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Department Name is too long.';
-		if(strlen($this->f_email) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Email is too long.';
-		if(strlen($this->f_fax_number) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Fax Number is too long.';
-		if(strlen($this->f_first_name) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: First Name is too long.';
-		if(strlen($this->f_icode) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: ID Code is too long.';
-		if(strlen($this->f_last_name) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Last Name is too long.';
-		if(strlen($this->f_office_location) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Office Location is too long.';
-		if(strlen($this->f_office_phone_number) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Office Phone Number is too long.';
-		if(strlen($this->f_title) > Config::$DEFAULT_VARCHAR_LEN)
-			$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Title is too long.';
+		if($this->f_action == 'submit')
+		{
+			//check these for both add and edit mode
+			if(strlen($this->f_cell_phone_number) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Cell Phone Number is too long.';
+			if(strlen($this->f_dept_name) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Department Name is too long.';
+			if(strlen($this->f_email) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Email is too long.';
+			if(strlen($this->f_fax_number) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Fax Number is too long.';
+			if(strlen($this->f_first_name) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: First Name is too long.';
+			if(strlen($this->f_icode) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: ID Code is too long.';
+			if(strlen($this->f_last_name) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Last Name is too long.';
+			if(strlen($this->f_office_location) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Office Location is too long.';
+			if(strlen($this->f_office_phone_number) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Office Phone Number is too long.';
+			if(strlen($this->f_title) > Config::$DEFAULT_VARCHAR_LEN)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Title is too long.';
+			if(($this->f_auth_level < 1 || $this->f_auth_level > 4) && $this->isAdmin())
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Invalid Authorization Level.';
 		
-		/*
-		//Error Handling Example:
-		if(something is bad) $this->show_output('Error: Field X needs to be corrected');
-		*/
+			//outputs any errors
+			if(sizeof($this->m_err_msg) > 0) 
+				$this->show_output($this->m_err_msg);
+		}
 		
 	}
 	
@@ -376,10 +381,45 @@ class PageEmployeeAddEdit
                             <td width="25%" align="right" valign="middle" class="text_label">Authorization Level:&nbsp;</td>
                             <td width="75%" align="left" valign="middle">
                             	<select name="f_auth_level">
-                            		<option selected="yes" value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
+								');
+								
+								// Select the value that the user currently has
+								if ($this->f_auth_level == LoginManager::$AUTH_ADMIN)
+								{
+									echo('								
+									<option value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
+                            		<option value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
+                            		<option value="' . LoginManager::$AUTH_READ_WRITE . '"> Read/Write</option>
+                            		<option selected="yes" value="' . LoginManager::$AUTH_ADMIN . '">Admin</option>
+									');
+								}
+								else if ($this->f_auth_level == LoginManager::$AUTH_READ_ONLY)
+								{
+									echo('								
+									<option value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
+                            		<option selected="yes" value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
+                            		<option value="' . LoginManager::$AUTH_READ_WRITE . '"> Read/Write</option>
+                            		<option value="' . LoginManager::$AUTH_ADMIN . '">Admin</option>
+									');
+								}else if ($this->f_auth_level == LoginManager::$AUTH_READ_WRITE)
+								{
+									echo('								
+									<option value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
+                            		<option value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
+                            		<option selected="yes" value="' . LoginManager::$AUTH_READ_WRITE . '"> Read/Write</option>
+                            		<option value="' . LoginManager::$AUTH_ADMIN . '">Admin</option>
+									');
+								}else
+								{
+									echo('								
+									<option selected="yes" value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
                             		<option value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
                             		<option value="' . LoginManager::$AUTH_READ_WRITE . '"> Read/Write</option>
                             		<option value="' . LoginManager::$AUTH_ADMIN . '">Admin</option>
+									');
+								}
+								
+								echo('
                             	</select>
                             </td>
                           </tr>
@@ -453,15 +493,27 @@ class PageEmployeeAddEdit
                       <tr>
                         <td>&nbsp;</td>
                       </tr>
+					  <tr>
+                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="25%" align="right" valign="middle" class="text_label">Old Password:&nbsp;</td>
+                            <td width="75%" align="left" valign="middle"><input name="f_old_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_old_password, false) . '"></td>
+                          </tr>
+                          <tr>
+                            <td width="25%" align="right" valign="middle" class="text_label">New Password:&nbsp;</td>
+                            <td width="75%" align="left" valign="middle"><input name="f_new_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_new_password, false) . '"></td>
+                          </tr>
+                          <tr>
+                            <td width="25%" align="right" valign="middle" class="text_label">Confirm Password:&nbsp;</td>
+                            <td width="75%" align="left" valign="middle"><input name="f_confirm_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_confirm_password, false) . '"></td>
+                          </tr>
+                        </table></td>
+                      </tr>
                       <tr>
                         <td>&nbsp;</td>
                       </tr>
                       <tr>
                         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                            	<td width="25%" align="right" valign="top">&nbsp;</td>
-                              	<td width="75%" align="left" valign="middle"><input type="change password" name="Change Password" value="Change Password" class="button"></td>
-                            </tr>
                         	<tr>
                               <td width="25%" align="right" valign="top">&nbsp;</td>
                               <td width="75%" align="left" valign="middle"><input type="submit" name="Submit" value="Save" class="button"></td>
