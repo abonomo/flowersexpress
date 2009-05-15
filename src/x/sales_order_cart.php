@@ -9,54 +9,78 @@
 include_once('framework.php');
 
 //1 sales order cart per employee
-class SalesOrderCart
+class SalesOrder
 {
-	private static $SPECIAL_SEARCH_WORD = 'special';	//word add to search_words field when order is special
+	public static $SPECIAL_SEARCH_WORD = 'special';	//word add to search_words field when order is special
 	
+	private $m_is_cart;
 	private $m_id;	//sales order id (the cart's id)
 
-	public function __construct()
+	//if id is not taken in, defaults to shopping cart, otherwise edits an existing order
+	public function __construct($the_id = false)
 	{
-		//make a new cart or fetch the old one associated with this employee
-		$cart_info = DB::get_all_rows_fq('
-			SELECT id
-			FROM sales_orders
-			WHERE created_employee_id=\'' . LoginManager::get_id() . '\'
-			AND is_cart=1
-		');
-
-		//cart exists (should only be one, maybe more someday)
-		if(count($cart_info) >= 1)
+		//existing order id passed in
+		if($the_id !== false)
 		{
-			$this->m_id = $cart_info[0]['id'];
+			$this->m_is_cart = false;
+			$this->m_id = $the_id;
 		}
-		//no cart exists, so make one
+		//is shopping cart
 		else
 		{
-			//insert a new cart only if there isn't one already (check again within query to avoid concurrency issues)
-			//give the cart/order an employee "owner"
-			DB::send_query('
-				INSERT INTO sales_orders 
-				(is_cart, created_employee_id) 
-				SELECT 1, \'' . LoginManager::get_id() . '\'
-				FROM DUAL
-				WHERE NOT EXISTS
-				(SELECT 1
+			$this->m_is_cart = true;
+			
+			//make a new cart or fetch the old one associated with this employee
+			$cart_info = DB::get_all_rows_fq('
+				SELECT id
 				FROM sales_orders
-				WHERE
-				created_employee_id=\'' . LoginManager::get_id() . '\' 
-				AND is_cart=1)
+				WHERE created_employee_id=\'' . LoginManager::get_id() . '\'
+				AND is_cart=1
 			');
-			
-			//if the query didn't do anything, something screwy is going on, go to error
-			if(mysql_affected_rows() <= 0)
+
+			//cart exists (should only be one, maybe more someday)
+			if(count($cart_info) >= 1)
 			{
-				die('Error: Concurrent cart creation detected.');
+				$this->m_id = $cart_info[0]['id'];
 			}
-			
-			//get the newly inserted cart id
-			$this->m_id = DB::get_field_fq('SELECT LAST_INSERT_ID()');
+			//no cart exists, so make one
+			else
+			{
+				//insert a new cart only if there isn't one already (check again within query to avoid concurrency issues)
+				//give the cart/order an employee "owner"
+				DB::send_query('
+					INSERT INTO sales_orders 
+					(is_cart, created_employee_id) 
+					SELECT 1, \'' . LoginManager::get_id() . '\'
+					FROM DUAL
+					WHERE NOT EXISTS
+					(SELECT 1
+					FROM sales_orders
+					WHERE
+					created_employee_id=\'' . LoginManager::get_id() . '\' 
+					AND is_cart=1)
+				');
+				
+				//if the query didn't do anything, something screwy is going on, go to error
+				if(mysql_affected_rows() <= 0)
+				{
+					die('Error: Concurrent cart creation detected.');
+				}
+				
+				//get the newly inserted cart id
+				$this->m_id = DB::get_field_fq('SELECT LAST_INSERT_ID()');
+			}
 		}
+	}
+	
+	public function get_id()
+	{
+		return $this->m_id;
+	}
+	
+	public function get_is_cart()
+	{
+		return $this->m_is_cart;
 	}
 	
 	public function get_all_components()
@@ -132,10 +156,10 @@ class SalesOrderCart
 		//remove components	
 		$this->remove_all_components();
 		
-		//reset sales order (the cart) to default and initial values
+		//reset sales order (or cart) to default and initial values
+		//NOTE: is_cart=1 taken out because this could be editting an existing order
 		DB::send_query('
 			UPDATE sales_orders SET
-			is_cart=1,
 			icode=DEFAULT,
 			notes=DEFAULT,
 			customer_id=DEFAULT,
@@ -168,6 +192,7 @@ class SalesOrderCart
 	
 	public function become_order()
 	{
+		/*
 		//get the all of the fields for making the search words field
 		$order_info = $this->get_order_info();
 	
@@ -180,6 +205,7 @@ class SalesOrderCart
 			$order_info['price'] . ' ' .
 			$order_info['currency']
 		);
+		
 	
 		//just change the is_cart flag from 1 to 0, and you have yourself an order, also fill in some additional fields automatically
 		DB::send_query('
@@ -191,6 +217,17 @@ class SalesOrderCart
 			search_words=\'' . $search_words .'\'
 			WHERE id=\'' . $this->m_id . '\'
 		');
+		*/
+		
+		//just change the is_cart flag from 1 to 0, and you have yourself an order, also fill in some additional fields automatically
+		DB::send_query('
+			UPDATE sales_orders SET
+			is_cart=0,
+			updated_employee_id=\'' . LoginManager::get_id() .'\',
+			created_date=NOW(),
+			updated_date=NOW(),
+			WHERE id=\'' . $this->m_id . '\'
+		');		
 	}
 }
 
