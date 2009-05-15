@@ -37,9 +37,15 @@ class LoginManager
 	public static $AUTH_READ_ONLY = 2;			//read only (most things)
 	public static $AUTH_LOGIN = 1;				//simply logged in, no permissions
 	
+	
+	private static function encryptPassword($thePassword)
+	{
+		return md5($thePassword);
+	}
+	
 	public static function login($the_email, $the_password)
 	{
-		//TODO: add password encryption function here
+		$the_password = self::encryptPassword($the_password);
 		$login_result = DB::get_result_fq('SELECT id FROM employees WHERE email=\'' . $the_email . '\' AND password=\'' . $the_password . '\'');
 		
 		//if login is successful	
@@ -141,7 +147,7 @@ class LoginManager
 	{
 		if(!self::meets_auth_level(self::$AUTH_ADMIN) || strlen($id) == 0)
 			$id = self::get_id();
-		//TODO: add password encryption function here
+		$the_password = self::encryptPassword($the_password);
 		DB::send_query('UPDATE employees SET password=\'' . $the_password . '\' WHERE id=\'' . $id . '\'');
 		//login session data does not have to be touched
 	}	
