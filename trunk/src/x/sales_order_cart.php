@@ -22,13 +22,16 @@ class SalesOrder
 		//existing order id passed in
 		if($the_id !== false)
 		{
-			$this->m_is_cart = false;
+			//TODO: determine if cart or not from database
+			
+			
+			$this->m_is_cart = false;	//CHANGE
 			$this->m_id = $the_id;
 		}
 		//is shopping cart
 		else
 		{
-			$this->m_is_cart = true;
+			$this->m_is_cart = true;	//CHANGE
 			
 			//make a new cart or fetch the old one associated with this employee
 			$cart_info = DB::get_all_rows_fq('
