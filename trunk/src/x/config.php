@@ -1,5 +1,5 @@
 <?php
-
+ 
 class Config
 {	
 	public static $DEFAULT_VARCHAR_LEN = 255;
