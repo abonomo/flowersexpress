@@ -85,6 +85,20 @@ class PageSalesOrderAddEdit
 			{	
 				$this->get_save_restore();
 			}
+			else if($this->f_action == 'savecustomer')
+			{	
+				$this->get_input_from_db();
+				$this->f_customer_id = IO::get_input_sl_pg('f_customer_id','integer');
+				$this->action_save();
+				$this->get_input_from_db();
+			}
+			else if($this->f_action == 'saveshipper')
+			{	
+				$this->get_input_from_db();
+				$this->f_shipper_id = IO::get_input_sl_pg('f_shipper_id','integer');	
+				$this->action_save();
+				$this->get_input_from_db();
+			}
 			else if($this->f_action == 'finish')
 			{	
 				$this->get_input_from_form();
@@ -92,11 +106,13 @@ class PageSalesOrderAddEdit
 				$this->m_sales_order->become_order();
 				IO::navigate_to('page_sales_order_view.php?f_id=' . $this->f_id);				
 			}
-			else if($this->f_action == 'saveredirect')
+			else if($this->f_action == 'selectcustomer')
 			{
-				$this->get_input_from_form();
-				$this->action_save();	
-				//TODO: IO::navigate_to('page_sales_order_view.php?f_id=' . $this->f_id);				
+				$this->save_and_redirect('page_customer_list.php?f_mode=select');				
+			}
+			else if($this->f_action == 'selectshipper')
+			{
+				$this->save_and_redirect('page_shipper_list.php?f_mode=selectfororder');				
 			}
 			else if($this->f_action == 'removecomp')
 			{
@@ -115,12 +131,25 @@ class PageSalesOrderAddEdit
 			if($this->f_action == 'save')
 			{	
 				$this->get_save_restore();
+				IO::navigate_to('page_sales_order_view.php?f_id=' . $this->f_id);	
 			}
-			else if($this->f_action == 'saveredirect')
+			else if($this->f_action == 'savecustomer')
+			{	
+				$this->get_input_from_db();
+				$this->f_customer_id = IO::get_input_sl_pg('f_customer_id','integer');
+			}
+			else if($this->f_action == 'saveshipper')
+			{	
+				$this->get_input_from_db();
+				$this->f_shipper_id = IO::get_input_sl_pg('f_shipper_id','integer');				
+			}			
+			else if($this->f_action == 'selectcustomer')
 			{
-				$this->get_input_from_form();
-				$this->action_save();
-				//TODO: IO::navigate_to('page_sales_order_view.php?f_id=' . $this->f_id);	
+				$this->save_and_redirect('page_customer_list.php?f_mode=select');				
+			}
+			else if($this->f_action == 'selectshipper')
+			{
+				$this->save_and_redirect('page_shipper_list.php?f_mode=selectfororder');				
 			}
 			else if($this->f_action == 'removecomp')
 			{
@@ -133,6 +162,13 @@ class PageSalesOrderAddEdit
 				$this->get_input_from_db();
 			}			
 		}
+	}
+	
+	private function save_and_redirect($to_where)
+	{
+		$this->get_input_from_form();
+		$this->action_save();
+		IO::navigate_to($to_where);	
 	}
 	
 	private function get_save_restore()
@@ -205,9 +241,6 @@ class PageSalesOrderAddEdit
 		$the_order_date = ($this->f_order_date == '' ? 'NOW()' : '\'' . $this->f_order_date . '\'');
 		$the_delivery_date = ($this->f_delivery_date == '' ? 'NOW()' : '\'' . $this->f_delivery_date . '\'');
 		
-		//echo 'here:' . $this->f_special;
-		//$this->f_special == ('on' ?  1 : 0);
-		
 		DB::send_query('
 		UPDATE sales_orders SET
 		icode=\'' . $this->f_icode . '\',
@@ -274,7 +307,7 @@ class PageSalesOrderAddEdit
 				<td class="form_input">
 					<input type="text" size="48" disabled="true" name="f_customer_text" class="textbox" value="' . $this->m_customer_text . '">
 					<input type="hidden" name="f_customer_id" class="textbox" value="' . IO::prepout_sl($this->f_customer_id, false) . '">
-					<input type="button" value="Select New" onclick="document.location=\'page_customer_list.php?f_mode=select\'">
+					<input type="submit" value="Select New" onclick="form_sales_order.f_action.value=\'selectcustomer\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
 				</td>
 			
 			</tr>
@@ -284,7 +317,7 @@ class PageSalesOrderAddEdit
 				<td class="form_input">
 					<input type="text" size="48" disabled="true" name="f_shipper_text" class="textbox" value="' . $this->m_shipper_text . '">
 					<input type="hidden" name="f_shipper_id" class="textbox" value="' . IO::prepout_sl($this->f_shipper_id, false) . '">
-					<input type="button" value="Select New" onclick="document.location=\'page_shipper_list.php?f_mode=select\'">
+					<input type="submit" value="Select New" onclick="form_sales_order.f_action.value=\'selectshipper\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
 				</td>
 			</tr>
 			
