@@ -139,7 +139,7 @@ class PageGenericList
 
 		//draw search bar
 		//prototype: SearchBar::display($obj_name, $search_box_value, $order_by_options, $order_by_value, $asc_or_desc_value
-		SearchBar::display($this->m_obj_name, $this->f_search, $this->m_order_by_options, $this->f_order_by, $this->f_asc_or_desc, $this->f_page);
+		SearchBar::display($this->m_obj_name, $this->f_search, $this->m_order_by_options, $this->f_order_by, $this->f_asc_or_desc, $this->f_mode, $this->f_page);
 		
 		//display the top page number navigation bar
 		//public function echo_top_bar($bar_width, $ws_border_top, $ws_border_bottom, $page_num, $num_results, $results_per_page, $action_script_left, $action_script_right, $max_pages=5, $left_col='', $last_page=-1)

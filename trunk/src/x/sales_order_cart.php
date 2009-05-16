@@ -17,63 +17,82 @@ class SalesOrder
 	private $m_id;	//sales order id (the cart's id)
 
 	//if id is not taken in, defaults to shopping cart, otherwise edits an existing order
-	public function __construct($the_id = false)
+	public function __construct($the_id)
 	{
 		//existing order id passed in
-		if($the_id !== false)
+		if($the_id != '')
 		{
-			//TODO: determine if cart or not from database
+			//determine if cart or not from database
+			$cart_info_res = DB::get_result_fq('
+				SELECT is_cart
+				FROM sales_orders
+				WHERE id=\'' . $the_id . '\'
+			');			
 			
-			
-			$this->m_is_cart = false;	//CHANGE
-			$this->m_id = $the_id;
+			//id not found, so instead load the shopping cart
+			if(!DB::is_unique_result($cart_info_res))
+			{
+				$this->load_cart();
+			}
+			//id and is_cart found
+			else
+			{
+				//store is_cart status and id
+				$this->m_is_cart = (DB::get_field_fr($cart_info_res) != 0);
+				$this->m_id = $the_id;
+			}
 		}
 		//is shopping cart
 		else
 		{
-			$this->m_is_cart = true;	//CHANGE
-			
-			//make a new cart or fetch the old one associated with this employee
-			$cart_info = DB::get_all_rows_fq('
-				SELECT id
-				FROM sales_orders
-				WHERE created_employee_id=\'' . LoginManager::get_id() . '\'
-				AND is_cart=1
-			');
-
-			//cart exists (should only be one, maybe more someday)
-			if(count($cart_info) >= 1)
-			{
-				$this->m_id = $cart_info[0]['id'];
-			}
-			//no cart exists, so make one
-			else
-			{
-				//insert a new cart only if there isn't one already (check again within query to avoid concurrency issues)
-				//give the cart/order an employee "owner"
-				DB::send_query('
-					INSERT INTO sales_orders 
-					(is_cart, created_employee_id) 
-					SELECT 1, \'' . LoginManager::get_id() . '\'
-					FROM DUAL
-					WHERE NOT EXISTS
-					(SELECT 1
-					FROM sales_orders
-					WHERE
-					created_employee_id=\'' . LoginManager::get_id() . '\' 
-					AND is_cart=1)
-				');
-				
-				//if the query didn't do anything, something screwy is going on, go to error
-				if(mysql_affected_rows() <= 0)
-				{
-					die('Error: Concurrent cart creation detected.');
-				}
-				
-				//get the newly inserted cart id
-				$this->m_id = DB::get_field_fq('SELECT LAST_INSERT_ID()');
-			}
+			$this->load_cart();
 		}
+	}
+	
+	private function load_cart()
+	{
+		$this->m_is_cart = true;
+		
+		//make a new cart or fetch the old one associated with this employee
+		$cart_info = DB::get_all_rows_fq('
+			SELECT id
+			FROM sales_orders
+			WHERE created_employee_id=\'' . LoginManager::get_id() . '\'
+			AND is_cart=1
+		');
+
+		//cart exists (should only be one, maybe more someday)
+		if(count($cart_info) >= 1)
+		{
+			$this->m_id = $cart_info[0]['id'];
+		}
+		//no cart exists, so make one
+		else
+		{
+			//insert a new cart only if there isn't one already (check again within query to avoid concurrency issues)
+			//give the cart/order an employee "owner"
+			DB::send_query('
+				INSERT INTO sales_orders 
+				(is_cart, created_employee_id) 
+				SELECT 1, \'' . LoginManager::get_id() . '\'
+				FROM DUAL
+				WHERE NOT EXISTS
+				(SELECT 1
+				FROM sales_orders
+				WHERE
+				created_employee_id=\'' . LoginManager::get_id() . '\' 
+				AND is_cart=1)
+			');
+			
+			//if the query didn't do anything, something screwy is going on, go to error
+			if(mysql_affected_rows() <= 0)
+			{
+				die('Error: Concurrent cart creation detected.');
+			}
+			
+			//get the newly inserted cart id
+			$this->m_id = DB::get_field_fq('SELECT LAST_INSERT_ID()');
+		}	
 	}
 	
 	public function get_id()
@@ -81,7 +100,7 @@ class SalesOrder
 		return $this->m_id;
 	}
 	
-	public function get_is_cart()
+	public function is_cart()
 	{
 		return $this->m_is_cart;
 	}
@@ -106,7 +125,7 @@ class SalesOrder
 			LEFT OUTER JOIN purchases ON purchase_comps.purchase_id = purchases.id
 			LEFT OUTER JOIN products ON purchase_comps.product_id = products.id
 			LEFT OUTER JOIN suppliers ON purchases.supplier_id = suppliers.id
-			WHERE sales_order_id=\'' . $this->m_id . '\'
+			WHERE sales_orders_comps.sales_order_id=\'' . $this->m_id . '\'
 		');
 	}
 	
@@ -114,9 +133,15 @@ class SalesOrder
 	{
 		return DB::get_single_row_fq('
 			SELECT
-			*
+			sales_orders.*,
+			COALESCE(customers.icode, \'None\') AS customer_icode,
+			COALESCE(customers.company_name, \'None\') AS customer_company_name,
+			COALESCE(shippers.icode, \'None\') AS shipper_icode,
+			COALESCE(shippers.company_name, \'None\') AS shipper_company_name
 			FROM sales_orders
-			WHERE id=\'' . $this->m_id . '\'
+			LEFT OUTER JOIN customers ON sales_orders.customer_id = customers.id
+			LEFT OUTER JOIN shippers ON sales_orders.shipper_id = shippers.id
+			WHERE sales_orders.id=\'' . $this->m_id . '\'
 		');
 	}
 
@@ -169,14 +194,14 @@ class SalesOrder
 			shipper_id=DEFAULT,
 			shipment_details=DEFAULT,
 			special=DEFAULT,
-			order_date=DEFAULT,
-			delivery_date=DEFAULT,
+			order_date=NOW(),
+			delivery_date=NOW(),
 			price=DEFAULT,
 			currency=DEFAULT,
 			created_employee_id=\'' . LoginManager::get_id() . '\',
 			updated_employee_id=DEFAULT,
-			created_date=DEFAULT,
-			updated_date=DEFAULT,
+			created_date=NOW(),
+			updated_date=NOW(),
 			search_words=DEFAULT,
 			trash_flag=DEFAULT
 			WHERE id=\'' . $this->m_id . '\'
@@ -228,7 +253,7 @@ class SalesOrder
 			is_cart=0,
 			updated_employee_id=\'' . LoginManager::get_id() .'\',
 			created_date=NOW(),
-			updated_date=NOW(),
+			updated_date=NOW()
 			WHERE id=\'' . $this->m_id . '\'
 		');		
 	}

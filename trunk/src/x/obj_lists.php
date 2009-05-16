@@ -38,7 +38,7 @@ class ObjCustomerList
 		{
 			$data_box_contents = $this->get_data_display($cust_info_arr[$i]);
 			//select a customer for a sales order mode
-			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit?f_id=' . $cust_info_arr[$i]['id']);
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_action=save&f_customer_id=' . $cust_info_arr[$i]['id']);
 			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $cust_info_arr[$i]['id']);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
