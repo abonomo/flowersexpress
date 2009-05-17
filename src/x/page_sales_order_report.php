@@ -76,31 +76,38 @@ class PageTemplate
 	}
 	//created_date  > \'' . $start_begin . '\' && 
 								//created_date  < \'' . $start_end . '\'
+	
+	private function js_to_datetime($js_date)
+	{
+		//convert mm/dd/yyyy to YYYY-MM-DD HH:MM:SS
+		$first_slash_pos = strpos($js_date, '/');
+		$second_slash_pos = strpos(substr($js_date, $first_slash_pos+1), '/') + $first_slash_pos+1;
+		
+		$month = substr($js_date, 0, $first_slash_pos);
+		$day = substr($js_date, $first_slash_pos+1, $second_slash_pos-$first_slash_pos-1);
+		$year = substr($js_date, $second_slash_pos+1);
+		
+		return "$year-$month-$day 00:00:00";
+	}
+	
 	private function process_input()
 	{
-		//list($date, $time) = explode(' ', $str);
-		list($year, $month, $day) = explode('/', $this->f_report_start);
-		//list($hour, $minute, $second) = explode(':', $time);
-		$hour = '00'; 
-		$minute = '00';
-		$second = '00';
-		$start_begin = mktime($hour, $minute, $second, $month, $day, $year);
-		$hour = '23';
-		$minute = '59';
-		$second = '59';
-		$start_end = mktime($hour, $minute, $second, $month, $day, $year);
+		$report_start_datetime = $this->js_to_datetime($this->f_report_start);
+		$report_end_datetime = $this->js_to_datetime($this->f_report_end);
 		
-		$start_begin = str_replace('/', '-', $start_begin);
-		$start_end = str_replace('/', '-', $start_end);
-		//$start_begin = convert_datetime($this->f_report_start, 00, 00, 00);
-		//$start_end = convert_datetime($this->f_report_start, 23, 59, 59);
-	
 		$this->m_obj_info_arr = DB::get_all_rows_fq ('
 			SELECT *
 			FROM sales_orders
-			WHERE created_date  > \'' . $f_report_start . '\' 
-					
+			WHERE created_date > \'' . $report_start_datetime . '\' AND created_date < \'' . $report_end_datetime . '\'
 		');
+		
+		//TESTING: show the query:
+		echo 'SELECT *
+			FROM sales_orders
+			WHERE created_date > \'' . $report_start_datetime . '\' AND created_date < \'' . $report_end_datetime . '\'<BR>';
+		
+		//TESTING: show how many rows we got:
+		echo count($this->m_obj_info_arr);
 		
 		/*$i = 0;
 		$major_array = $this->m_obj_info_arr[$i];		
