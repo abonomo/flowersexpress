@@ -53,7 +53,7 @@ class PageSalesMenu
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_REPORTS);
 		
 		//echo inner area html here
-		//  TODO : Search algorithm
+		//  printing the calendar and getting date inputs
 			echo ('
 			<form name="form_report_menu" method="post" action="page_sales_order_report.php">
 				<div class="text_title">Sales Report Menu</div>
@@ -68,10 +68,6 @@ class PageSalesMenu
 				
 				<a href="#" onclick="form_report_menu.submit(); return false;">Get Sales Orders</a><br>
 				
-				<a href="page_report_sales_order_daily.php">Daily Sales Order</a><br>
-				<a href="page_report_sales_order_monthly.php">Monthly Sales Order</a><br>
-				<a href="page_report_sales_order_range.php">Sales Order : Range</a><br>
-				<a href="page_report_customer.php">Customer Information</a><br>
 			</form>
 			');
 
