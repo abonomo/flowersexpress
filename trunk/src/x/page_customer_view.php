@@ -2,12 +2,14 @@
 
 require_once('framework.php');
 
+//TODO: html button submit?
+
 class PageCustomerView
 {
 	//*** CONSTANTS ***
 	private static $THIS_PAGE = 'page_customer_view.php';
 	
-	//*** MEMBERS ***
+	//*** MEMBERS ***	
 	private $f_mode;	
 	private $f_action;
 	
@@ -36,6 +38,7 @@ class PageCustomerView
 	
 	private $f_created_date;
 	private $f_updated_date;
+	private $f_last_conacted;
 	
 	//*** FUNCTIONS ***
 	//execution entry point
@@ -58,6 +61,18 @@ class PageCustomerView
 	private function get_input()
 	{
 		$this->f_id = IO::get_input_sl_g('f_id', 'string');
+		$this->f_action = IO::get_input_sl_pg('f_action', 'string');
+		if($this->f_action == 'just_called')
+		{
+			DB::send_query
+			('
+				UPDATE customers SET
+				last_contacted = NOW(),
+				updated_date = NOW(),
+				updated_employee_id=\'' . LoginManager::get_id() . '\'
+				WHERE id = \'' . $this->f_id . '\'
+			');
+		}
 	}
 	
 	private function verify_input()
@@ -71,7 +86,7 @@ class PageCustomerView
 	
 	private function get_output()
 	{
-					//get values from database
+			//get values from database
 			$cust_info = DB::get_single_row_fq
 			('
 				SELECT  customers.icode, 
@@ -93,6 +108,7 @@ class PageCustomerView
 						customers.updated_employee_id,
 						customers.created_date,
 						customers.updated_date,
+						customers.last_contacted,
 						
 						employees.first_name,
 						employees.last_name
@@ -117,6 +133,7 @@ class PageCustomerView
 			$this->f_trash_flag 			= $cust_info['trash_flag'];
 			$this->f_created_employee_id	= $cust_info['created_employee_id'];
 			$this->f_updated_employee_id	= $cust_info['updated_employee_id'];
+			$this->f_last_conacted			= $cust_info['last_contacted'];
 			
 			//Query for UPDATED INFO (created portion joined in previous query)
 			$cust_info_up = DB::get_single_row_fq
@@ -147,7 +164,7 @@ class PageCustomerView
 		//echo inner area html
 		Echo ('	
 			<div align="center">
-			  <form name="form1" method="post" action="page_customer_view.php">
+			  <form name="form1" method="post" action="page_customer_view.php?f_id=' . IO::prepout_url($this->f_id) . '&f_action=just_called">
 				<table width="600" border="0" cellpadding="0" cellspacing="0">
 
 				  <tr>
@@ -263,6 +280,11 @@ class PageCustomerView
 									IO::prepout_ml_html($this->f_updated_date) . '</td>
 						 </tr>
 						 
+						 <tr>
+						   <td width="25%" align="right" valign="middle" class="text_label">Last Contacted:&nbsp;</td>
+						   <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_last_conacted) . '</td>
+					  	 </tr>
+						 
 					</table></td>
 				  </tr>
 				  
@@ -280,7 +302,14 @@ class PageCustomerView
 						
 					</table></td>
 				  </tr>		
-				  
+				  <tr>
+                       <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                           <tr>
+                             <td width="25%" align="right" valign="top">&nbsp;</td>
+                             <td width="75%" align="left" valign="middle"><input type="submit" name="Just Called" value="Just Called" class="button"></td>
+                           </tr>
+                       </table></td>
+                  </tr>
 				</table>
 			  </form>
 			</div>		
