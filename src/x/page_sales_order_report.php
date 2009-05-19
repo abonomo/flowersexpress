@@ -1,6 +1,7 @@
 <?php
 
 require_once('framework.php');
+require_once('our_time.php');
 
 class PageTemplate
 {
@@ -9,24 +10,6 @@ class PageTemplate
 	
 	//*** MEMBERS ***
 	private $m_obj_info_arr;
-	
-	private $f_report_start;
-	private $f_report_end;
-	
-	private $f_id;	
-	private $f_icode;
-	private $f_customer_id;
-	private $f_shipper_id;
-	private $f_shipment_details;
-	private $f_order_date;
-	private $f_special;
-	private $f_delivery_date;
-	private $f_price;
-	private $f_currency;
-	private $f_created_date;
-	private $f_updated_date;
-	
-	private $f_notes;
 	
 	//*** FUNCTIONS ***
 	//execution entry point
@@ -49,7 +32,6 @@ class PageTemplate
 	
 	private function get_input()
 	{
-		//echo 'here:' . $_POST['f_report_start'];
 		$this->f_report_start = IO::get_input_sl_pg('f_report_start','string');
 		$this->f_report_end = IO::get_input_sl_pg('f_report_end','string');		
 	}
@@ -60,45 +42,29 @@ class PageTemplate
 		//Error Handling Example:
 		if(something is bad) $this->show_output('Error: Field X needs to be corrected');
 		*/
-		
-	}
-		
-	private function js_to_datetime($js_date, $time)
-	{
-		//convert mm/dd/yyyy to YYYY-MM-DD HH:MM:SS
-		$first_slash_pos = strpos($js_date, '/');
-		$second_slash_pos = strpos(substr($js_date, $first_slash_pos+1), '/') + $first_slash_pos+1;
-		
-		$month = substr($js_date, 0, $first_slash_pos);
-		$day = substr($js_date, $first_slash_pos+1, $second_slash_pos-$first_slash_pos-1);
-		$year = substr($js_date, $second_slash_pos+1);
-		
-		if ($time == 0)
-			return "$year-$month-$day 00:00:00";
-		else 
-			return "$year-$month-$day 23:59:59"; 
 	}
 	
 	
 	private function process_input()
 	{
-		$report_start_datetime = $this->js_to_datetime($this->f_report_start, 0);
-		$report_end_datetime = $this->js_to_datetime($this->f_report_end, 1);
+		$report_start_datetime = OurTime::js_to_datetime($this->f_report_start, 0);
+		$report_end_datetime = OurTime::js_to_datetime($this->f_report_end, 1);
 		
 		$this->m_obj_info_arr = DB::get_all_rows_fq ('
-			SELECT *
+			SELECT sales_orders.*,
+			customers.icode AS customer_icode,
+			customers.company_name AS customer_company_name,
+			shippers.icode AS shipper_icode,
+			shippers.company_name AS shipper_company_name
 			FROM sales_orders
-			WHERE created_date > \'' . $report_start_datetime . '\' AND created_date < \'' . $report_end_datetime . '\'
+			LEFT OUTER JOIN customers ON sales_orders.customer_id = customers.id
+			LEFT OUTER JOIN shippers ON sales_orders.shipper_id = shippers.id
+			WHERE sales_orders.created_date > \'' . $report_start_datetime . '\' AND sales_orders.created_date < \'' . $report_end_datetime . '\'
 
 		');
 		
-		//TESTING: show the query:
-		/*echo 'SELECT *
-			FROM sales_orders
-			WHERE created_date > \'' . $report_start_datetime . '\' AND created_date < \'' . $report_end_datetime . '\'<BR>';
-		
 		//TESTING: show how many rows we got:
-		echo count($this->m_obj_info_arr);*/
+		//echo count($this->m_obj_info_arr);*/
 
 	}
 	
@@ -109,79 +75,76 @@ class PageTemplate
 		//Error Printing Example:
 		if($err_msg != '') echo('<font class="text_error">' . $err_msg . '</font>');
 		*/
-		
-		/*echo ('		
-		<tr>
-					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
-						<tr>
-						  <td width="50%" align="right" valign="middle" class="text_label">Sales Order Reports</td>
-						  <td width="50%" align="left" valign="middle"> Sales Order Reports </td>
-						</tr>
-		');*/
 					
-		echo ('	
+		echo ('
+			<html>
+			<head>
+				<link href="style_report.css" rel="stylesheet">
+			</head>
+
+			<body>
+			
 			<table>
-			<tr><td width="200"> </td><td width="300"><h2>Sales Order Reports</h2></td>
-			<td width="100"><h4>Date: ' . IO::prepout_sl($this->f_report_start, false) . ' to '. IO::prepout_sl($this->f_report_end, false) . '</h4></td></tr>
+				<tr>
+					<td>
+						<h2>Sales Order Report</h2>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h4>Dates: ' . IO::prepout_sl($this->f_report_start, false) . ' to '. IO::prepout_sl($this->f_report_end, false) . '</h4>
+					</td>
+				</tr>
 			</table>
 		');
 		
-		//for ($i = 0; $i < 
-		//$major_array = $this->m_obj_info_arr[$i];		
-		//$this->f_icode = $major_array['created_date'];
-		
-		echo ('<table border="1" width="98%" cellspacing="0" cellpadding="0" class="sortable"> 
-		<thead> 
+		echo ('<table border="1" width="98%" cellspacing="0" cellpadding="0" class="report_table"> 
 			<tr> 
-			<th width = "50 scope="col"> ID </th> 
-			<th width = "100" scope="col"> Icode </th> 
-			<th width = "100" scope="col"> Notes </th> 
-			<th width = "100" scope="col"> Cust_ID </th> 
-			<th width = "100" scope="col"> Ship_ID </th> 
-			<th width = "100" scope="col"> Ship_Detail </th> 
-			<th width = "100" scope="col"> Special </th> 
-			<th width = "100" scope="col"> Order_Date </th> 
-			<th width = "100" scope="col"> Delivery_Date </th> 
-			<th width = "100" scope="col"> Price </th> 
-			<th width = "100" scope="col"> Currency </th> 
-			<th width = "100" scope="col"> Create_date </th> 
-			<th width = "100" scope="col"> Update_date </th> 
-			</tr> 
-			</thead> 
-			<tbody></table>'); 
+				<th>&nbsp;Order ID&nbsp;</th> 
+				<th>&nbsp;Notes&nbsp;</th> 
+				<th>&nbsp;Customer ID&nbsp;</th> 
+				<th>&nbsp;Customer&nbsp;</th> 
+				<th>&nbsp;Shipper ID&nbsp;</th> 
+				<th>&nbsp;Shipper&nbsp;</th> 
+				<th>&nbsp;Shipment Details&nbsp;</th> 
+				<th>&nbsp;Special&nbsp;</th> 
+				<th>&nbsp;Order_Date&nbsp;</th> 
+				<th>&nbsp;Delivery_Date&nbsp;</th> 
+				<th>&nbsp;Price&nbsp;</th> 
+				<th>&nbsp;Currency&nbsp;</th> 
+				<th>&nbsp;Created Date&nbsp;</th> 
+				<th>&nbsp;Updated Date&nbsp;</th> 
+			</tr> '); 
 
-			//while ($major_array = mysql_fetch_array($this->m_obj_info_arr, MYSQL_NUM)) {
-				//while ($row = mysql_fetch_array($major_array, MYSQL_NUM)) 
-			//{ 
-		for ($i = 0; $i < count($this->m_obj_info_arr); $i++) {
+		for ($i = 0; $i < count($this->m_obj_info_arr); $i++) 
+		{
 			$major_array = $this->m_obj_info_arr[$i];		
-			
-			$this->f_id = $major_array['id'];	
-			$this->f_icode = $major_array['icode'];
-			$this->f_customer_id = $major_array['customer_id'];
-			$this->f_shipper_id = $major_array['shipper_id'];
-			$this->f_shipment_details = $major_array['shipment_details']; 
-			$this->f_order_date = $major_array['order_date'];
-			$this->f_special = $major_array['shipper_id'];
-			$this->f_delivery_date = $major_array['special'];
-			$this->f_price = $major_array['price'];
-			$this->f_currency = $major_array['currency'];
-			$this->f_created_date = $major_array['created_date'];
-			$this->f_updated_date = $major_array['updated_date'];
-			$this->f_notes = $major_array['notes'];
 		
 			echo ('
-			<table>
-			<tr><td width="50" align="middle">'. IO::prepout_sl($this->f_id, false) . '</td><td width="100" align="middle">'. IO::prepout_sl($this->f_icode, false) . '</td>
-			<td width="100" align="middle">'. IO::prepout_sl($this->f_notes, false) . '</td><td width="100" align="middle">'. IO::prepout_sl($this->f_customer_id, false) . '</td>
-			<td width="100" align="middle">'. IO::prepout_sl($this->f_shipper_id, false) . '</td><td width="100" >'. IO::prepout_sl($this->f_shipment_details, false) . '</td>
-			<td width="100" >'. IO::prepout_sl($this->special, false) . '</td><td width="100" >'. IO::prepout_sl($this->f_order_date, false) . '</td>
-			<td width="100" >'. IO::prepout_sl($this->delivery_date, false) . '</td><td width="100" >'. IO::prepout_sl($this->f_price, false) . '</td>
-			<td width="100" >'. IO::prepout_sl($this->f_currency, false) . '</td><td width="100" >'. IO::prepout_sl($this->f_created_date, false) . '</td>
-			<td width="100" >'. IO::prepout_sl($this->f_updated_date, false) . '</td>
-			</tr></table>
+			<tr><td>&nbsp;'. IO::prepout_sl($major_array['icode'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_ml_html($major_array['notes'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['customer_icode'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['customer_company_name'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['shipper_icode'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['shipper_company_name'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_ml_html($major_array['shipment_details'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['special'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['order_date'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['delivery_date'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['price'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['currency'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['created_date'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['updated_date'], false) . '&nbsp;</td>
+			</tr>
 			');  
-			}
+		}
+		
+		echo('
+		</table>
+		</body>
+		</html>
+		');
+			
 		//output is always the last thing done when called
 		exit();
 	}
