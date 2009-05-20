@@ -2,10 +2,10 @@
 
 require_once('framework.php');
 
-class PageLogin
+class PageForgotPasswordSuccess
 {
 	//*** CONSTANTS ***
-	private static $THIS_PAGE = 'page_login.php';
+	private static $THIS_PAGE = 'page_forgot_password_success.php';
 	private static $DEFAULT_NEXT_PAGE = 'page_home.php';
 	
 	//*** MEMBERS ***
@@ -17,8 +17,7 @@ class PageLogin
 	
 	private $f_err_msg;	//custom error message that can be passed in
 	private $f_goto;	//next page to goto
-	
-	//*** FUNCTIONS ***
+
 	//execution entry point
 	public function run()
 	{
@@ -49,7 +48,6 @@ class PageLogin
 		if($this->f_action == 'submit')
 		{
 			$this->f_email = IO::get_input_sl_p('f_email', 'string');
-			$this->f_password = IO::get_input_password('f_password');
 		}
 		//if a custom error message was sent into this page
 		else if(IO::input_exists_g('f_err_msg'))
@@ -63,29 +61,13 @@ class PageLogin
 	
 	private function verify_input()
 	{
-		if($this->f_email == '')
-		{
-			$this->show_output('Please enter an email address.');
-		}
-		else if($this->f_password == '')
-		{
-			$this->show_output('Please enter a password.');
-		}
 	}
 	
 	private function process_input()
-	{
-		//if login is successful
-		if(LoginManager::login($this->f_email, $this->f_password))
-		{
-			IO::navigate_to($this->f_goto);
-		}	
-		//login is unsuccessful
-		else
-		{
-			$this->show_output('Sorry, invalid login.');		
-		}
+	{	
 	}
+
+	
 	
 	private function show_output($err_msg = '')
 	{
@@ -93,29 +75,31 @@ class PageLogin
 		
 			//echo inner area html here
 			if($err_msg != '') echo('<font class="text_error">' . $err_msg . '</font>');	
-			$this->echo_login_form();
+			$this->echo_form();
 		
-		ObjOuterArea::echo_bottom();
+		ObjOuterArea::echo_bottom(false);
 	
 		//output is always the last thing done when called
 		exit();
 	}
 	
-	private function echo_login_form()
+	private function echo_form()
 	{
 		echo('
-		<form method="post" action="' . self::$THIS_PAGE . '?f_action=submit&amp;f_goto=' . IO::prepout_url($this->f_goto) . '">
-			Email: <input name="f_email" type="textbox" class="textbox" value="' . IO::prepout_sl($this->f_email, false) . '"/><br>
-			Password: <input name="f_password" type="password" class="textbox" /><br>
-			<a href="page_forgot_password.php">(I Forgot my Password)</a><br>
-			<input type="submit" value="Login" class="button"/>
-		</form>
+		<b>Your password has been reset, Please check your email.</b>
+		<br><br>
+		
+		<!--print the Home Page button-->
+		<a href="page_home.php">Home Page</a><br>
+					 
 		');
 	}
+	
 }
 
+
 //create an instance of the page and run it
-$page_login = new PageLogin();
+$page_login = new PageForgotPasswordSuccess();
 $page_login->run();
 
 ?>
