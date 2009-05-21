@@ -38,7 +38,8 @@ class PageSalesOrderAddEdit
 	private $f_notes;
 	
 	private $f_comp_id;
-	
+	private $f_quantity;
+	private $f_total_cost;	
 	
 	//*** FUNCTIONS ***
 	//execution entry point
@@ -123,6 +124,10 @@ class PageSalesOrderAddEdit
 				$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
 				$this->m_sales_order->remove_component($this->f_comp_id);
 			}
+			else if($this->f_action == 'addcomp')
+			{
+				$this->add_sales_comp_from_purchase_comp();
+			}			
 			//just display
 			else
 			{
@@ -164,7 +169,11 @@ class PageSalesOrderAddEdit
 				$this->get_save_restore();
 				$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
 				$this->m_sales_order->remove_component($this->f_comp_id);
-			}			
+			}
+			else if($this->f_action == 'addcomp')
+			{
+				$this->add_sales_comp_from_purchase_comp();
+			}
 			//just display			
 			else
 			{
@@ -174,6 +183,15 @@ class PageSalesOrderAddEdit
 
 		//get sales order components for later listing
 		$this->get_sales_order_comps();
+	}
+	
+	private function add_sales_comp_from_purchase_comp()
+	{
+		$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
+		$this->f_quantity = IO::get_input_sl_pg('f_quantity','integer'); //TODO: error on fractional
+		$this->f_total_cost = IO::get_input_sl_pg('f_total_cost','float');
+		
+		$this->m_sales_order->add_component($this->f_comp_id, $this->f_quantity, $this->f_total_cost);
 	}
 	
 	private function get_sales_order_comps()
@@ -186,8 +204,11 @@ class PageSalesOrderAddEdit
 			$this->m_obj_sales_order_comp_list->get_needed_fields() . 
 			'FROM sales_order_comps' .
 			$this->m_obj_sales_order_comp_list->get_needed_joins() .
-			'WHERE sales_orders.id=\'' . $this->f_id . '\''
+			'WHERE sales_order_comps.sales_order_id=\'' . $this->f_id . '\''
 		);
+		
+		//TESTING:
+		//echo count($this->m_comp_info_arr);
 	}
 	
 	private function save_and_redirect($to_where)
@@ -302,7 +323,7 @@ class PageSalesOrderAddEdit
 			<tr>
 				<td width="25%"> </td>
 				<td width="75%" class="text_title">
-				Add New Sales Order
+				' . ($this->m_sales_order->is_cart() ? 'Create New' : 'Edit Existing') . ' Sales Order
 				</td>
 			</tr>
 		</table>
@@ -390,15 +411,15 @@ class PageSalesOrderAddEdit
 			</tr>
 
 		</table>
+		<br>
 		');
 		
 		//sales order component title
 		echo ('
 		<table width="100%">
 			<tr>
-				<td width="25%"></td>
-				<td align="" class="text_title">
-					<br>
+				<td align="left" width="25%" valign="top"><input type="button" value="New" onclick="document.location=\'page_purchase_comp_list.php?f_action_box_param=' . $this->f_id . '\'"></td>
+				<td align="left" valign="top" class="text_title">
 					Sales Order Contents:
 				</td>
 			</tr>
@@ -436,7 +457,7 @@ class PageSalesOrderAddEdit
 		else
 		{
 			echo('
-			<br><br><br>
+			<br>
 			<table width="100%">
 				<tr>
 					<td align="left">
