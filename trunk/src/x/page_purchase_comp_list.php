@@ -7,12 +7,13 @@ require_once('obj_comp_lists.php');
 //{display value, database field name}
 $order_by_options = array(
 		array('Relevance', 'relevance'),
-		array('Product Name', 'products.name'),
-		array('Supplier Name', 'suppliers.company_name'),
-		array('Expiration Date', 'purchase_comps.expiration_date'),
+		array('Availibility', 'quantity_left'),
+		array('Expiration Date', 'obj_table.expiration_date'),
 		array('Expected Date', 'purchases.delivery_date'),	//CHANGE
 		array('In Warehouse', 'purchases.in_warehouse'),
-		array('Min Price/Unit', 'purchase_comps.min_price_per_unit'),
+		array('Min Price/Unit', 'obj_table.min_price_per_unit'),
+		array('Product Name', 'products.name'),
+		array('Supplier Name', 'suppliers.company_name'),		
 	);
 
 $obj_purchase_comp_list = new ObjPurchaseCompList();
