@@ -25,7 +25,7 @@ class ObjOuterArea
 		<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 		<html>
 		  <head>
-			<title>Flowers Express - Login</title>
+			<title>Flowers Express</title>
 			<script type="text/javascript" src="style.js"></script>
 			<link href="style.css" rel="stylesheet">
 			<link href="favicon.ico" rel="shortcut icon">
@@ -63,6 +63,15 @@ class ObjOuterArea
 		//if logged in, echo a logout button
 		if(LoginManager::meets_auth_level(LoginManager::$AUTH_LOGIN))
 		{
+		//get login name:
+			$login_info = DB::get_single_row_fq
+			('
+				SELECT  employees.first_name, 
+						employees.last_name
+				FROM employees
+				WHERE employees.id=\'' . LoginManager::get_id() . '\''
+			);
+			echo('Welcome,&nbsp;<strong>' . IO::prepout_sl($login_info['first_name'] , false) . '&nbsp;' .   IO::prepout_sl($login_info['last_name'] , false) . '&nbsp;&nbsp;</strong>');
 			echo('<a href="op_logout.php">Logout</a>');
 		}		
 		
