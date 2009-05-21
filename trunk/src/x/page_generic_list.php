@@ -17,7 +17,9 @@ class PageGenericList
 	private $m_obj_name;
 	private $m_order_by_options;
 	private $m_list_object;
-
+	private $m_search_obj_name;
+	private $m_has_trash_flag;
+	private $m_obj_text_name;
 	
 	
 	//*** MEMBERS ***
@@ -32,12 +34,20 @@ class PageGenericList
 	private $f_action_box_param;
 	
 	//*** FUNCTIONS ***
-	public function __construct($the_tab_inx, $the_obj_name, $the_order_by_options, $the_list_object)
-	{
+	public function __construct($the_tab_inx, $the_obj_name, $the_order_by_options, $the_list_object, $the_search_obj_name='', $the_has_trash_flag=true, $the_obj_text_name='')
+	{ 
 		$this->m_tab_inx = $the_tab_inx;
 		$this->m_obj_name = $the_obj_name;
 		$this->m_order_by_options = $the_order_by_options;
 		$this->m_list_object = $the_list_object;
+	
+		if($the_search_obj_name == '') $this->m_search_obj_name = $the_obj_name; 
+		else $this->m_search_obj_name =$the_search_obj_name;
+		
+		$this->m_has_trash_flag = $the_has_trash_flag;
+		
+		if($the_obj_text_name == '') $this->m_obj_text_name = ucfirst($this->m_obj_name) . 's';
+		else $this->m_obj_text_name = $the_obj_text_name;
 	}
 	
 	//execution entry point
@@ -92,8 +102,15 @@ class PageGenericList
 		$limit = self::$RESULTS_PER_PAGE;
 		
 		//special query for sort by trash_flag, ignores asc or desc
-		if($this->f_order_by == 'trash_flag') $order_by_clause = 'ORDER BY trash_flag DESC, relevance DESC ';
-		else $order_by_clause = 'ORDER BY trash_flag ASC, ' . $this->f_order_by . ' ' . $this->f_asc_or_desc . ' ';
+		if($this->m_has_trash_flag)
+		{
+			if($this->f_order_by == 'trash_flag') $order_by_clause = 'ORDER BY trash_flag DESC, relevance DESC ';
+			else $order_by_clause = 'ORDER BY trash_flag ASC, ' . $this->f_order_by . ' ' . $this->f_asc_or_desc . ' ';
+		}
+		else
+		{
+			$order_by_clause = 'ORDER BY ' . $this->f_order_by . ' ' . $this->f_asc_or_desc . ' ';
+		}
 		
 		//echo $order_by_clause;
 		
@@ -103,11 +120,11 @@ class PageGenericList
 			$this->m_rows = DB::get_all_rows_fq('
 				SELECT SQL_CALC_FOUND_ROWS ' . $this->m_list_object->get_needed_fields() . ', 
 				1 AS relevance
-				FROM ' . $this->m_obj_name . 's ' .
+				FROM ' . $this->m_obj_name . 's ' . $this->m_list_object->RENAME_MAIN_TABLE . ' ' .
 				$this->m_list_object->get_needed_joins() . ' ' .				
 				$order_by_clause .
 				'LIMIT ' . $offset . ',' . $limit
-			);			
+			);				
 		}
 		//nonempty search text
 		else
@@ -115,9 +132,10 @@ class PageGenericList
 			$encoded_search = DB::encode_small_words_search($this->f_search);
 			$this->m_rows = DB::get_all_rows_fq('
 				SELECT SQL_CALC_FOUND_ROWS ' . $this->m_list_object->get_needed_fields() . ', 
-				MATCH(search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) as relevance
-				FROM ' . $this->m_obj_name . 's WHERE MATCH(search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) ' .
-				$this->m_list_object->get_needed_joins() . ' ' .
+				MATCH(' . $this->m_search_obj_name . 's.search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) as relevance
+				FROM ' . $this->m_obj_name . 's ' . $this->m_list_object->RENAME_MAIN_TABLE . ' ' .
+				$this->m_list_object->get_needed_joins() . ' 
+				WHERE MATCH(' . $this->m_search_obj_name . 's.search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) ' .
 				$order_by_clause . ' 
 				LIMIT ' . $offset . ',' . $limit
 			);
@@ -138,7 +156,7 @@ class PageGenericList
 		*/
 		
 		//page title
-		echo('<div align="left" class="text_title">Search ' . ucfirst($this->m_obj_name) . 's</div>');
+		echo('<div align="left" class="text_title">Search ' . $this->m_obj_text_name . '</div>');
 
 		//draw search bar
 		//prototype: SearchBar::display($obj_name, $search_box_value, $order_by_options, $order_by_value, $asc_or_desc_value

@@ -97,10 +97,10 @@ class ResultQuantityMenu
 	public static function create($select_btn_url)	//put f_id in url
 	{
 		return('
-			<form action="' . $select_btn_url . '">
-				<input class="textbox" type="textbox" name="f_total_cost"><br>
-				<input class="textbox" type="textbox" name="f_quantity"><br>
-				<input class="button" type="submit" value="Select"/>
+			<form method="post" action="' . $select_btn_url . '">
+				Quantity:&nbsp;<input class="textbox" type="textbox" name="f_quantity" size="8">
+				Total&nbsp;Cost:&nbsp;<input class="textbox" type="textbox" name="f_total_cost" size="8">
+				<input class="button" type="submit" value="Add to Order"/>
 			</form>
 		');		
 	}
