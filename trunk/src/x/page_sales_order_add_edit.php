@@ -20,6 +20,7 @@ class PageSalesOrderAddEdit
 	//*** MEMBERS ***
 	private $m_comp_info_arr;
 	private $m_sales_order;
+	private $obj_sales_order_comp_list;
 		
 	private $f_action;
 	
@@ -35,6 +36,8 @@ class PageSalesOrderAddEdit
 	private $f_price;
 	private $f_currency;
 	private $f_notes;
+	
+	private $f_comp_id;
 	
 	
 	//*** FUNCTIONS ***
@@ -108,16 +111,17 @@ class PageSalesOrderAddEdit
 			}
 			else if($this->f_action == 'selectcustomer')
 			{
-				$this->save_and_redirect('page_customer_list.php?f_mode=select');				
+				$this->save_and_redirect('page_customer_list.php?f_action_box_param=' . $this->f_id . '&f_mode=select');				
 			}
 			else if($this->f_action == 'selectshipper')
 			{
-				$this->save_and_redirect('page_shipper_list.php?f_mode=selectfororder');				
+				$this->save_and_redirect('page_shipper_list.php?f_action_box_param=' . $this->f_id . '&f_mode=selectfororder');				
 			}
 			else if($this->f_action == 'removecomp')
 			{
-				$this->get_save_restore();			
-				//TODO
+				$this->get_save_restore();
+				$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
+				$this->m_sales_order->remove_component($this->f_comp_id);
 			}
 			//just display
 			else
@@ -137,24 +141,29 @@ class PageSalesOrderAddEdit
 			{	
 				$this->get_input_from_db();
 				$this->f_customer_id = IO::get_input_sl_pg('f_customer_id','integer');
+				$this->action_save();
+				$this->get_input_from_db();
 			}
 			else if($this->f_action == 'saveshipper')
 			{	
 				$this->get_input_from_db();
-				$this->f_shipper_id = IO::get_input_sl_pg('f_shipper_id','integer');				
+				$this->f_shipper_id = IO::get_input_sl_pg('f_shipper_id','integer');
+				$this->action_save();
+				$this->get_input_from_db();
 			}			
 			else if($this->f_action == 'selectcustomer')
 			{
-				$this->save_and_redirect('page_customer_list.php?f_mode=select');				
+				$this->save_and_redirect('page_customer_list.php?f_action_box_param=' . $this->f_id . '&f_mode=select');				
 			}
 			else if($this->f_action == 'selectshipper')
 			{
-				$this->save_and_redirect('page_shipper_list.php?f_mode=selectfororder');				
+				$this->save_and_redirect('page_shipper_list.php?f_action_box_param=' . $this->f_id . '&f_mode=selectfororder');				
 			}
 			else if($this->f_action == 'removecomp')
 			{
 				$this->get_save_restore();
-				//TODO
+				$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
+				$this->m_sales_order->remove_component($this->f_comp_id);
 			}			
 			//just display			
 			else
@@ -162,6 +171,23 @@ class PageSalesOrderAddEdit
 				$this->get_input_from_db();
 			}			
 		}
+
+		//get sales order components for later listing
+		$this->get_sales_order_comps();
+	}
+	
+	private function get_sales_order_comps()
+	{
+		//make list object
+		$this->m_obj_sales_order_comp_list = new ObjSalesOrderCompList();
+	
+		$this->m_comp_info_arr = DB::get_all_rows_fq(
+			'SELECT ' . 
+			$this->m_obj_sales_order_comp_list->get_needed_fields() . 
+			'FROM sales_order_comps' .
+			$this->m_obj_sales_order_comp_list->get_needed_joins() .
+			'WHERE sales_orders.id=\'' . $this->f_id . '\''
+		);
 	}
 	
 	private function save_and_redirect($to_where)
@@ -271,6 +297,7 @@ class PageSalesOrderAddEdit
 		<form name="form_sales_order" method="post" action="page_sales_order_add_edit.php">
 		<input name="f_action" type="hidden" value="">
 		<input name="f_id" type="hidden" value="">
+		<input name="f_comp_id" type="hidden" value="">
 		<table width="100%">
 			<tr>
 				<td width="25%"> </td>
@@ -379,8 +406,9 @@ class PageSalesOrderAddEdit
 		');
 		
 		//sales order component list
-		$obj_sales_order_comp_list = new ObjSalesOrderCompList();
-		$obj_sales_order_comp_list->display('delete', $this->m_comp_info_arr);
+		//echo('<div align="center">');
+			$this->m_obj_sales_order_comp_list->display('delete', $this->m_comp_info_arr);
+		//echo('</div>');
 		
 		//buttons if is cart
 		if( $this->m_sales_order->is_cart() )
@@ -390,14 +418,14 @@ class PageSalesOrderAddEdit
 			<table width="100%">
 				<tr>
 					<td align="left">
-						<input type="submit" name="submit" value="Empty Contents" class="button" onclick="form_sales_order.f_action.value=\'empty\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
+						<input type="submit" name="f_submit_btn" value="Empty Contents" class="button" onclick="form_sales_order.f_action.value=\'empty\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
 						<br>
-						<input type="submit" name="submit" value="Reset All" class="button" onclick="form_sales_order.f_action.value=\'reset\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
+						<input type="submit" name="f_submit_btn" value="Reset All" class="button" onclick="form_sales_order.f_action.value=\'reset\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
 					</td>					
 					<td align="right">
-						<input type="submit" name="submit" value="Save Progress" class="button" onclick="form_sales_order.f_action.value=\'save\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
+						<input type="submit" name="f_submit_btn" value="Save Progress" class="button" onclick="form_sales_order.f_action.value=\'save\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
 						<br>
-						<input type="submit" name="submit" value="Complete Order" class="button" onclick="form_sales_order.f_action.value=\'finish\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
+						<input type="submit" name="f_submit_btn" value="Complete Order" class="button" onclick="form_sales_order.f_action.value=\'finish\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
 					</td>
 				</tr>
 			</table>
@@ -412,10 +440,10 @@ class PageSalesOrderAddEdit
 			<table width="100%">
 				<tr>
 					<td align="left">
-						<input type="submit" name="submit" value="Delete Order" onclick="document.location=\'page_sales_order_add_edit.php?f_action=submit&f_mode=delete&f_id=' . IO::prepout_url($this->f_id) . '\'">
+						<input type="submit" name="f_submit_btn" value="Delete Order" onclick="document.location=\'page_sales_order_add_edit.php?f_action=submit&f_mode=delete&f_id=' . IO::prepout_url($this->f_id) . '\'">
 					</td>					
 					<td align="right">
-						<input type="submit" name="submit" value="Save Changes" class="button" onclick="form_sales_order.f_action.value=\'save\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
+						<input type="submit" name="f_submit_btn" value="Save Changes" class="button" onclick="form_sales_order.f_action.value=\'save\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
 					</td>
 				</tr>
 			</table>
