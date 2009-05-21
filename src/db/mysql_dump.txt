@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 19, 2009 at 02:43 PM
+-- Generation Time: May 21, 2009 at 03:10 AM
 -- Server version: 4.1.22
 -- PHP Version: 5.2.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `maxvujo_flowersexpressalex`
+-- Database: `maxvujo_flowersexpresspaul`
 --
 
 -- --------------------------------------------------------
@@ -176,6 +176,8 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   `supplier_id` int(11) NOT NULL default '0',
   `shipper_id` int(11) NOT NULL default '0',
   `shipment_details` text NOT NULL,
+  `in_warehouse` tinyint(1) NOT NULL default '0',
+  `delivery_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_employee_id` int(11) NOT NULL default '0',
   `updated_employee_id` int(11) NOT NULL default '0',
   `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -190,9 +192,9 @@ CREATE TABLE IF NOT EXISTS `purchases` (
 -- Dumping data for table `purchases`
 --
 
-INSERT DELAYED INTO `purchases` (`id`, `is_cart`, `icode`, `notes`, `supplier_id`, `shipper_id`, `shipment_details`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
-(1, 0, 'P9002', '', 1, 1, 'next day', 1, 1, '2009-04-28 00:00:00', '2009-04-28 00:00:00', '', 0),
-(2, 0, 'P4234', '', 1, 2, '', 1, 1, '2009-04-30 05:00:00', '2009-04-30 05:00:00', '', 0);
+INSERT DELAYED INTO `purchases` (`id`, `is_cart`, `icode`, `notes`, `supplier_id`, `shipper_id`, `shipment_details`, `in_warehouse`, `delivery_date`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 0, 'P9002', '', 1, 1, 'FLOWERS DE CINCO DE MAYO', 0, '2009-05-05 00:00:00', 1, 1, '2009-04-28 00:00:00', '2009-04-28 00:00:00', '', 0),
+(2, 0, 'P4234', 'ooops, totally forgot to sell these, should be in warehouse', 1, 2, '', 1, '2009-05-04 00:00:00', 1, 1, '2009-04-30 05:00:00', '2009-04-30 05:00:00', '', 0);
 
 -- --------------------------------------------------------
 
