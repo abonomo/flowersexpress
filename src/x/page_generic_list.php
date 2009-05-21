@@ -29,6 +29,7 @@ class PageGenericList
 	private $f_search;
 	private $f_order_by;
 	private $f_asc_or_desc;
+	private $f_action_box_param;
 	
 	//*** FUNCTIONS ***
 	public function __construct($the_tab_inx, $the_obj_name, $the_order_by_options, $the_list_object)
@@ -63,6 +64,7 @@ class PageGenericList
 		$this->f_search = IO::get_input_sl_pg('f_search', 'string');
 		$this->f_order_by = IO::get_input_sl_pg('f_order_by', 'string', $this->m_order_by_options[self::$DEFAULT_ORDER_BY_OPTION_INX][1]);
 		$this->f_asc_or_desc = IO::get_input_sl_pg('f_asc_or_desc', 'string', self::$DEFAULT_ASC_OR_DESC);
+		$this->f_action_box_param = IO::get_input_sl_pg('f_action_box_param', 'string');
 	}
 	
 	private function verify_input()
@@ -86,7 +88,6 @@ class PageGenericList
 	
 	private function process_input()
 	{
-		//TODO: trash sort
 		$offset = ($this->f_page-1)*self::$RESULTS_PER_PAGE;
 		$limit = self::$RESULTS_PER_PAGE;
 		
@@ -103,6 +104,7 @@ class PageGenericList
 				SELECT SQL_CALC_FOUND_ROWS ' . $this->m_list_object->get_needed_fields() . ', 
 				1 AS relevance
 				FROM ' . $this->m_obj_name . 's ' .
+				$this->m_list_object->get_needed_joins() . ' ' .				
 				$order_by_clause .
 				'LIMIT ' . $offset . ',' . $limit
 			);			
@@ -115,6 +117,7 @@ class PageGenericList
 				SELECT SQL_CALC_FOUND_ROWS ' . $this->m_list_object->get_needed_fields() . ', 
 				MATCH(search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) as relevance
 				FROM ' . $this->m_obj_name . 's WHERE MATCH(search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) ' .
+				$this->m_list_object->get_needed_joins() . ' ' .
 				$order_by_clause . ' 
 				LIMIT ' . $offset . ',' . $limit
 			);
@@ -148,7 +151,7 @@ class PageGenericList
 		
 		//draw results
 		//prototype: display($action_box_mode, $cust_info_arr, $num_total_results, $cur_page_num, $page_name)
-		$this->m_list_object->display($this->f_mode, $this->m_rows);
+		$this->m_list_object->display($this->f_mode, $this->m_rows, $this->f_action_box_param);
 		
 		//display the bottom page number navigation bar
 		$page_nav_bar->echo_bottom_bar(0, 0);		

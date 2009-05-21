@@ -30,7 +30,7 @@ class ObjCustomerList
 		return self::$NEEDED_JOINS;
 	}
 	
-	public function display($action_box_mode, $cust_info_arr)
+	public function display($action_box_mode, $cust_info_arr, $action_box_param)
 	{
 		//display the list of results
 		$cnt = count($cust_info_arr);
@@ -38,7 +38,7 @@ class ObjCustomerList
 		{
 			$data_box_contents = $this->get_data_display($cust_info_arr[$i]);
 			//select a customer for a sales order mode
-			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_action=savecustomer&f_customer_id=' . $cust_info_arr[$i]['id']);
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=savecustomer&f_customer_id=' . $cust_info_arr[$i]['id']);
 			//full action display
 			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $cust_info_arr[$i]['id']);
 		
@@ -177,7 +177,7 @@ class ObjSupplierList
 		return self::$NEEDED_JOINS;
 	}
 	
-	public function display($action_box_mode, $supplier_info_arr)
+	public function display($action_box_mode, $supplier_info_arr, $action_box_param)
 	{
 		//display the list of results
 		$cnt = count($supplier_info_arr);
@@ -185,7 +185,7 @@ class ObjSupplierList
 		{
 			$data_box_contents = $this->get_data_display($supplier_info_arr[$i]);
 			//select a Supplier for a purchase mode
-			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_purhcase_add_edit.php?f_action=savesupplier&f_supplier_id=' . $supplier_info_arr[$i]['id']);
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_purchase_add_edit.php?f_id=' . $action_box_param . '&f_action=savesupplier&f_supplier_id=' . $supplier_info_arr[$i]['id']);
 			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $supplier_info_arr[$i]['id']);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
@@ -251,7 +251,7 @@ class ObjShipperList
 		return self::$NEEDED_JOINS;
 	}
 	
-	public function display($action_box_mode, $shipper_info_arr)
+	public function display($action_box_mode, $shipper_info_arr, $action_box_param)
 	{
 		//display the list of results
 		$cnt = count($shipper_info_arr);
@@ -259,7 +259,7 @@ class ObjShipperList
 		{
 			$data_box_contents = $this->get_data_display($shipper_info_arr[$i]);
 			//select a Shipper for a sales order mode
-			if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'fororder') $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_action=saveshipper&f_shipper_id=' . $shipper_info_arr[$i]['id']);
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'fororder') $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=saveshipper&f_shipper_id=' . $shipper_info_arr[$i]['id']);
 			//select a Shipper for a purchase mode
 			else if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'forpurchase') $action_box_contents = ResultSelectMenu::create('page_purchase_add_edit?.phpf_action=saveshipper&f_shipper_id=' . $shipper_info_arr[$i]['id']);			
 			//full action display

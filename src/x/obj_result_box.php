@@ -53,10 +53,10 @@ class ResultDeleteMenu
 {	
 	public static $MODE_VAL = 'delete';
 	
-	public static function create($obj_name, $obj_id)	//middle of the page name: e.g. page_CUSTOMER_add_edit.php
+	public static function create($obj_url)	//middle of the page name: e.g. page_CUSTOMER_add_edit.php
 	{
 		return('
-			<input class="button" type="button" value="Delete" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { document.location=\'page_' . $obj_name . '_delete.php?f_id=' . $obj_id .'\' }"/>
+			<input class="button" type="button" value="Delete" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { ' . $obj_url . ' }"/>
 		');			
 	}
 }

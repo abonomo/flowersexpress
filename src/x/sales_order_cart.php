@@ -105,6 +105,7 @@ class SalesOrder
 		return $this->m_is_cart;
 	}
 	
+	/*
 	public function get_all_components()
 	{
 		//decide here what fields per sales order component you want to get back to display them
@@ -128,6 +129,7 @@ class SalesOrder
 			WHERE sales_orders_comps.sales_order_id=\'' . $this->m_id . '\'
 		');
 	}
+	*/
 	
 	public function get_order_info()
 	{
