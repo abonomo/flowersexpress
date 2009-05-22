@@ -20,6 +20,8 @@ class ObjCustomerList
 	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number';
 	private static $NEEDED_JOINS = '';
 	private static $EXTRA_WHERE_CLAUSE = '';
+	
+	private $m_deleted = 'false';
 
 	public function get_needed_fields()
 	{
@@ -46,7 +48,7 @@ class ObjCustomerList
 			//select a customer for a sales order mode
 			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=savecustomer&f_customer_id=' . $cust_info_arr[$i]['id']);
 			//full action display
-			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $cust_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $cust_info_arr[$i]['id'],$this->m_deleted);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
@@ -94,9 +96,7 @@ class ObjProductList
 	private static $NEEDED_JOINS = '';
 	private static $EXTRA_WHERE_CLAUSE = '';
 	
-	// hahaha this isn't clean but I'm going for the 'just implement something' approach
-	private static $m_visibility = '';
-	private static $m_in_trash = '';
+	private $m_deleted = 'false';
 
 	public function get_needed_fields()
 	{
@@ -122,7 +122,7 @@ class ObjProductList
 			$data_box_contents = $this->get_data_display($prod_info_arr[$i]);
 			//select a product for a purchase component mode	//TODO: figure this out
 			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_purchase_comp_add_edit.php?f_id=' . $action_box_param . '&f_action=saveproduct&f_product_id=' . $prod_info_arr[$i]['id']);
-			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $prod_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $prod_info_arr[$i]['id'],$this->m_deleted);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
@@ -140,6 +140,7 @@ class ObjProductList
 
 		if( $prod_info['trash_flag'] == 1 )
 		{
+			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
 			$m_in_trash = '[In trash bin] - ';
 		}
@@ -175,10 +176,8 @@ class ObjSupplierList
 	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number, trash_flag';
 	private static $NEEDED_JOINS = '';
 	private static $EXTRA_WHERE_CLAUSE = '';
-	
-	// hahaha this isn't clean but I'm going for the 'just implement something' approach
-	private static $m_visibility = '';
-	private static $m_in_trash = '';
+
+	private $m_deleted = 'false';
 
 	public function get_needed_fields()
 	{
@@ -204,7 +203,7 @@ class ObjSupplierList
 			$data_box_contents = $this->get_data_display($supplier_info_arr[$i]);
 			//select a Supplier for a purchase mode
 			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_purchase_add_edit.php?f_id=' . $action_box_param . '&f_action=savesupplier&f_supplier_id=' . $supplier_info_arr[$i]['id']);
-			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $supplier_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $supplier_info_arr[$i]['id'],$this->m_deleted);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
@@ -220,6 +219,7 @@ class ObjSupplierList
 
 		if( $supplier_info['trash_flag'] == 1 )
 		{
+			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
 			$m_in_trash = '[In trash bin] - ';
 		}
@@ -256,9 +256,7 @@ class ObjShipperList
 	private static $NEEDED_JOINS = '';
 	private static $EXTRA_WHERE_CLAUSE = '';
 	
-	// hahaha this isn't clean but I'm going for the 'just implement something' approach
-	private static $m_visibility = '';
-	private static $m_in_trash = '';
+	private $m_deleted = 'false';
 
 	public function get_needed_fields()
 	{
@@ -287,7 +285,7 @@ class ObjShipperList
 			//select a Shipper for a purchase mode
 			else if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'forpurchase') $action_box_contents = ResultSelectMenu::create('page_purchase_add_edit.php?f_action=saveshipper&f_shipper_id=' . $shipper_info_arr[$i]['id']);			
 			//full action display
-			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $shipper_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $shipper_info_arr[$i]['id'],$this->m_deleted);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
@@ -303,6 +301,7 @@ class ObjShipperList
 
 		if( $shipper_info['trash_flag'] == 1 )
 		{
+			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
 			$m_in_trash = '[In trash bin] - ';
 		}
@@ -338,6 +337,8 @@ class ObjPurchaseList
 	private static $NEEDED_FIELDS = 'purchases.icode, purchases.id, is_cart, supplier_id, suppliers.company_name as supplier_name, shipper_id, shippers.company_name as shipper_name, shipment_details, in_warehouse, delivery_date, price, purchases.trash_flag';
 	private static $NEEDED_JOINS = ', suppliers, shippers';
 	private static $EXTRA_WHERE_CLAUSE = 'AND is_cart = 0 AND supplier_id = suppliers.id AND shipper_id = shippers.id';
+	
+	private $m_deleted = 'false';
 
 	public function get_needed_fields()
 	{
@@ -366,7 +367,7 @@ class ObjPurchaseList
 			//select a purchase for a purchase mode
 			else if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'forpurchase') $action_box_contents = ResultSelectMenu::create('page_purchase_add_edit?.phpf_action=savepurchase&f_purchase_id=' . $purchase_info_arr[$i]['id']);			
 			//full action display
-			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $purchase_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $purchase_info_arr[$i]['id'],$this->m_deleted);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
@@ -391,6 +392,7 @@ class ObjPurchaseList
 
 		if( $purchase_info['trash_flag'] == 1 )
 		{
+			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
 			$m_in_trash = '[In trash bin] - ';
 		}
@@ -428,11 +430,7 @@ class ObjSalesOrderList
 	private static $NEEDED_JOINS = ', shippers, customers';
 	private static $EXTRA_WHERE_CLAUSE = 'AND is_cart = 0 AND shipper_id = shippers.id AND customer_id = customers.id';
 	
-	private static $m_visibility = '';
-	private static $m_in_trash = '';
-	private static $m_is_cart = '';
-	private static $m_in_warehouse = '';
-	private static $m_special = '';
+	private $m_deleted = 'false';
 
 	public function get_needed_fields()
 	{
@@ -461,7 +459,7 @@ class ObjSalesOrderList
 			//select a sales_order for a sales_order mode
 			else if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'forsales_order') $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit?.phpf_action=savesales_order&f_sales_order_id=' . $sales_order_info_arr[$i]['id']);			
 			//full action display
-			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $sales_order_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $sales_order_info_arr[$i]['id'],$this->m_deleted);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
@@ -473,35 +471,36 @@ class ObjSalesOrderList
 		
 		if( $sales_order_info['in_warehouse'] == 1 )
 		{
-			$this->m_in_warehouse = "&nbsp;&nbsp;&nbsp;&nbsp;In Warehouse";
+			$m_in_warehouse = "&nbsp;&nbsp;&nbsp;&nbsp;In Warehouse";
 		}
 		
 		if( $sales_order_info['special'] == 1 )
 		{
-			$this->m_special = "*Special* ";
+			$m_special = "*Special* ";
 		}
 		
 		//decide what is displayed with what labels
-		$obj_title_link_text = $this->m_special . IO::prepout_sl_label('Sales Order: ', $sales_order_info['icode'], 30, 'No Code');
+		$obj_title_link_text = $m_special . IO::prepout_sl_label('Sales Order: ', $sales_order_info['icode'], 30, 'No Code');
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Customer:&nbsp;', $sales_order_info['customer_name'], 40);
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipper:&nbsp;', $sales_order_info['shipper_name'], 40);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;', $sales_order_info['shipment_details'], 20) . $this->m_in_warehouse;
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;', $sales_order_info['shipment_details'], 20) . $m_in_warehouse;
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Order Date:&nbsp;', $sales_order_info['order_date'], 20);
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;', $sales_order_info['delivery_date'], 20);
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Price:&nbsp;', $sales_order_info['price'], 20) . IO::prepout_sl_label(' ', $sales_order_info['currency'], 20);
 
 		if( $sales_order_info['trash_flag'] == 1 )
 		{
-			$this->m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
-			$this->m_in_trash = '[In trash bin] - ';
+			$this->m_deleted = 'true';
+			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
+			$m_in_trash = '[In trash bin] - ';
 		}
 		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $this->m_visibility . '>
+		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
 			<tr>
 				<td align="left">
-					' . $this->m_in_trash . '
+					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $sales_order_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
 		';
 		
@@ -527,6 +526,8 @@ class ObjEmployeeList
 	private static $NEEDED_FIELDS = 'icode, id, email, auth_level, first_name, last_name, title, dept_name, office_location, office_phone_number, cell_phone_number, fax_number, trash_flag';
 	private static $NEEDED_JOINS = '';
 	private static $EXTRA_WHERE_CLAUSE = '';
+	
+	private $m_deleted = 'false';
 
 	public function get_needed_fields()
 	{
@@ -553,7 +554,7 @@ class ObjEmployeeList
 			//select a employee for a sales order mode
 			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=saveemployee&f_employee_id=' . $employee_info_arr[$i]['id']);
 			//full action display
-			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $employee_info_arr[$i]['id']);
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $employee_info_arr[$i]['id'],$this->m_deleted);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
