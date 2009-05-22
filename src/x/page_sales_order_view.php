@@ -1,6 +1,7 @@
 <?php
 
 require_once('framework.php');
+require_once('obj_comp_lists.php');
 
 class PageSalesOrderView
 {
@@ -273,10 +274,34 @@ class PageSalesOrderView
 					<td class="form_input"><div>' . IO::prepout_ml_textarea($this->f_notes) . '</div></td>
 				</tr>
 				
+				<tr>
+					<td>&nbsp;</td>
+				 </tr>	
+				 
+				 <tr>
+					<td class="text_title">Contains:&nbsp;</td>
+					
+				</tr>
+				
+				
+				
 			</table>
 			');
+					//make list object
+			$this->m_obj_sales_order_comp_list = new ObjSalesOrderCompList();
+		
+			$this->m_comp_info_arr = DB::get_all_rows_fq
+			(
+				'SELECT ' . 
+				$this->m_obj_sales_order_comp_list->get_needed_fields() . 
+				'FROM sales_order_comps' .
+				$this->m_obj_sales_order_comp_list->get_needed_joins() .
+				'WHERE sales_order_comps.sales_order_id=\'' . $this->f_id . '\''
+			);
+			
+			$this->m_obj_sales_order_comp_list->display('empty', $this->m_comp_info_arr);
 
-		ObjOuterArea::echo_bottom();
+			ObjOuterArea::echo_bottom();
 	
 		//output is always the last thing done when called
 		exit();
