@@ -77,6 +77,21 @@ class ResultFullMenu
 	}
 }
 
+class ResultFullPurchaseCompMenu
+{	
+	public static $MODE_VAL = '';
+
+	public static function create($obj_id, $obj_comp_id)	//middle of the page name: e.g. page_CUSTOMER_add_edit.php
+	{
+		return('
+			<b>
+			<a href="#" onclick="form_purchase.f_action.value=\'gotoeditcomp\'; form_purchase.f_comp_id.value=' . $obj_comp_id . '; form_purchase.f_id.value=' . $obj_id . '; form_purchase.submit(); return false;"/>Edit</a><br>
+			<a href="#" onclick="if(window.confirm(\'WARNING: Any dependant parts of sales orders will be lost! To indicate a destroyed shipment, set sellable quantity to 0 to retain sales order information.\')) { form_purchase.f_action.value=\'removecomp\'; form_purchase.f_comp_id.value=' . $obj_comp_id . '; form_purchase.f_id.value=' . $obj_id . '; form_purchase.submit(); } return false;"/>Delete</a>
+			<b>
+		');			
+	}
+}
+
 class ResultSelectMenu
 {
 	public static $MODE_VAL = 'select';

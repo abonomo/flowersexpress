@@ -182,4 +182,88 @@ class ObjPurchaseCompList
 	}
 }
 
+
+
+class ObjEditPurchaseCompList
+{
+	public $RENAME_MAIN_TABLE = 'obj_table';
+	public $EXTRA_WHERE_CLAUSE = ' AND purchases.is_cart = 0';
+
+	private static $OBJ_NAME = 'purchase_comps';	//page names based on this
+	private static $NEEDED_FIELDS = '
+		purchase_comps.id,
+		purchase_comps.purchase_id,
+		purchase_comps.units,
+		purchase_comps.quantity_purchased,
+		purchase_comps.quantity_sellable,
+		purchase_comps.expiration_date,
+		purchase_comps.min_price_per_unit,
+		products.icode AS product_icode,
+		products.name AS product_name
+		';	//CHANGE: in_warehouse, delivery_date table belonging
+		
+	private static $NEEDED_JOINS = '
+		LEFT OUTER JOIN products ON purchase_comps.product_id = products.id
+		';
+	
+	public function get_needed_fields()
+	{
+		return self::$NEEDED_FIELDS;
+	}
+	
+	public function get_needed_joins()
+	{
+		return self::$NEEDED_JOINS;
+	}
+	
+	public function display($action_box_mode, $obj_info_arr)	//TODO: remove actionboxparam
+	{
+		//display the list of results
+		$cnt = count($obj_info_arr);
+		for($i = 0; $i < $cnt; $i++)
+		{
+			$data_box_contents = $this->get_data_display($obj_info_arr[$i]);
+			$action_box_contents = ResultFullPurchaseCompMenu::create($obj_info_arr[$i]['purchase_id'], $obj_info_arr[$i]['id']);
+
+			ResultBox::display($data_box_contents, $action_box_contents);
+		}
+	}
+	
+	private function get_data_display($obj_info)
+	{
+		$transit_status = ($obj_info['in_warehouse'] != 0 ? 'in warehouse' : 'in transit');
+	
+		//decide what is displayed with what labels
+		$obj_line[0] = '<td align="left">&nbsp;Product&nbsp;ID:&nbsp;</td><td align="left"><a href="page_product_view.php?f_id=' . $obj_info['product_id'] . '">' . IO::prepout_sl($obj_info['product_icode'], 20) . '&nbsp;:&nbsp;' . IO::prepout_sl($obj_info['product_name'], 20) . '</a></td>';
+		$obj_line[1] = '<td align="left">&nbsp;Quantity&nbsp;Bought:&nbsp;</td><td align="left"><b>' . IO::prepout_sl($obj_info['quantity_purchased'], 20) . '&nbsp;' . IO::prepout_sl($obj_info['units'], 20) . '</b></td>';
+		$obj_line[2] = '<td align="left">&nbsp;Quantity&nbsp;Sellable:&nbsp;</td><td align="left"><b>' . IO::prepout_sl($obj_info['quantity_sellable'], 20) . '&nbsp;' . IO::prepout_sl($obj_info['units'], 20) . '</b></td>';
+		$obj_line[3] = '<td align="left">&nbsp;Units:&nbsp;</td><td align="left">' . IO::prepout_sl($obj_info['units'], 20) . '</td>';		
+		$obj_line[4] = '<td align="left">&nbsp;Min&nbsp;Price/Unit:&nbsp;</td><td align="left">' . IO::prepout_sl($obj_info['min_price_per_unit'], 20) . '</b></td>';
+		$obj_line[5] = '<td align="left">&nbsp;Expires:&nbsp;</td><td align="left">' . IO::prepout_sl($obj_info['expiration_date'], 20) . '</td>';
+	
+		//display the object title link and data lines
+		$obj_data_display =
+		'<table width="100%" cellspacing="0" cellpadding="0" >
+			<tr>
+				<td width="75%" align="left" valign="top">
+					<table border="0" cellspacing="0" cellpadding="0" >
+		';
+		
+		//append the data lines
+		for($i = 0; $i < count($obj_line); $i++)
+		{
+			$obj_data_display .= '<tr>' . $obj_line[$i] . '</tr>';
+		}
+		
+		$obj_data_display .=
+		'			</table>
+				</td>
+				<td width="75%" align="right" valign="top">
+				</td>				
+			</tr>
+		</table>';
+
+		return $obj_data_display;
+	}
+}
 ?>

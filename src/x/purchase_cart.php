@@ -5,7 +5,7 @@ include_once('framework.php');
 //1 sales purchase cart per employee
 class Purchase
 {
-	public static $IN_WAREHOUSE_SEARCH_WORD = 'warehouse';	//word add to search_words field when purchase is special
+	public static $IN_WAREHOUSE_SEARCH_WORD = 'warehouse';	//word add to search_words field when purchase is in_warehouse
 	
 	private $m_is_cart;
 	private $m_id;	//sales purchase id (the cart's id)
@@ -114,25 +114,6 @@ class Purchase
 			WHERE purchases.id=\'' . $this->m_id . '\'
 		');
 	}
-
-	//TODO: change
-	public function add_component($purchase_comp_id, $quantity_ordered, $total_cost)
-	{
-		DB::send_query('
-			INSERT INTO purchase_comps (
-				purchase_id, 
-				purchase_comp_id, 
-				quantity_ordered, 
-				total_cost
-			)
-			VALUES (
-				\'' . $this->m_id . '\',
-				\'' . $purchase_comp_id . '\',
-				\'' . $quantity_ordered . '\',
-				\'' . $total_cost . '\'
-			)
-		');
-	}
 	
 	public function remove_component($purchase_comp_id)
 	{
@@ -164,11 +145,10 @@ class Purchase
 			supplier_id=DEFAULT,
 			shipper_id=DEFAULT,
 			shipment_details=DEFAULT,
-			special=DEFAULT,
+			in_warehouse=DEFAULT,
 			order_date=NOW(),
 			delivery_date=NOW(),
 			price=DEFAULT,
-			currency=DEFAULT,
 			created_employee_id=\'' . LoginManager::get_id() . '\',
 			updated_employee_id=DEFAULT,
 			created_date=NOW(),

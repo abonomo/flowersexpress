@@ -2,7 +2,7 @@
 
 class SearchBar
 {
-	public static function display($obj_name, $search_box_value, $order_by_options, $order_by_value, $asc_or_desc_value, $cur_mode, $cur_page_num)
+	public static function display($obj_name, $search_box_value, $order_by_options, $order_by_value, $asc_or_desc_value, $cur_mode, $cur_page_num, $action_box_param, $action_box_param2)
 	{
 		// onclick="document.location=\'page_' . $obj_name . '_list.php?f_search=\' + escape(form_search.f_search.value) + \'&amp;f_order_by=\' + escape(form_search.f_order_by.value) + \'&amp;f_asc_or_desc=\' + escape(form_search.f_asc_or_desc.value)"
 	
@@ -14,7 +14,8 @@ class SearchBar
 					<td width="33%" align="left" valign="middle">	
 						<input name="f_mode" type="hidden" value="' . $cur_mode . '"/>
 						<input name="f_page" type="hidden" value="' . $cur_page_num . '"/>
-						<input name="f_action_box_param" type="hidden" value=""/>
+						<input name="f_action_box_param" type="hidden" value="' . $action_box_param . '"/>
+						<input name="f_action_box_param2" type="hidden" value="' . $action_box_param2 . '"/>
 						<input name="f_search" type="text" width="30" class="textbox" value="' . IO::prepout_sl($search_box_value, false) . '"/>
 						<input name="f_search_btn" class="button" type="submit" value="Search"/>
 					</td>

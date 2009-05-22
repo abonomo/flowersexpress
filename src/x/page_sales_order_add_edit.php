@@ -469,7 +469,7 @@ class PageSalesOrderAddEdit
 			<table width="100%">
 				<tr>
 					<td align="left">
-						<input type="submit" name="f_submit_btn" value="Delete Order" onclick="document.location=\'page_sales_order_add_edit.php?f_action=submit&f_mode=delete&f_id=' . IO::prepout_url($this->f_id) . '\'">
+						<input type="button" name="f_submit_btn" value="Delete Order" onclick="document.location=\'page_sales_order_delete.php?f_id=' . IO::prepout_url($this->f_id) . '\'">
 					</td>					
 					<td align="right">
 						<input type="submit" name="f_submit_btn" value="Save Changes" class="button" onclick="form_sales_order.f_action.value=\'save\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
