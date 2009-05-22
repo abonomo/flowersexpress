@@ -2,18 +2,18 @@
 
 include_once('framework.php');
 
-//1 sales order cart per employee
+//1 sales purchase cart per employee
 class Purchase
 {
-	public static $IN_WAREHOUSE_SEARCH_WORD = 'warehouse';	//word add to search_words field when order is special
+	public static $IN_WAREHOUSE_SEARCH_WORD = 'warehouse';	//word add to search_words field when purchase is special
 	
 	private $m_is_cart;
-	private $m_id;	//sales order id (the cart's id)
+	private $m_id;	//sales purchase id (the cart's id)
 
-	//if id is not taken in, defaults to shopping cart, otherwise edits an existing order
+	//if id is not taken in, defaults to shopping cart, otherwise edits an existing purchase
 	public function __construct($the_id)
 	{
-		//existing order id passed in
+		//existing purchase id passed in
 		if($the_id != '')
 		{
 			//determine if cart or not from database
@@ -64,7 +64,7 @@ class Purchase
 		else
 		{
 			//insert a new cart only if there isn't one already (check again within query to avoid concurrency issues)
-			//give the cart/order an employee "owner"
+			//give the cart/purchase an employee "owner"
 			DB::send_query('
 				INSERT INTO purchases 
 				(is_cart, created_employee_id) 
@@ -99,22 +99,23 @@ class Purchase
 		return $this->m_is_cart;
 	}
 	
-	public function get_order_info()
+	public function get_purchase_info()
 	{
 		return DB::get_single_row_fq('
 			SELECT
 			purchases.*,
-			COALESCE(customers.icode, \'None\') AS customer_icode,
-			COALESCE(customers.company_name, \'None\') AS customer_company_name,
+			COALESCE(suppliers.icode, \'None\') AS supplier_icode,
+			COALESCE(suppliers.company_name, \'None\') AS supplier_company_name,
 			COALESCE(shippers.icode, \'None\') AS shipper_icode,
 			COALESCE(shippers.company_name, \'None\') AS shipper_company_name
 			FROM purchases
-			LEFT OUTER JOIN customers ON purchases.customer_id = customers.id
+			LEFT OUTER JOIN suppliers ON purchases.supplier_id = suppliers.id
 			LEFT OUTER JOIN shippers ON purchases.shipper_id = shippers.id
 			WHERE purchases.id=\'' . $this->m_id . '\'
 		');
 	}
 
+	//TODO: change
 	public function add_component($purchase_comp_id, $quantity_ordered, $total_cost)
 	{
 		DB::send_query('
@@ -154,13 +155,13 @@ class Purchase
 		//remove components	
 		$this->remove_all_components();
 		
-		//reset sales order (or cart) to default and initial values
-		//NOTE: is_cart=1 taken out because this could be editting an existing order
+		//reset sales purchase (or cart) to default and initial values
+		//NOTE: is_cart=1 taken out because this could be editting an existing purchase
 		DB::send_query('
 			UPDATE purchases SET
 			icode=DEFAULT,
 			notes=DEFAULT,
-			customer_id=DEFAULT,
+			supplier_id=DEFAULT,
 			shipper_id=DEFAULT,
 			shipment_details=DEFAULT,
 			special=DEFAULT,
@@ -188,9 +189,9 @@ class Purchase
 		');
 	}
 	
-	public function become_order()
+	public function become_purchase()
 	{	
-		//just change the is_cart flag from 1 to 0, and you have yourself an order, also fill in some additional fields automatically
+		//just change the is_cart flag from 1 to 0, and you have yourself an purchase, also fill in some additional fields automatically
 		DB::send_query('
 			UPDATE purchases SET
 			is_cart=0,

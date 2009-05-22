@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 21, 2009 at 11:28 PM
+-- Generation Time: May 22, 2009 at 01:05 AM
 -- Server version: 4.1.22
 -- PHP Version: 5.2.6
 
@@ -177,6 +177,7 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   `shipper_id` int(11) NOT NULL default '0',
   `shipment_details` text NOT NULL,
   `in_warehouse` tinyint(1) NOT NULL default '0',
+  `order_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `delivery_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `price` decimal(10,2) NOT NULL default '0.00',
   `created_employee_id` int(11) NOT NULL default '0',
@@ -193,10 +194,10 @@ CREATE TABLE IF NOT EXISTS `purchases` (
 -- Dumping data for table `purchases`
 --
 
-INSERT DELAYED INTO `purchases` (`id`, `is_cart`, `icode`, `notes`, `supplier_id`, `shipper_id`, `shipment_details`, `in_warehouse`, `delivery_date`, `price`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
-(1, 0, 'P9002', '', 1, 1, 'FLOWERS DE CINCO DE MAYO', 0, '2009-05-05 00:00:00', 0.00, 1, 1, '2009-04-28 00:00:00', '2009-04-28 00:00:00', '', 0),
-(2, 0, 'P4234', 'ooops, totally forgot to sell these, should be in warehouse', 1, 2, '', 1, '2009-05-04 00:00:00', 0.00, 1, 1, '2009-04-30 05:00:00', '2009-04-30 05:00:00', '', 0),
-(3, 1, '', '', 0, 0, '', 0, '0000-00-00 00:00:00', 0.00, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 0);
+INSERT DELAYED INTO `purchases` (`id`, `is_cart`, `icode`, `notes`, `supplier_id`, `shipper_id`, `shipment_details`, `in_warehouse`, `order_date`, `delivery_date`, `price`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 0, 'P9002', '', 1, 1, 'FLOWERS DE CINCO DE MAYO', 0, '0000-00-00 00:00:00', '2009-05-05 00:00:00', 0.00, 1, 1, '2009-04-28 00:00:00', '2009-04-28 00:00:00', '', 0),
+(2, 0, 'P4234', 'ooops, totally forgot to sell these, should be in warehouse', 1, 2, '', 1, '0000-00-00 00:00:00', '2009-05-04 00:00:00', 0.00, 1, 1, '2009-04-30 05:00:00', '2009-04-30 05:00:00', '', 0),
+(3, 1, '', '', 2, 2, '', 0, '2009-05-22 00:59:56', '0000-00-00 00:00:00', 0.00, 1, 1, '0000-00-00 00:00:00', '2009-05-22 01:04:37', ' 2QQQ 2QQQ 2009 05QQQ 22QQQ 00QQQ 59QQQ 56QQQ 0000 00QQQ 00QQQ 00QQQ 00QQQ 00QQQ 0QQQ 00QQQ ', 0);
 
 -- --------------------------------------------------------
 
@@ -266,7 +267,7 @@ INSERT DELAYED INTO `sales_orders` (`id`, `is_cart`, `icode`, `notes`, `customer
 (1, 0, 'O2091', 'blah blah', 2, 1, 'do it quick', 0, '2009-05-21 06:13:11', '2009-05-21 06:13:11', 800.00, '', 1, 1, '2009-04-30 02:00:00', '2009-05-21 06:15:52', 'O2091 2QQQ 1QQQ doQQQ itQQQ quick 2009 05QQQ 21QQQ 06QQQ 13QQQ 11QQQ 2009 05QQQ 21QQQ 06QQQ 13QQQ 11QQQ 800QQQ blah blah', 0),
 (7, 0, '', '', 9, 1, '', 1, '2009-05-21 06:18:37', '2009-05-21 06:18:37', 0.00, '', 1, 1, '2009-05-21 06:19:17', '2009-05-21 06:19:22', ' 9QQQ 1QQQ special 2009 05QQQ 21QQQ 06QQQ 18QQQ 37QQQ 2009 05QQQ 21QQQ 06QQQ 18QQQ 37QQQ 0QQQ ', 0),
 (8, 0, '123456', 'dfd sadfasdf fdfd b34232', 10, 2, 'qwerfdgrtfg \r\n24334', 1, '6730-00-00 00:00:00', '0000-00-00 00:00:00', 234.00, '', 1, 1, '2009-05-21 18:50:30', '2009-05-21 19:08:00', '123456 10QQQ 2QQQ qwerfdgrtfg 24334 special 6730 00QQQ 00QQQ 00QQQ 00QQQ 00QQQ 0000 00QQQ 00QQQ 00QQQ 00QQQ 00QQQ 234QQQ dfdQQQ sadfasdf fdfd b34232', 0),
-(9, 1, '', '', 9, 2, '', 0, '2009-05-21 19:30:19', '2009-05-21 19:30:19', 0.00, '', 1, 1, '2009-05-21 19:30:19', '2009-05-21 22:49:41', ' 9QQQ 2QQQ 2009 05QQQ 21QQQ 19QQQ 30QQQ 19QQQ 2009 05QQQ 21QQQ 19QQQ 30QQQ 19QQQ 0QQQ ', 0);
+(9, 1, '', '', 9, 2, '', 0, '2009-05-21 19:30:19', '2009-05-21 19:30:19', 0.00, '', 1, 1, '2009-05-21 19:30:19', '2009-05-22 00:55:09', ' 9QQQ 2QQQ 2009 05QQQ 21QQQ 19QQQ 30QQQ 19QQQ 2009 05QQQ 21QQQ 19QQQ 30QQQ 19QQQ 0QQQ ', 0);
 
 -- --------------------------------------------------------
 

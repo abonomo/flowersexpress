@@ -261,7 +261,7 @@ class ObjShipperList
 			//select a Shipper for a sales order mode
 			if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'fororder') $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=saveshipper&f_shipper_id=' . $shipper_info_arr[$i]['id']);
 			//select a Shipper for a purchase mode
-			else if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'forpurchase') $action_box_contents = ResultSelectMenu::create('page_purchase_add_edit?.phpf_action=saveshipper&f_shipper_id=' . $shipper_info_arr[$i]['id']);			
+			else if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'forpurchase') $action_box_contents = ResultSelectMenu::create('page_purchase_add_edit.php?f_action=saveshipper&f_shipper_id=' . $shipper_info_arr[$i]['id']);			
 			//full action display
 			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $shipper_info_arr[$i]['id']);
 		

@@ -12,7 +12,7 @@ class ObjSalesOrderCompList
 		sales_order_comps.quantity_ordered,
 		sales_order_comps.total_cost,
 		purchase_comps.units,
-		purchase_comps.transit_status,
+		purchases.in_warehouse,
 		purchases.id AS purchase_id,
 		purchases.icode AS purchase_icode,
 		suppliers.id AS supplier_id,
@@ -95,6 +95,7 @@ class ObjSalesOrderCompList
 class ObjPurchaseCompList
 {
 	public $RENAME_MAIN_TABLE = 'obj_table';
+	public $EXTRA_WHERE_CLAUSE = ' AND purchases.is_cart = 0';
 
 	private static $OBJ_NAME = 'purchase_comp';	//page names based on this
 	private static $NEEDED_FIELDS = '

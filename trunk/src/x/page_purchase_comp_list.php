@@ -9,7 +9,7 @@ $order_by_options = array(
 		array('Relevance', 'relevance'),
 		array('Availibility', 'quantity_left'),
 		array('Expiration Date', 'obj_table.expiration_date'),
-		array('Expected Date', 'purchases.delivery_date'),	//CHANGE
+		array('Expected Date', 'purchases.delivery_date'),
 		array('In Warehouse', 'purchases.in_warehouse'),
 		array('Min Price/Unit', 'obj_table.min_price_per_unit'),
 		array('Product Name', 'products.name'),
