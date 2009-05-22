@@ -423,6 +423,106 @@ class ObjPurchaseList
 	}
 }
 
+
+
+class ObjSalesOrderList
+{
+	private static $OBJ_NAME = 'sales_order';	//page names based on this
+	private static $NEEDED_FIELDS = 'sales_orders.icode, sales_orders.id, is_cart, shipper_id, customer_id, shipment_details, special, order_date, delivery_date, price, currency, sales_orders.trash_flag';
+	private static $NEEDED_JOINS = '';
+	private static $EXTRA_WHERE_CLAUSE = 'AND is_cart = 0';
+	
+	private static $m_visibility = '';
+	private static $m_in_trash = '';
+	private static $m_is_cart = '';
+	private static $m_in_warehouse = '';
+	private static $m_special = '';
+
+	public function get_needed_fields()
+	{
+		return self::$NEEDED_FIELDS;
+	}
+
+	public function get_needed_joins()
+	{
+		return self::$NEEDED_JOINS;
+	}
+
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
+	}
+	
+	public function display($action_box_mode, $sales_order_info_arr, $action_box_param)
+	{
+		//display the list of results
+		$cnt = count($sales_order_info_arr);
+		for($i = 0; $i < $cnt; $i++)
+		{
+			$data_box_contents = $this->get_data_display($sales_order_info_arr[$i]);
+			//select a sales_order for a sales order mode
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'fororder') $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=savesales_order&f_sales_order_id=' . $sales_order_info_arr[$i]['id']);
+			//select a sales_order for a sales_order mode
+			else if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'forsales_order') $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit?.phpf_action=savesales_order&f_sales_order_id=' . $sales_order_info_arr[$i]['id']);			
+			//full action display
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $sales_order_info_arr[$i]['id']);
+		
+			ResultBox::display($data_box_contents, $action_box_contents);
+		}
+	}
+	
+	private function get_data_display($sales_order_info)
+	{
+		$line_index = 0;
+		
+		if( $sales_order_info['in_warehouse'] == 1 )
+		{
+			$this->m_in_warehouse = "&nbsp;&nbsp;&nbsp;&nbsp;In Warehouse";
+		}
+		
+		if( $sales_order_info['special'] == 1 )
+		{
+			$this->m_special = "*Special* ";
+		}
+		
+		//decide what is displayed with what labels
+		$obj_title_link_text = $this->m_special . IO::prepout_sl_label('Sales Order: ', $sales_order_info['icode'], 30, 'No Code');
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;', $sales_order_info['shipment_details'], 20) . $this->m_in_warehouse;
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Order Date:&nbsp;', $sales_order_info['order_date'], 20);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;', $sales_order_info['delivery_date'], 20);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Price:&nbsp;', $sales_order_info['price'], 20) . IO::prepout_sl_label(' ', $sales_order_info['currency'], 20);
+
+		if( $sales_order_info['trash_flag'] == 1 )
+		{
+			$this->m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
+			$this->m_in_trash = '[In trash bin] - ';
+		}
+		
+		//display the object title link and data lines
+		$obj_data_display =
+		'<table width="100%" cellspacing="0" cellpadding="0"' . $this->m_visibility . '>
+			<tr>
+				<td align="left">
+					' . $this->m_in_trash . '
+					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $sales_order_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+		';
+		
+		//append the data lines
+		for($i = 0; $i < count($obj_line); $i++)
+		{
+			$obj_data_display .= $obj_line[$i] . '<br>';
+		}
+		
+		$obj_data_display .=
+		'		</td>
+			</tr>
+		</table>';
+	
+		return $obj_data_display;
+	}
+}
+
+
 class ObjEmployeeList
 {
 	private static $OBJ_NAME = 'employee';	//page names based on this
