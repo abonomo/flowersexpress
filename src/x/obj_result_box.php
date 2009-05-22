@@ -65,13 +65,23 @@ class ResultFullMenu
 {	
 	public static $MODE_VAL = 'full';
 
-	public static function create($obj_name, $obj_id)	//middle of the page name: e.g. page_CUSTOMER_add_edit.php
+	public static function create($obj_name, $obj_id, $deleted = 'false' )	//middle of the page name: e.g. page_CUSTOMER_add_edit.php
 	{
+		// item is a deleted item
+		if( $deleted == 'true' )
+		{
+			$delete_option =  '<a href=page_' . $obj_name . '_undelete.php?f_id=' . $obj_id . '"/>Undelete</a>';
+		}
+		else
+		{
+			$delete_option = '<a href="#" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { document.location=\'page_' . $obj_name . '_delete.php?f_id=' . $obj_id .'\'; } return false;"/>Delete</a>';
+		}
+		
 		return('
 			<b>
 			<a href="page_' . $obj_name . '_view.php?f_id=' . $obj_id .'"/>View</a><br>
 			<a href="page_' . $obj_name . '_add_edit.php?f_mode=edit&amp;f_id=' . $obj_id . '"/>Edit</a><br>
-			<a href="#" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { document.location=\'page_' . $obj_name . '_delete.php?f_id=' . $obj_id .'\'; } return false;"/>Delete</a>
+			' . $delete_option . '
 			<b>
 		');			
 	}
