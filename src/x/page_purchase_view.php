@@ -1,6 +1,7 @@
 <?php
 
 require_once('framework.php');
+require_once('obj_comp_lists.php');
 
 class PagePurchaseView
 {
@@ -229,9 +230,37 @@ class PagePurchaseView
 					<td class="text_label">Notes:&nbsp;</td>
 					<td class="form_input"><div>' . IO::prepout_ml_textarea($this->f_notes) . '</div></td>
 				</tr>
+								
+				<tr>
+					<td>&nbsp;</td>
+				 </tr>	
+				 
+				 <tr>
+					<td class="text_title">Contains:&nbsp;</td>
+				</tr>
 				
 			</table>
 			');	
+			
+			//make list object
+			//
+			//$this->m_obj_purchase_comp_list = new ObjPurchaseCompList();
+			//
+			//$this->m_comp_info_arr = DB::get_all_rows_fq
+			//(
+			//	'SELECT ' . 
+			//	$this->m_obj_purchase_comp_list->get_needed_fields() . 
+			//	'FROM purchase_comps' .
+			//	$this->m_obj_purchase_comp_list->get_needed_joins() .
+			//	'WHERE purchase_comps.purchase_id=\'' . $this->f_id . '\''
+			//);
+			//
+			//$this->m_obj_purchase_comp_list->display('empty', $this->m_comp_info_arr);
+			//
+			// MySQL said: Documentation #1109 - Unknown table 'obj_table' in field list 
+			//
+			//
+			//
 			
 		ObjOuterArea::echo_bottom();
 
