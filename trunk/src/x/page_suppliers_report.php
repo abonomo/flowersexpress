@@ -9,6 +9,7 @@ class PageSuppliersReport
 	
 	//*** MEMBERS ***
 	private $m_supplier_info_arr; 	//holds information about the supplier
+	private $f_excel;
 	
 	//*** FUNCTIONS ***
 	//execution entry point
@@ -31,6 +32,7 @@ class PageSuppliersReport
 	private function get_input()
 	{
 		//TODO: get supplier boundary conditions?
+		$this->f_excel = IO::get_input_sl_pg('f_excel','string');
 	}
 	
 	private function verify_input()
@@ -65,26 +67,29 @@ class PageSuppliersReport
 		//echo the outer area with the correct tab highlighted for this page
 		//ObjOuterArea::echo_top(ObjOuterArea::$TAB_HOME);
 		
-		echo 
-		('
+		if( $this->f_excel == 'true' )
+		{
+			header("Content-type: application/vnd.ms-excel");
+			header("Content-Disposition: attachment; filename=supplier_report.xls");
+		}
+		else
+		{
+			echo 
+			('
 			<html>
 			<head>
+				<title>Supplier Report</title>
 				<link href="style_report.css" rel="stylesheet">
+				<link rel="stylesheet" type="text/css" media="print" href="style_print.css" />
 			</head>
 			
-			<table>
-				<tr>
-					<td>
-						<h2>Supplier Reports</h2>
-					</td>
-				</tr>
-			</table>
-
-			<body>
-		');
+			<body>');
+		}
 		
-		echo 
-		('<table border="1" width="98%" cellspacing="0" cellpadding="0" class="report_table"> 
+		echo ('
+			<h2>Supplier Report</h2>
+			
+			<table border="1" width="98%" cellspacing="0" cellpadding="0" class="report_table"> 
 			<tr> 
 				<th>&nbsp;Supplier ID&nbsp;</th> 
 				<th>&nbsp;Notes&nbsp;</th> 
@@ -131,6 +136,19 @@ class PageSuppliersReport
 				<td>&nbsp;'. IO::prepout_sl($major_array['last_contacted'], false) . ' by ' . $updated_employee_name . '&nbsp;</td>
 			</tr>
 			');
+		}
+		
+		echo('
+		</table> ');
+		
+		if( $this->f_excel != 'true' )
+		{
+			echo ('
+			<p class="print_hide"><a href="page_suppliers_report.php?f_excel=true">Download as an Excel file</a></p>
+			
+		</body>
+		</html>
+		');
 		}
 		
 		//ObjOuterArea::echo_bottom();
