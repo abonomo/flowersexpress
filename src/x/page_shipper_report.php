@@ -97,11 +97,18 @@ class PageShipperReport
 			</head>
 
 			<body> ');
+			
 		}
 		
 		echo ('	
-		<h2>Shipper Information Report</h2>
-		
+		<table>
+			<tr>
+				<td>
+					<h2>Shipper Information Report</h2>
+				</td>
+			</tr>
+		</table>
+
 		<table border="1" width="98%" cellspacing="0" cellpadding="0" class="report_table"> 
 			<tr> 
 				<th>&nbsp;Shipper ID&nbsp;</th> 
