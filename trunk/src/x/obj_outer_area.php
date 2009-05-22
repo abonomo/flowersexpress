@@ -30,27 +30,12 @@ class ObjOuterArea
 			<link href="style.css" rel="stylesheet">
 			<link href="favicon.ico" rel="shortcut icon">
 			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-			<script language="JavaScript" type="text/JavaScript">
-			<!-- Hide script from older browsers
-			function MM_openBrWindow(theURL,winName,features) { //v2.0
-			  newwindow=window.open(theURL,winName,features);
-			if (window.focus) {newwindow.focus()}
-			  return false;
-			}
-			// End hiding script -->
-			</script>
-			<script language="Javascript" type="text/JavaScript">
-			<!--
-			var weekday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-			var month = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
-			var today = new Date()
-			var dateline = weekday[today.getDay()] + ", " + today.getDate() + ". " + month[today.getMonth()] + " " + today.getFullYear()
-			//-->
-			</script>
+
 		  </head>
 
 		<body>
 		<div align="center">&nbsp;
+		<a name="top"></a>
 
 		  <table class="content_area" cellspacing="0" cellpadding="0">
 		  <tbody>
@@ -72,7 +57,7 @@ class ObjOuterArea
 				WHERE employees.id=\'' . LoginManager::get_id() . '\''
 			);
 			echo('Welcome,&nbsp;<strong>' . IO::prepout_sl($login_info['first_name'] , false) . '&nbsp;' .   IO::prepout_sl($login_info['last_name'] , false) . '&nbsp;&nbsp;</strong>');
-			echo('<a href="op_logout.php">Logout</a>');
+			echo('<a href="op_logout.php" style="padding-right:10px">Logout</a>');
 		}		
 		
 		echo('
@@ -83,7 +68,7 @@ class ObjOuterArea
 			<tr>
 
 		<!-- left column -->
-			  <td valign="top" class="left" rowspan="2" height="957">
+			  <td valign="top" class="left" rowspan="2" height="600">
 
 		<!-- left menu links -->
 				<table width="120" cellspacing="0" cellpadding="0" id="navigation">
@@ -100,14 +85,14 @@ class ObjOuterArea
 					  <td><a class="' . (($active_tab == self::$TAB_SUPPLIERS) ? 'active_menu' : 'menu') . '" href="page_supplier_menu.php">Supplier</a></td></tr><tr>
 					  <td><a class="' . (($active_tab == self::$TAB_SHIPPERS) ? 'active_menu' : 'menu') . '" href="page_shipper_menu.php">Shipper</a></td></tr><tr>					  
 					  <td><a class="' . (($active_tab == self::$TAB_REPORTS) ? 'active_menu' : 'menu') . '" href="page_report_menu.php">Report</a></td></tr><tr>			  
-					  <td><a class="' . (($active_tab == self::$TAB_EMPLOYEES) ? 'active_menu' : 'menu') . '" href="page_employee_menu.php">Employee</a></td></tr><tr>
+					  <td><a class="' . (($active_tab == self::$TAB_EMPLOYEES) ? 'active_menu' : 'menu') . '" href="page_employee_menu.php">Employee</a></td>
 		');
 		
 		//** ADMIN ONLY - view admin tab
 		if(LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN))
 		{
 			echo('
-					  <td><a class="' . (($active_tab == self::$TAB_ADMIN) ? 'active_menu' : 'menu') . '" href="page_admin_menu.php">Admin</a></td></tr><tr>
+					  </tr><tr><td><a class="' . (($active_tab == self::$TAB_ADMIN) ? 'active_menu' : 'menu') . '" href="page_admin_menu.php">Admin</a></td>
 			');
 		}		
 		
@@ -130,11 +115,9 @@ class ObjOuterArea
 			 <td valign="top">
 
 		<!-- date today -->
-				<p style="text-align: right">&nbsp;
+				<p style="text-align: right;padding-right:10px">&nbsp;
 
-				  <b><script language="Javascript" type="text/JavaScript">
-					  document.write(dateline)
-				  </script></b>
+				  <b> ' . date("l, j. F Y") . '</b>
 
 				</p>
 
@@ -152,24 +135,20 @@ public static function echo_bottom($has_back_btn = true)
 			//print the back button
 			echo(' 
 			<br><br><input class="button" type="button" value="Back" onClick="history.go(-1)">
-					  </td>
-					</tr> ');
+					   ');
 		}
 		echo('
 						
-		<!-- end of all Announcements -->
+		<!-- end of all Announcements
 
 				  </tbody>
-				</table>
+				</table> -->
 
 		<!-- end of Announcements table -->
 
 			  </td>
 
 		<!-- end of middle column -->
-
-		<!-- 4 spaces separating right column and right edge-->
-			  <td valign="top" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
 			</tr>
 		<!-- end of right"row": text -->
@@ -178,10 +157,10 @@ public static function echo_bottom($has_back_btn = true)
 
 		<!-- "3rd" row of page: link to top -->
 
-			  <td valign="top" colspan="3">
+			  <td colspan="3" valign="bottom">
 				<p style="text-align: center">
 
-		<a href="index.html">top</a>
+				<a href="#top">top</a>
 
 				</p><br>
 			  </td>
