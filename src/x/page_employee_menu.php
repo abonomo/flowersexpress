@@ -18,7 +18,7 @@ class PageEmployeeMenu
 		session_start();
 		DB::connect();
 	
-		LoginManager::assert_auth_level(LoginManager::$AUTH_READ_ONLY);	//CHANGE required authorization level for this page, ADMIN is the strictest
+		LoginManager::assert_auth_level(LoginManager::$AUTH_READ_ONLY);
 	
 		$this->get_input(); 
 		
@@ -67,17 +67,15 @@ class PageEmployeeMenu
 				<a href="page_employee_add_edit.php">Add Employee</a><br>
 				');
 			}
-			
+			echo
+			('
+				<a href="page_employee_add_edit.php?f_mode=edit&f_id=' . LoginManager::get_id() . '">Edit Profile</a><br>
+			');
 			echo ('
 				<a href="page_employee_list.php">List All Employees</a><br>
 			</form>
 			');
-			
-			
-
-
-
-		
+					
 		ObjOuterArea::echo_bottom();
 	
 		//output is always the last thing done when called
