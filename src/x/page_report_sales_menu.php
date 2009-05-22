@@ -66,6 +66,8 @@ class PageSalesMenu
 				<input name="f_report_end" class="textbox" type="text" /> <a href="#" onclick="calend.select(document.forms[0].f_report_end, \'datex\', \'MM/dd/yyyy\'); return false; " name="datex" id="datex"> Select End Date</a>
 				<div id="testdiv2" style="position:absolute;visibility:hidden;"></div><br><br>
 				
+				<input name="f_excel" type="checkbox" value="true"/> Download as Excel<br><br>
+				
 				<a href="#" onclick="form_report_menu.submit(); return false;">Get Sales Orders</a><br>
 				
 			</form>

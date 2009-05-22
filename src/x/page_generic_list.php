@@ -6,7 +6,7 @@ require_once('obj_page_num_nav.php');
 class PageGenericList
 {
 	//*** CONSTANTS ***
-	private static $RESULTS_PER_PAGE = 1;
+	private static $RESULTS_PER_PAGE = 5;
 	private static $MAX_PAGES_IN_NAV_BAR = 10;
 	
 	private static $DEFAULT_ORDER_BY_OPTION_INX = 0;

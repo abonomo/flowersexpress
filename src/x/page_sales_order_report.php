@@ -10,6 +10,7 @@ class PageTemplate
 	
 	//*** MEMBERS ***
 	private $m_obj_info_arr;
+	private $f_get_excel;
 	
 	//*** FUNCTIONS ***
 	//execution entry point
@@ -33,7 +34,8 @@ class PageTemplate
 	private function get_input()
 	{
 		$this->f_report_start = IO::get_input_sl_pg('f_report_start','string');
-		$this->f_report_end = IO::get_input_sl_pg('f_report_end','string');		
+		$this->f_report_end = IO::get_input_sl_pg('f_report_end','string');
+		$this->f_get_excel = IO::get_input_sl_pg('f_excel','string');
 	}
 	
 	private function verify_input()
@@ -76,26 +78,26 @@ class PageTemplate
 		if($err_msg != '') echo('<font class="text_error">' . $err_msg . '</font>');
 		*/
 					
-		echo ('
+		if( $this->f_get_excel == 'true' )
+		{
+			header("Content-type: application/vnd.ms-excel");
+			header("Content-Disposition: attachment; filename=sales_order_report.xls");
+		}
+		else
+		{
+			echo ('
 			<html>
 			<head>
+				<title>Sales Order Report</title>
 				<link href="style_report.css" rel="stylesheet">
 			</head>
 
-			<body>
-			
-			<table>
-				<tr>
-					<td>
-						<h2>Sales Order Report</h2>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<h4>Dates: ' . IO::prepout_sl($this->f_report_start, false) . ' to '. IO::prepout_sl($this->f_report_end, false) . '</h4>
-					</td>
-				</tr>
-			</table>
+			<body> ');
+		}
+		
+		echo ('
+			<h2>Sales Order Report</h2>
+			<h4>Dates: ' . IO::prepout_sl($this->f_report_start, false) . ' to '. IO::prepout_sl($this->f_report_end, false) . '</h4>
 		');
 		
 		echo ('<table border="1" width="98%" cellspacing="0" cellpadding="0" class="report_table"> 
@@ -140,10 +142,15 @@ class PageTemplate
 		}
 		
 		echo('
-		</table>
+		</table> ');
+		
+		if( $this->f_get_excel != 'true' )
+		{
+			echo ('
 		</body>
 		</html>
 		');
+		}
 			
 		//output is always the last thing done when called
 		exit();

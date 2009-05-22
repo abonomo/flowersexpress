@@ -88,8 +88,8 @@ class PageTemplate
 			echo ('
 			<html>
 			<head>
+				<title>Purchase Report</title>
 				<link href="style_report.css" rel="stylesheet">
-				<title>hello</title>
 			</head>
 
 			<body>');
