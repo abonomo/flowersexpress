@@ -61,7 +61,7 @@ class PageReportMenu
 				<a href="page_report_sales_menu.php">Sales Report</a><br>
 				<a href="page_report_purchase_menu.php">Purchase Report</a><br>
 				<a href="page_report_product.php">Product Information Report</a><br>
-				<a href="page_report_inventory.php">Inventory Report</a><br>
+				<a href="page_inventory_report.php">Inventory Report</a><br>
 				<a href="page_suppliers_report.php">Suppliers Report</a><br>
 			</form>
 			');
