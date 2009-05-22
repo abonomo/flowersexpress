@@ -105,10 +105,32 @@ class PageLogin
 	{
 		echo('
 		<form method="post" action="' . self::$THIS_PAGE . '?f_action=submit&amp;f_goto=' . IO::prepout_url($this->f_goto) . '">
-			Email: <input name="f_email" type="textbox" class="textbox" value="' . IO::prepout_sl($this->f_email, false) . '"/><br>
-			Password: <input name="f_password" type="password" class="textbox" /><br>
-			<a href="page_forgot_password.php">(I Forgot my Password)</a><br>
-			<input type="submit" value="Login" class="button"/>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="10%" align="right" valign="middle" class="text_title">&nbsp;</td>
+					<td width="25%" align="left" valign="middle" class="text_title">Please Login:&nbsp;</td>
+					<td width="65%" align="left" valign="middle">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="10%" align="right" valign="middle" class="text_label">Email:&nbsp;</td>
+					<td width="25%" align="left" valign="middle"><input name="f_email" type="textbox" class="textbox" value="' . IO::prepout_sl($this->f_email, false) . '"/></td>
+					<td width="65%" align="left" valign="middle"></td>
+				</tr>
+				<tr>
+					<td width="10%" align="right" valign="middle" class="text_label">Password:&nbsp;</td>
+					<td width="25%" align="left" valign="middle"><input name="f_password" type="password" class="textbox" /></td>
+					<td width="65%" align="left" valign="middle"><input type="submit" value="Login" class="button"/></td>
+				</tr>
+				<tr>
+					<td width="10%" align="right" valign="middle" class="text_label">&nbsp;</td>
+					<td width="25%" align="left" valign="middle"><a href="page_forgot_password.php">Forgot Password?</a></td>
+					<td width="65%" align="left" valign="middle">&nbsp;</td>
+				</tr>
+			</table>
 		</form>
 		');
 	}
