@@ -74,7 +74,7 @@ class PageGenericList
 		$this->f_search = IO::get_input_sl_pg('f_search', 'string');
 		$this->f_order_by = IO::get_input_sl_pg('f_order_by', 'string', $this->m_order_by_options[self::$DEFAULT_ORDER_BY_OPTION_INX][1]);
 		$this->f_asc_or_desc = IO::get_input_sl_pg('f_asc_or_desc', 'string', self::$DEFAULT_ASC_OR_DESC);
-		$this->f_action_box_param = IO::get_input_sl_pg('f_action_box_param', 'string');
+		$this->f_action_box_param = IO::get_input_sl_pg('f_action_box_param', 'integer');
 	}
 	
 	private function verify_input()
@@ -165,7 +165,7 @@ class PageGenericList
 		//display the top page number navigation bar
 		//public function echo_top_bar($bar_width, $ws_border_top, $ws_border_bottom, $page_num, $num_results, $results_per_page, $action_script_left, $action_script_right, $max_pages=5, $left_col='', $last_page=-1)
 		$page_nav_bar = new ObjPageNavBar();
-		$page_nav_bar->echo_top_bar('80%', 0, 10, $this->f_page, $this->m_num_results, self::$RESULTS_PER_PAGE, 'form_search.f_page.value=', '; form_search.submit();', self::$MAX_PAGES_IN_NAV_BAR);		
+		$page_nav_bar->echo_top_bar('80%', 0, 10, $this->f_page, $this->m_num_results, self::$RESULTS_PER_PAGE, 'form_search.f_action_box_param.value=' . $this->f_action_box_param . '; form_search.f_page.value=', '; form_search.submit();', self::$MAX_PAGES_IN_NAV_BAR);		
 		
 		//draw results
 		//prototype: display($action_box_mode, $cust_info_arr, $num_total_results, $cur_page_num, $page_name)

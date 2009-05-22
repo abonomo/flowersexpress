@@ -1,7 +1,5 @@
 <?php
 
-//TODO: a 'saveandredirect' mode (that doesn't try to make this an order if its a cart, and then redirects)
-
 //NOTES:
 //technically, we're always in EDIT mode, so there is no "f_mode=edit" necessary
 //we're either editting the user's shopping cart if no f_id was passed in
@@ -127,7 +125,11 @@ class PageSalesOrderAddEdit
 			else if($this->f_action == 'addcomp')
 			{
 				$this->add_sales_comp_from_purchase_comp();
-			}			
+			}
+			else if($this->f_action == 'gotoaddcomp')
+			{
+				$this->save_and_redirect('page_purchase_comp_list.php?f_action_box_param=' . $this->f_id); 
+			}
 			//just display
 			else
 			{
@@ -174,6 +176,10 @@ class PageSalesOrderAddEdit
 			{
 				$this->add_sales_comp_from_purchase_comp();
 			}
+			else if($this->f_action == 'gotoaddcomp')
+			{
+				$this->save_and_redirect('page_purchase_comp_list.php?f_action_box_param=' . $this->f_id); 
+			}			
 			//just display			
 			else
 			{
@@ -187,6 +193,8 @@ class PageSalesOrderAddEdit
 	
 	private function add_sales_comp_from_purchase_comp()
 	{
+		$this->get_input_from_db();
+	
 		$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
 		$this->f_quantity = IO::get_input_sl_pg('f_quantity','integer'); //TODO: error on fractional
 		$this->f_total_cost = IO::get_input_sl_pg('f_total_cost','float');
@@ -418,7 +426,7 @@ class PageSalesOrderAddEdit
 		echo ('
 		<table width="100%">
 			<tr>
-				<td align="left" width="25%" valign="top"><input type="button" value="New" onclick="document.location=\'page_purchase_comp_list.php?f_action_box_param=' . $this->f_id . '\'"></td>
+				<td align="left" width="25%" valign="top"><input type="button" value="New" onclick="form_sales_order.f_action.value=\'gotoaddcomp\'; form_sales_order.f_id.value=\'' . $this->f_id . '\'; form_sales_order.submit();"></td>
 				<td align="left" valign="top" class="text_title">
 					Sales Order Contents:
 				</td>
