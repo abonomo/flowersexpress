@@ -112,7 +112,7 @@ class ObjPurchaseCompList
 		purchases.in_warehouse,
 		purchases.icode AS purchase_icode,
 		suppliers.company_name AS supplier_company_name,
-		(obj_table.quantity_sellable - (SELECT SUM(sales_order_comps.quantity_ordered) FROM sales_order_comps LEFT OUTER JOIN sales_orders ON sales_order_comps.sales_order_id = sales_orders.id WHERE sales_order_comps.purchase_comp_id=obj_table.id AND sales_orders.trash_flag = 0 GROUP BY sales_order_comps.purchase_comp_id)) AS quantity_left
+		(obj_table.quantity_sellable - IFNULL((SELECT SUM(sales_order_comps.quantity_ordered) FROM sales_order_comps LEFT OUTER JOIN sales_orders ON sales_order_comps.sales_order_id = sales_orders.id WHERE sales_order_comps.purchase_comp_id=obj_table.id AND sales_orders.trash_flag = 0 GROUP BY sales_order_comps.purchase_comp_id),0)) AS quantity_left
 		';	//CHANGE: in_warehouse, delivery_date table belonging
 		
 	private static $NEEDED_JOINS = '
