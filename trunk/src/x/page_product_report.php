@@ -125,7 +125,8 @@ class PageProductReport
 			$created_employee_name = $this->getEmployeeName($major_array['created_employee_id']);
 			$updated_employee_name = $this->getEmployeeName($major_array['updated_employee_id']);
 			echo ('
-			<tr><td>&nbsp;'. IO::prepout_sl($major_array['icode'], false) . '&nbsp;</td>
+			<tr>
+				<td>&nbsp;'. IO::prepout_sl($major_array['icode'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_ml_html($major_array['notes'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['name'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['type'], false) . '&nbsp;</td>
