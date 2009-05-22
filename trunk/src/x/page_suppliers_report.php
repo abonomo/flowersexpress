@@ -71,6 +71,14 @@ class PageSuppliersReport
 			<head>
 				<link href="style_report.css" rel="stylesheet">
 			</head>
+			
+			<table>
+				<tr>
+					<td>
+						<h2>Supplier Reports</h2>
+					</td>
+				</tr>
+			</table>
 
 			<body>
 		');
