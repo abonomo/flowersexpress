@@ -101,7 +101,7 @@ class ObjProductList
 		return self::$NEEDED_JOINS;
 	}
 	
-	public function display($action_box_mode, $prod_info_arr)
+	public function display($action_box_mode, $prod_info_arr, $action_box_param)
 	{
 		//display the list of results
 		$cnt = count($prod_info_arr);
@@ -109,7 +109,7 @@ class ObjProductList
 		{
 			$data_box_contents = $this->get_data_display($prod_info_arr[$i]);
 			//select a product for a purchase component mode	//TODO: figure this out
-			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_action=save&f_product_id=' . $prod_info_arr[$i]['id']);
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_purchase_comp_add_edit.php?f_id=' . $action_box_param . '&f_action=saveproduct&f_product_id=' . $prod_info_arr[$i]['id']);
 			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $prod_info_arr[$i]['id']);
 		
 			ResultBox::display($data_box_contents, $action_box_contents);

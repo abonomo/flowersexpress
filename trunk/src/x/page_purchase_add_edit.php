@@ -115,20 +115,23 @@ class PagePurchaseAddEdit
 			{
 				$this->save_and_redirect('page_shipper_list.php?f_action_box_param=' . $this->f_id . '&f_mode=selectforpurchase');				
 			}
+			//TODO: properly
 			else if($this->f_action == 'removecomp')
 			{
 				$this->get_save_restore();
 				$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
 				$this->m_purchase->remove_component($this->f_comp_id);
 			}
-			else if($this->f_action == 'addcomp')
-			{
-				$this->add_purchase_comp_from_purchase_comp();
-			}
 			else if($this->f_action == 'gotoaddcomp')
 			{
-				$this->save_and_redirect('page_purchase_comp_list.php?f_action_box_param=' . $this->f_id); 
-			}
+				$new_comp_id = $this->make_new_component();
+				$this->save_and_redirect('page_purchase_comp_add_edit.php?f_id=' . $new_comp_id . '&f_action_box_param=' . $this->f_id); 
+			}		
+			else if($this->f_action == 'gotoeditcomp')
+			{
+				$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');			
+				$this->save_and_redirect('page_purchase_comp_add_edit.php?f_id=' . $this->f_comp_id . '&f_action_box_param=' . $this->f_id); 
+			}				
 			//just display
 			else
 			{
@@ -165,20 +168,23 @@ class PagePurchaseAddEdit
 			{
 				$this->save_and_redirect('page_shipper_list.php?f_action_box_param=' . $this->f_id . '&f_mode=selectforpurchase');				
 			}
+			//TODO: properly
 			else if($this->f_action == 'removecomp')
 			{
 				$this->get_save_restore();
 				$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
 				$this->m_purchase->remove_component($this->f_comp_id);
 			}
-			else if($this->f_action == 'addcomp')
-			{
-				$this->add_purchase_comp_from_purchase_comp();
-			}
 			else if($this->f_action == 'gotoaddcomp')
 			{
-				$this->save_and_redirect('page_purchase_comp_list.php?f_action_box_param=' . $this->f_id); 
-			}			
+				$new_comp_id = $this->make_new_component();
+				$this->save_and_redirect('page_purchase_comp_add_edit.php?f_id=' . $new_comp_id . '&f_action_box_param=' . $this->f_id); 
+			}	
+			else if($this->f_action == 'gotoeditcomp')
+			{
+				$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');			
+				$this->save_and_redirect('page_purchase_comp_add_edit.php?f_id=' . $this->f_comp_id . '&f_action_box_param=' . $this->f_id); 
+			}				
 			//just display			
 			else
 			{
@@ -188,24 +194,19 @@ class PagePurchaseAddEdit
 
 		//TODO:
 		//get purchase components for later listing
-		//$this->get_purchase_comps();
+		$this->get_purchase_comps();
 	}
 	
-	private function add_purchase_comp_from_purchase_comp()
+	private function make_new_component()
 	{
-		$this->get_input_from_db();
-	
-		$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
-		$this->f_quantity = IO::get_input_sl_pg('f_quantity','integer'); //TODO: error on fractional
-		$this->f_total_cost = IO::get_input_sl_pg('f_total_cost','float');
-		
-		$this->m_purchase->add_component($this->f_comp_id, $this->f_quantity, $this->f_total_cost);
+		DB::send_query('INSERT INTO purchase_comps (purchase_id) VALUES (\'' . $this->f_id . '\')');
+		return DB::get_field_fq('SELECT LAST_INSERT_ID()');
 	}
 	
 	private function get_purchase_comps()
 	{
 		//make list object
-		$this->m_obj_purchase_comp_list = new ObjPurchaseCompList();
+		$this->m_obj_purchase_comp_list = new ObjEditPurchaseCompList();
 	
 		$this->m_comp_info_arr = DB::get_all_rows_fq(
 			'SELECT ' . 
@@ -428,7 +429,7 @@ class PagePurchaseAddEdit
 		//purchase component list
 		//echo('<div align="center">');
 			//TODO:
-			//$this->m_obj_purchase_comp_list->display('delete', $this->m_comp_info_arr);
+			$this->m_obj_purchase_comp_list->display('delete', $this->m_comp_info_arr);
 		//echo('</div>');
 		
 		//buttons if is cart
@@ -461,7 +462,7 @@ class PagePurchaseAddEdit
 			<table width="100%">
 				<tr>
 					<td align="left">
-						<input type="submit" name="f_submit_btn" value="Delete Purchase" onclick="document.location=\'page_purchase_add_edit.php?f_action=submit&f_mode=delete&f_id=' . IO::prepout_url($this->f_id) . '\'">
+						<input type="button" name="f_submit_btn" value="Delete Purchase" onclick="document.location=\'page_purchase_delete.php?f_id=' . IO::prepout_url($this->f_id) . '\';">
 					</td>					
 					<td align="right">
 						<input type="submit" name="f_submit_btn" value="Save Changes" class="button" onclick="form_purchase.f_action.value=\'save\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">
