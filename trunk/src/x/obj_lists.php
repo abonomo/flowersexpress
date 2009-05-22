@@ -19,6 +19,7 @@ class ObjCustomerList
 	private static $OBJ_NAME = 'customer';	//page names based on this
 	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number';
 	private static $NEEDED_JOINS = '';
+	private static $EXTRA_WHERE_CLAUSE = '';
 
 	public function get_needed_fields()
 	{
@@ -28,6 +29,11 @@ class ObjCustomerList
 	public function get_needed_joins()
 	{
 		return self::$NEEDED_JOINS;
+	}
+
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
 	public function display($action_box_mode, $cust_info_arr, $action_box_param)
@@ -86,6 +92,7 @@ class ObjProductList
 	private static $OBJ_NAME = 'product';	//page names based on this
 	private static $NEEDED_FIELDS = 'icode, id, name, type, subtype1, subtype2, typical_lifespan_days, typical_units, typical_min_price_per_unit, description, trash_flag';
 	private static $NEEDED_JOINS = '';
+	private static $EXTRA_WHERE_CLAUSE = '';
 	
 	// hahaha this isn't clean but I'm going for the 'just implement something' approach
 	private static $m_visibility = '';
@@ -99,6 +106,11 @@ class ObjProductList
 	public function get_needed_joins()
 	{
 		return self::$NEEDED_JOINS;
+	}
+
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
 	public function display($action_box_mode, $prod_info_arr, $action_box_param)
@@ -162,6 +174,7 @@ class ObjSupplierList
 	private static $OBJ_NAME = 'supplier';	//page names based on this
 	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number, trash_flag';
 	private static $NEEDED_JOINS = '';
+	private static $EXTRA_WHERE_CLAUSE = '';
 	
 	// hahaha this isn't clean but I'm going for the 'just implement something' approach
 	private static $m_visibility = '';
@@ -175,6 +188,11 @@ class ObjSupplierList
 	public function get_needed_joins()
 	{
 		return self::$NEEDED_JOINS;
+	}
+
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
 	public function display($action_box_mode, $supplier_info_arr, $action_box_param)
@@ -236,6 +254,7 @@ class ObjShipperList
 	private static $OBJ_NAME = 'shipper';	//page names based on this
 	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number, trash_flag';
 	private static $NEEDED_JOINS = '';
+	private static $EXTRA_WHERE_CLAUSE = '';
 	
 	// hahaha this isn't clean but I'm going for the 'just implement something' approach
 	private static $m_visibility = '';
@@ -249,6 +268,11 @@ class ObjShipperList
 	public function get_needed_joins()
 	{
 		return self::$NEEDED_JOINS;
+	}
+
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
 	public function display($action_box_mode, $shipper_info_arr, $action_box_param)
@@ -313,6 +337,7 @@ class ObjPurchaseList
 	private static $OBJ_NAME = 'purchase';	//page names based on this
 	private static $NEEDED_FIELDS = 'icode, id, is_cart, shipment_details, in_warehouse, delivery_date, price, trash_flag';
 	private static $NEEDED_JOINS = '';
+	private static $EXTRA_WHERE_CLAUSE = 'is_cart = 0';
 	
 	// hahaha this isn't clean but I'm going for the 'just implement something' approach
 	private static $m_visibility = '';
@@ -328,6 +353,11 @@ class ObjPurchaseList
 	public function get_needed_joins()
 	{
 		return self::$NEEDED_JOINS;
+	}
+
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
 	public function display($action_box_mode, $purchase_info_arr, $action_box_param)
@@ -351,14 +381,6 @@ class ObjPurchaseList
 	private function get_data_display($purchase_info)
 	{
 		$line_index = 0;
-		if ( $purchase_info['is_cart'] == 1 )
-		{
-			$m_is_cart = " - Finalized Purchase";
-		}
-		else
-		{
-			$m_is_cart = " - Shopping Cart";
-		}
 		
 		if( $purchase_info['in_warehouse'] == 1 )
 		{
@@ -366,7 +388,7 @@ class ObjPurchaseList
 		}
 		
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('Purchase Code: ', $purchase_info['icode'], 30, 'No Code') . $m_is_cart;
+		$obj_title_link_text = IO::prepout_sl_label('Purchase: ', $purchase_info['icode'], 30, 'No Code');
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;', $purchase_info['shipment_details'], 20) . $m_in_warehouse;
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;', $purchase_info['delivery_date'], 20);
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Price:&nbsp;', $purchase_info['price'], 20);
@@ -404,8 +426,9 @@ class ObjPurchaseList
 class ObjEmployeeList
 {
 	private static $OBJ_NAME = 'employee';	//page names based on this
-	private static $NEEDED_FIELDS = 'icode, email, auth_level, first_name, last_name, title, dept_name, office_location, office_phone_number, cell_phone_number, fax_number, trash_flag';
+	private static $NEEDED_FIELDS = 'icode, id, email, auth_level, first_name, last_name, title, dept_name, office_location, office_phone_number, cell_phone_number, fax_number, trash_flag';
 	private static $NEEDED_JOINS = '';
+	private static $EXTRA_WHERE_CLAUSE = '';
 
 	public function get_needed_fields()
 	{
@@ -415,6 +438,11 @@ class ObjEmployeeList
 	public function get_needed_joins()
 	{
 		return self::$NEEDED_JOINS;
+	}
+
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
 	public function display($action_box_mode, $employee_info_arr, $action_box_param)
