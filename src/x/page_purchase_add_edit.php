@@ -3,8 +3,8 @@
 //NOTES:
 //technically, we're always in EDIT mode, so there is no "f_mode=edit" necessary
 //we're either editting the user's shopping cart if no f_id was passed in
-//or we're editting an order if an f_id was passed in, but still through the shopping cart class
-//the shopping cart class takes care of the creation of a shopping cart (an order with is_cart=1)
+//or we're editting an purchase if an f_id was passed in, but still through the shopping cart class
+//the shopping cart class takes care of the creation of a shopping cart (an purchase with is_cart=1)
 
 require_once('framework.php');
 require_once('obj_comp_lists.php');
@@ -62,10 +62,10 @@ class PagePurchaseAddEdit
 		$this->f_action = IO::get_input_sl_pg('f_action','string');
 
 		
-		//get id of sales order to edit either from GET or from shopping cart		
+		//get id of purchase to edit either from GET or from shopping cart		
 		$this->f_id = IO::get_input_sl_pg('f_id','integer');
 		$this->m_purchase = new Purchase($this->f_id);
-		//sales order has final word on what order this is, might have defaulted to the shopping cart if f_id was bogus
+		//purchase has final word on what purchase this is, might have defaulted to the shopping cart if f_id was bogus
 		$this->f_id = $this->m_purchase->get_id();
 	
 	
@@ -104,7 +104,7 @@ class PagePurchaseAddEdit
 			{	
 				$this->get_input_from_form();
 				$this->action_save();
-				$this->m_purchase->become_order();
+				$this->m_purchase->become_purchase();
 				IO::navigate_to('page_purchase_view.php?f_id=' . $this->f_id);				
 			}
 			else if($this->f_action == 'selectsupplier')
@@ -113,7 +113,7 @@ class PagePurchaseAddEdit
 			}
 			else if($this->f_action == 'selectshipper')
 			{
-				$this->save_and_redirect('page_shipper_list.php?f_action_box_param=' . $this->f_id . '&f_mode=selectfororder');				
+				$this->save_and_redirect('page_shipper_list.php?f_action_box_param=' . $this->f_id . '&f_mode=selectforpurchase');				
 			}
 			else if($this->f_action == 'removecomp')
 			{
@@ -123,7 +123,7 @@ class PagePurchaseAddEdit
 			}
 			else if($this->f_action == 'addcomp')
 			{
-				$this->add_sales_comp_from_purchase_comp();
+				$this->add_purchase_comp_from_purchase_comp();
 			}
 			else if($this->f_action == 'gotoaddcomp')
 			{
@@ -135,7 +135,7 @@ class PagePurchaseAddEdit
 				$this->get_input_from_db();
 			}
 		}
-		//existing order actions
+		//existing purchase actions
 		else
 		{
 			if($this->f_action == 'save')
@@ -163,7 +163,7 @@ class PagePurchaseAddEdit
 			}
 			else if($this->f_action == 'selectshipper')
 			{
-				$this->save_and_redirect('page_shipper_list.php?f_action_box_param=' . $this->f_id . '&f_mode=selectfororder');				
+				$this->save_and_redirect('page_shipper_list.php?f_action_box_param=' . $this->f_id . '&f_mode=selectforpurchase');				
 			}
 			else if($this->f_action == 'removecomp')
 			{
@@ -173,7 +173,7 @@ class PagePurchaseAddEdit
 			}
 			else if($this->f_action == 'addcomp')
 			{
-				$this->add_sales_comp_from_purchase_comp();
+				$this->add_purchase_comp_from_purchase_comp();
 			}
 			else if($this->f_action == 'gotoaddcomp')
 			{
@@ -186,11 +186,12 @@ class PagePurchaseAddEdit
 			}			
 		}
 
-		//get sales order components for later listing
-		$this->get_purchase_comps();
+		//TODO:
+		//get purchase components for later listing
+		//$this->get_purchase_comps();
 	}
 	
-	private function add_sales_comp_from_purchase_comp()
+	private function add_purchase_comp_from_purchase_comp()
 	{
 		$this->get_input_from_db();
 	
@@ -248,7 +249,7 @@ class PagePurchaseAddEdit
 	private function get_input_from_db()
 	{
 		//get values from database
-		$purchase_info = $this->m_purchase->get_order_info();
+		$purchase_info = $this->m_purchase->get_purchase_info();
 		
 		$this->f_icode 				= $purchase_info['icode'];
 		$this->f_supplier_id 		= $purchase_info['supplier_id'];
@@ -326,7 +327,7 @@ class PagePurchaseAddEdit
 			<tr>
 				<td width="25%"> </td>
 				<td width="75%" class="text_title">
-				' . ($this->m_purchase->is_cart() ? 'Create New' : 'Edit Existing') . ' Sales Order
+				' . ($this->m_purchase->is_cart() ? 'Create New' : 'Edit Existing') . ' Purchase
 				</td>
 			</tr>
 		</table>
@@ -349,7 +350,7 @@ class PagePurchaseAddEdit
 		<!-- Input form fields -->
 		<table width="100%">
 			<tr>
-				<td class="text_label" width="25%">Order ID Code: </td>
+				<td class="text_label" width="25%">Purchase ID Code: </td>
 				<td class="form_input"><input type="text" name="f_icode" class="textbox" value="' . IO::prepout_sl($this->f_icode, false) . '"></td>
 			</tr>
 			
@@ -389,7 +390,7 @@ class PagePurchaseAddEdit
 			</tr>
 			
 			<tr>
-				<td class="text_label">Order Date: </td>
+				<td class="text_label">Bought Date: </td>
 				<td class="form_input"><input type="text" name="f_order_date" class="textbox" value="' . IO::prepout_sl($this->f_order_date, false) . '"></td>
 			</tr>
 			
@@ -412,21 +413,22 @@ class PagePurchaseAddEdit
 		<br>
 		');
 		
-		//sales order component title
+		//purchase component title
 		echo ('
 		<table width="100%">
 			<tr>
 				<td align="left" width="25%" valign="top"><input type="button" value="New" onclick="form_purchase.f_action.value=\'gotoaddcomp\'; form_purchase.f_id.value=\'' . $this->f_id . '\'; form_purchase.submit();"></td>
 				<td align="left" valign="top" class="text_title">
-					Sales Order Contents:
+					Purchase Contents:
 				</td>
 			</tr>
 		</table>
 		');
 		
-		//sales order component list
+		//purchase component list
 		//echo('<div align="center">');
-			$this->m_obj_purchase_comp_list->display('delete', $this->m_comp_info_arr);
+			//TODO:
+			//$this->m_obj_purchase_comp_list->display('delete', $this->m_comp_info_arr);
 		//echo('</div>');
 		
 		//buttons if is cart
@@ -444,14 +446,14 @@ class PagePurchaseAddEdit
 					<td align="right">
 						<input type="submit" name="f_submit_btn" value="Save Progress" class="button" onclick="form_purchase.f_action.value=\'save\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">
 						<br>
-						<input type="submit" name="f_submit_btn" value="Complete Order" class="button" onclick="form_purchase.f_action.value=\'finish\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">
+						<input type="submit" name="f_submit_btn" value="Complete Purchase" class="button" onclick="form_purchase.f_action.value=\'finish\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">
 					</td>
 				</tr>
 			</table>
 			</form>
 			');
 		}
-		//buttons if is existing sales order
+		//buttons if is existing purchase
 		else
 		{
 			echo('
@@ -459,7 +461,7 @@ class PagePurchaseAddEdit
 			<table width="100%">
 				<tr>
 					<td align="left">
-						<input type="submit" name="f_submit_btn" value="Delete Order" onclick="document.location=\'page_purchase_add_edit.php?f_action=submit&f_mode=delete&f_id=' . IO::prepout_url($this->f_id) . '\'">
+						<input type="submit" name="f_submit_btn" value="Delete Purchase" onclick="document.location=\'page_purchase_add_edit.php?f_action=submit&f_mode=delete&f_id=' . IO::prepout_url($this->f_id) . '\'">
 					</td>					
 					<td align="right">
 						<input type="submit" name="f_submit_btn" value="Save Changes" class="button" onclick="form_purchase.f_action.value=\'save\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">

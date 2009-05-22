@@ -6,7 +6,7 @@ require_once('obj_page_num_nav.php');
 class PageGenericList
 {
 	//*** CONSTANTS ***
-	private static $RESULTS_PER_PAGE = 2;
+	private static $RESULTS_PER_PAGE = 1;
 	private static $MAX_PAGES_IN_NAV_BAR = 10;
 	
 	private static $DEFAULT_ORDER_BY_OPTION_INX = 0;
@@ -121,7 +121,8 @@ class PageGenericList
 				SELECT SQL_CALC_FOUND_ROWS ' . $this->m_list_object->get_needed_fields() . ', 
 				1 AS relevance
 				FROM ' . $this->m_obj_name . 's ' . $this->m_list_object->RENAME_MAIN_TABLE . ' ' .
-				$this->m_list_object->get_needed_joins() . ' ' .				
+				$this->m_list_object->get_needed_joins() . ' ' .
+				'WHERE 1 ' .  $this->m_list_object->EXTRA_WHERE_CLAUSE . ' ' .
 				$order_by_clause .
 				'LIMIT ' . $offset . ',' . $limit
 			);				
@@ -135,7 +136,7 @@ class PageGenericList
 				MATCH(' . $this->m_search_obj_name . 's.search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) as relevance
 				FROM ' . $this->m_obj_name . 's ' . $this->m_list_object->RENAME_MAIN_TABLE . ' ' .
 				$this->m_list_object->get_needed_joins() . ' 
-				WHERE MATCH(' . $this->m_search_obj_name . 's.search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) ' .
+				WHERE MATCH(' . $this->m_search_obj_name . 's.search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) ' . $this->m_list_object->EXTRA_WHERE_CLAUSE . ' ' .
 				$order_by_clause . ' 
 				LIMIT ' . $offset . ',' . $limit
 			);
