@@ -14,6 +14,7 @@ class SearchBar
 					<td width="33%" align="left" valign="middle">	
 						<input name="f_mode" type="hidden" value="' . $cur_mode . '"/>
 						<input name="f_page" type="hidden" value="' . $cur_page_num . '"/>
+						<input name="f_action_box_param" type="hidden" value=""/>
 						<input name="f_search" type="text" width="30" class="textbox" value="' . IO::prepout_sl($search_box_value, false) . '"/>
 						<input name="f_search_btn" class="button" type="submit" value="Search"/>
 					</td>
