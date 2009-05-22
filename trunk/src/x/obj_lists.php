@@ -337,7 +337,7 @@ class ObjPurchaseList
 	private static $OBJ_NAME = 'purchase';	//page names based on this
 	private static $NEEDED_FIELDS = 'icode, id, is_cart, shipment_details, in_warehouse, delivery_date, price, trash_flag';
 	private static $NEEDED_JOINS = '';
-	private static $EXTRA_WHERE_CLAUSE = 'is_cart = 0';
+	private static $EXTRA_WHERE_CLAUSE = 'AND is_cart = 0';
 	
 	// hahaha this isn't clean but I'm going for the 'just implement something' approach
 	private static $m_visibility = '';
