@@ -160,7 +160,7 @@ class ObjProductList
 class ObjSupplierList
 {
 	private static $OBJ_NAME = 'supplier';	//page names based on this
-	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number';
+	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number, trash_flag';
 	private static $NEEDED_JOINS = '';
 	
 	// hahaha this isn't clean but I'm going for the 'just implement something' approach
@@ -234,7 +234,7 @@ class ObjSupplierList
 class ObjShipperList
 {
 	private static $OBJ_NAME = 'shipper';	//page names based on this
-	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number';
+	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number, trash_flag';
 	private static $NEEDED_JOINS = '';
 	
 	// hahaha this isn't clean but I'm going for the 'just implement something' approach
@@ -300,6 +300,167 @@ class ObjShipperList
 		
 		$obj_data_display .=
 		'		</td>
+			</tr>
+		</table>';
+	
+		return $obj_data_display;
+	}
+}
+
+
+class ObjPurchaseList
+{
+	private static $OBJ_NAME = 'purchase';	//page names based on this
+	private static $NEEDED_FIELDS = 'icode, id, is_cart, shipment_details, in_warehouse, delivery_date, price, trash_flag';
+	private static $NEEDED_JOINS = '';
+	
+	// hahaha this isn't clean but I'm going for the 'just implement something' approach
+	private static $m_visibility = '';
+	private static $m_in_trash = '';
+	private static $m_is_cart = '';
+	private static $m_in_warehouse = '';
+
+	public function get_needed_fields()
+	{
+		return self::$NEEDED_FIELDS;
+	}
+
+	public function get_needed_joins()
+	{
+		return self::$NEEDED_JOINS;
+	}
+	
+	public function display($action_box_mode, $purchase_info_arr, $action_box_param)
+	{
+		//display the list of results
+		$cnt = count($purchase_info_arr);
+		for($i = 0; $i < $cnt; $i++)
+		{
+			$data_box_contents = $this->get_data_display($purchase_info_arr[$i]);
+			//select a purchase for a sales order mode
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'fororder') $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=savepurchase&f_purchase_id=' . $purchase_info_arr[$i]['id']);
+			//select a purchase for a purchase mode
+			else if($action_box_mode == ResultSelectMenu::$MODE_VAL . 'forpurchase') $action_box_contents = ResultSelectMenu::create('page_purchase_add_edit?.phpf_action=savepurchase&f_purchase_id=' . $purchase_info_arr[$i]['id']);			
+			//full action display
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $purchase_info_arr[$i]['id']);
+		
+			ResultBox::display($data_box_contents, $action_box_contents);
+		}
+	}
+	
+	private function get_data_display($purchase_info)
+	{
+		$line_index = 0;
+		if ( $purchase_info['is_cart'] == 1 )
+		{
+			$m_is_cart = " - Finalized Purchase";
+		}
+		else
+		{
+			$m_is_cart = " - Shopping Cart";
+		}
+		
+		if( $purchase_info['in_warehouse'] == 1 )
+		{
+			$m_in_warehouse = "In Warehouse";
+		}
+		
+		//decide what is displayed with what labels
+		$obj_title_link_text = IO::prepout_sl_label('Purchase Code: ', $purchase_info['icode'], 30, 'No Code') . $m_is_cart;
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;', $purchase_info['shipment_details'], 20) . $m_in_warehouse;
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;', $purchase_info['delivery_date'], 20);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Price:&nbsp;', $purchase_info['price'], 20);
+
+		if( $purchase_info['trash_flag'] == 1 )
+		{
+			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
+			$m_in_trash = '[In trash bin] - ';
+		}
+		
+		//display the object title link and data lines
+		$obj_data_display =
+		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
+			<tr>
+				<td align="left">
+					' . $m_in_trash . '
+					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $purchase_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+		';
+		
+		//append the data lines
+		for($i = 0; $i < count($obj_line); $i++)
+		{
+			$obj_data_display .= $obj_line[$i] . '<br>';
+		}
+		
+		$obj_data_display .=
+		'		</td>
+			</tr>
+		</table>';
+	
+		return $obj_data_display;
+	}
+}
+
+class ObjEmployeeList
+{
+	private static $OBJ_NAME = 'employee';	//page names based on this
+	private static $NEEDED_FIELDS = 'icode, email, auth_level, first_name, last_name, title, dept_name, office_location, office_phone_number, cell_phone_number, fax_number, trash_flag';
+	private static $NEEDED_JOINS = '';
+
+	public function get_needed_fields()
+	{
+		return self::$NEEDED_FIELDS;
+	}
+
+	public function get_needed_joins()
+	{
+		return self::$NEEDED_JOINS;
+	}
+	
+	public function display($action_box_mode, $employee_info_arr, $action_box_param)
+	{
+		//display the list of results
+		$cnt = count($employee_info_arr);
+		for($i = 0; $i < $cnt; $i++)
+		{
+			$data_box_contents = $this->get_data_display($employee_info_arr[$i]);
+			//select a employee for a sales order mode
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=saveemployee&f_employee_id=' . $employee_info_arr[$i]['id']);
+			//full action display
+			else $action_box_contents = $action_box_contents = ResultFullMenu::create(self::$OBJ_NAME, $employee_info_arr[$i]['id']);
+		
+			ResultBox::display($data_box_contents, $action_box_contents);
+		}
+	}
+	
+	private function get_data_display($employee_info)
+	{
+		$line_index = 0;
+		//decide what is displayed with what labels
+		$obj_title_link_text = IO::prepout_sl_label('', $employee_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $employee_info['last_name'], 30) . IO::prepout_sl_label(', ', $employee_info['first_name'], 30);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Title:&nbsp;', $employee_info['title'], 30) . IO::prepout_sl_label(',&nbsp;', $employee_info['dept_name'], 30);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office Location:&nbsp;', $employee_info['office_location'], 30);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $employee_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $employee_info['cell_phone_number'], 20);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Fax:&nbsp;', $employee_info['fax_number'], 20);
+	
+		//display the object title link and data lines
+		$obj_data_display =
+		'<table width="100%" cellspacing="0" cellpadding="0" >
+			<tr>
+				<td width="75%" align="left" valign="top">
+					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $employee_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+		';
+		
+		//append the data lines
+		for($i = 0; $i < count($obj_line); $i++)
+		{
+			$obj_data_display .= $obj_line[$i] . '<br>';
+		}
+		
+		$obj_data_display .=
+		'		</td>
+				<td width="75%" align="right" valign="top">
+				</td>				
 			</tr>
 		</table>';
 	
