@@ -124,7 +124,7 @@ class PageGenericList
 				1 AS relevance
 				FROM ' . $this->m_obj_name . 's ' . $this->m_list_object->RENAME_MAIN_TABLE . ' ' .
 				$this->m_list_object->get_needed_joins() . ' ' .
-				'WHERE 1 ' .  $this->m_list_object->EXTRA_WHERE_CLAUSE . ' ' .
+				'WHERE 1 AND ' .  $this->m_list_object->get_where_clause() . ' ' .
 				$order_by_clause .
 				'LIMIT ' . $offset . ',' . $limit
 			);				
@@ -138,7 +138,7 @@ class PageGenericList
 				MATCH(' . $this->m_search_obj_name . 's.search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) as relevance
 				FROM ' . $this->m_obj_name . 's ' . $this->m_list_object->RENAME_MAIN_TABLE . ' ' .
 				$this->m_list_object->get_needed_joins() . ' 
-				WHERE MATCH(' . $this->m_search_obj_name . 's.search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) ' . $this->m_list_object->EXTRA_WHERE_CLAUSE . ' ' .
+				WHERE MATCH(' . $this->m_search_obj_name . 's.search_words) AGAINST(\'' . $encoded_search . '\' IN BOOLEAN MODE) AND ' . $this->m_list_object->get_where_clause() . ' ' .
 				$order_by_clause . ' 
 				LIMIT ' . $offset . ',' . $limit
 			);
