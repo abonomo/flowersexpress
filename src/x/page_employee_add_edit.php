@@ -197,17 +197,12 @@ class PageEmployeeAddEdit
 				if(strlen($this->f_new_password) > Config::$DEFAULT_VARCHAR_LEN
 					|| strlen($this->f_confirm_password > Config::$DEFAULT_VARCHAR_LEN))
 					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: New Password Length is too long.';
+				
 				//verify other password stuff
 				if((!LoginManager::verify_password_again($this->f_old_password, $this->f_id)) && $this->f_mode == 'edit')
 					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Inccorect Current Password.';
-				
-				//TODO: need to test for string equivalence below code isn't working
-				if(!($this->f_confirm_password == $this->f_newPassword))
-				{
-					echo $this->f_confirm_password;
-					echo $this->f_new_password;
-					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Passwords  do not match.';	
-				}
+				if($this->f_confirm_password != $this->f_new_password)
+					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Passwords  do not match.';
 			}
 				
 			//outputs any errors
