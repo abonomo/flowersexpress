@@ -139,7 +139,7 @@ class LoginManager
 	{
 		if(!self::meets_auth_level(self::$AUTH_ADMIN) || strlen($id) == 0)
 			$id = self::get_id();
-		$verify_result = DB::get_result_fq('SELECT id FROM employees WHERE id=\'' . $id . '\' AND password=\'' . $the_password . '\'');
+		$verify_result = DB::get_result_fq('SELECT id FROM employees WHERE id=\'' . $id . '\' AND password=\'' . self::encryptPassword($the_password) . '\'');
 		return DB::is_unique_result($verify_result);
 	}
 	
