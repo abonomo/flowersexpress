@@ -242,25 +242,22 @@ class PagePurchaseView
 			</table>
 			');	
 			
+		
 			//make list object
-			//
-			//$this->m_obj_purchase_comp_list = new ObjPurchaseCompList();
-			//
-			//$this->m_comp_info_arr = DB::get_all_rows_fq
-			//(
-			//	'SELECT ' . 
-			//	$this->m_obj_purchase_comp_list->get_needed_fields() . 
-			//	'FROM purchase_comps' .
-			//	$this->m_obj_purchase_comp_list->get_needed_joins() .
-			//	'WHERE purchase_comps.purchase_id=\'' . $this->f_id . '\''
-			//);
-			//
-			//$this->m_obj_purchase_comp_list->display('empty', $this->m_comp_info_arr);
-			//
-			// MySQL said: Documentation #1109 - Unknown table 'obj_table' in field list 
-			//
-			//
-			//
+			$this->m_obj_purchase_comp_list = new ObjEditPurchaseCompList();
+		
+			$this->m_comp_info_arr = DB::get_all_rows_fq
+			(
+				'SELECT ' . 
+				$this->m_obj_purchase_comp_list->get_needed_fields() . 
+				'FROM purchase_comps' .
+				$this->m_obj_purchase_comp_list->get_needed_joins() .
+				'WHERE purchase_comps.purchase_id=\'' . $this->f_id . '\''
+			);
+			
+			$this->m_obj_purchase_comp_list->display('empty', $this->m_comp_info_arr);
+			
+
 			
 		ObjOuterArea::echo_bottom();
 
