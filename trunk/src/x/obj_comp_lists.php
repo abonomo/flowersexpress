@@ -31,6 +31,8 @@ class ObjSalesOrderCompList
 		LEFT OUTER JOIN sales_orders ON sales_order_comps.sales_order_id = sales_orders.id
 		';
 	
+	private static $EXTRA_WHERE_CLAUSE = '';
+	
 	public function get_needed_fields()
 	{
 		return self::$NEEDED_FIELDS;
@@ -39,6 +41,11 @@ class ObjSalesOrderCompList
 	public function get_needed_joins()
 	{
 		return self::$NEEDED_JOINS;
+	}
+	
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
 	public function display($action_box_mode, $obj_info_arr)
@@ -95,7 +102,7 @@ class ObjSalesOrderCompList
 class ObjPurchaseCompList
 {
 	public $RENAME_MAIN_TABLE = 'obj_table';
-	public $EXTRA_WHERE_CLAUSE = ' AND purchases.is_cart = 0';
+	private static $EXTRA_WHERE_CLAUSE = ' AND purchases.is_cart = 0';
 
 	private static $OBJ_NAME = 'purchase_comp';	//page names based on this
 	private static $NEEDED_FIELDS = '
@@ -129,6 +136,11 @@ class ObjPurchaseCompList
 	public function get_needed_joins()
 	{
 		return self::$NEEDED_JOINS;
+	}
+	
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
 	public function display($action_box_mode, $obj_info_arr, $action_box_param)
