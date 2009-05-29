@@ -57,11 +57,10 @@ class PageReportMenu
 			echo ('
 			<form name="form">
 				<div class="text_title">Report Menu</div>
-				<input name="f_report_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_report_list.php?f_search=\' + form.f_report_search.value)" /><br>
 				<a href="page_report_sales_menu.php">Sales Report</a><br>
 				<a href="page_report_purchase_menu.php">Purchase Report</a><br>
 				<a href="page_product_report.php">Product Information Report</a><br>
-				<a href="page_available_product_report.php">Available Product Report</a><br>
+				<a href="page_purchase_comp_list.php">Available Product Report</a><br>
 				<a href="page_in_stock_report.php">In Stock Report</a><br>
 				<a href="page_suppliers_report.php">Suppliers Report</a><br>
 				<a href="page_customer_report.php">Customer Report</a><br>
