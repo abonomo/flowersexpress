@@ -53,24 +53,29 @@ class PageSalesOrderMenu
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_SALES_ORDERS);
 		
 		//echo inner area html here
-		//  TODO : Search algorithm
 			echo ('
-				<form name="form">
-				<div class="text_title">Sales Order Menu</div>	
-				<input name="f_sales_order_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_sales_order_list.php?f_search=\' + form.f_sales_order_search.value)" /><br>
+				<div align="center">
+			
+					<div class="text_title">Sales Order Actions Menu</div><br>
 			');
 			
 			// ** READ/WRITE required to view  **
 			if (LoginManager::meets_auth_level(LoginManager::$AUTH_READ_WRITE) == true)
 			{
-				echo ('
-					<a href="page_sales_order_add_edit.php">Add Sales Order</a><br>
+			echo ('
+						<a href="page_sales_order_add_edit.php">Add Sales Order</a><br>
 				');
 			}
 			
 			echo ('
-				<a href="page_sales_order_list.php">List All Sales Order</a><br>
-				</form>
+					<a href="page_sales_order_list.php">List All Sales Orders</a><br>
+					<br>
+					<form method="post" action="page_sales_order_list.php">
+						<input name="f_search" class="textbox" type="text" />
+						<input value="Search" type="submit" class="button"/><br>
+					</form>				
+				
+				</div>
 			');
 			
 			
