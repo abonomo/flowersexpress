@@ -681,7 +681,12 @@ function PopupWindow_showPopup(anchorname) {
 function PopupWindow_hidePopup() {
 	if (this.divName != null) {
 		if (this.use_gebi) {
-			document.getElementById(this.divName).style.visibility = "hidden";
+				//BUG FIX: null element not checked
+				var the_element = document.getElementById(this.divName);
+				if(the_element != null)
+				{
+					the_element.style.visibility = "hidden";
+				}
 			}
 		else if (this.use_css) {
 			document.all[this.divName].style.visibility = "hidden";
@@ -720,13 +725,22 @@ function PopupWindow_isClicked(e) {
 			return false;
 			}
 		else if (this.use_gebi && e) {
-			var t = e.originalTarget;
-			while (t.parentNode != null) {
-				if (t.id==this.divName) {
-					return true;
+			
+			try
+			{
+				var t = e.originalTarget;
+				while (t.parentNode != null) {
+					if (t.id==this.divName) {
+						return true;
+						}
+					t = t.parentNode;
 					}
-				t = t.parentNode;
-				}
+			}
+			catch(e)
+			{
+			
+			}
+			
 			return false;
 			}
 		return false;

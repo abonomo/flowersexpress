@@ -52,26 +52,30 @@ class PageSupplierMenu
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_SUPPLIERS);
 		
 		//echo inner area html here
-		//  TODO : Search algorithm
 			echo ('
-				<form name="form">
-				<div class="text_title">Supplier Menu</div>	
-				<input name="f_supplier_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_supplier_list.php?f_search=\' + form.f_supplier_search.value)" /><br>
+				<div align="center">
+			
+					<div class="text_title">Supplier Actions Menu</div><br>
 			');
 			
 			// ** READ/WRITE required to view  **
 			if (LoginManager::meets_auth_level(LoginManager::$AUTH_READ_WRITE) == true)
 			{
-				echo ('
-					<a href="page_supplier_add_edit.php">Add Supplier</a><br>
+			echo ('
+						<a href="page_supplier_add_edit.php">Add Supplier</a><br>
 				');
 			}
 			
 			echo ('
-				<a href="page_supplier_list.php">List All Suppliers</a><br>
-				</form>
+					<a href="page_supplier_list.php">List All Suppliers</a><br>
+					<br>
+					<form method="post" action="page_supplier_list.php">
+						<input name="f_search" class="textbox" type="text" />
+						<input value="Search" type="submit" class="button"/><br>
+					</form>				
+				
+				</div>
 			');
-			
 			
 
 
