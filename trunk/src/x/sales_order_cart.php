@@ -199,7 +199,6 @@ class SalesOrder
 			order_date=NOW(),
 			delivery_date=NOW(),
 			price=DEFAULT,
-			currency=DEFAULT,
 			created_employee_id=\'' . LoginManager::get_id() . '\',
 			updated_employee_id=DEFAULT,
 			created_date=NOW(),
@@ -232,8 +231,7 @@ class SalesOrder
 			$order_info['notes'] . ' ' .
 			$order_info['shipment_details'] . ' ' .
 			(($order_info['special'] != 0) ? self::$SPECIAL_SEARCH_WORD : '') . ' ' .
-			$order_info['price'] . ' ' .
-			$order_info['currency']
+			$order_info['price']
 		);
 		
 	

@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 22, 2009 at 01:05 AM
+-- Generation Time: May 28, 2009 at 09:53 PM
 -- Server version: 4.1.22
 -- PHP Version: 5.2.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `maxvujo_flowersexpressmax`
+-- Database: `maxvujo_flowersexpressalex`
 --
 
 -- --------------------------------------------------------
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
   `trash_flag` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   FULLTEXT KEY `search_words` (`search_words`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `employees`
@@ -122,7 +122,8 @@ CREATE TABLE IF NOT EXISTS `employees` (
 INSERT DELAYED INTO `employees` (`id`, `icode`, `email`, `password`, `auth_level`, `first_name`, `last_name`, `title`, `dept_name`, `office_location`, `office_phone_number`, `cell_phone_number`, `fax_number`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
 (1, '', 'test@test.com', '098f6bcd4621d373cade4e832627b4f6', 4, 'Testo', 'Testigi', '', '', '', 'test number', '', '', 0, 9, '0000-00-00 00:00:00', '2009-05-15 13:33:00', ' test test comQQQ Testo Testigi test number ', 0),
 (2, '', 'a@b.com', '912ec803b2ce49e4a541068d495ab570', 2, 'Jack', 'Johnson', '', '', '', '5', '123456789', '', 0, 9, '0000-00-00 00:00:00', '2009-05-15 13:34:03', '123456789 aQQQ bQQQ comQQQ Jack Johnson 5QQQ ', 0),
-(9, 'test encryption', 'test', '098f6bcd4621d373cade4e832627b4f6', 4, 'test encryption', 'test encryption', 'password is test', '', '', '', '', '', 1, 1, '2009-05-15 13:28:36', '2009-05-15 13:29:32', ' test test encryption test encryption test encryption ', 0);
+(9, 'test encryption', 'test', '098f6bcd4621d373cade4e832627b4f6', 4, 'test encryption', 'test encryption', 'password is test', '', '', '', '', '', 1, 1, '2009-05-15 13:28:36', '2009-05-15 13:29:32', ' test test encryption test encryption test encryption ', 0),
+(10, 'test', 'asdf', '202cb962ac59075b964b07152d234b70', 3, 'lakjsr', 'kajdfl', 'alksjf', 'aklfja', 'alfj', 'lkajdsf', 'kajf', 'alfj', 1, 10, '2009-05-23 17:21:19', '2009-05-23 18:06:54', 'kajf asdf alfj lakjsr kajdfl alfj lkajdsf ', 0);
 
 -- --------------------------------------------------------
 
@@ -248,7 +249,6 @@ CREATE TABLE IF NOT EXISTS `sales_orders` (
   `order_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `delivery_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `price` decimal(10,2) NOT NULL default '0.00',
-  `currency` varchar(255) NOT NULL default '',
   `created_employee_id` int(11) NOT NULL default '0',
   `updated_employee_id` int(11) NOT NULL default '0',
   `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -263,11 +263,11 @@ CREATE TABLE IF NOT EXISTS `sales_orders` (
 -- Dumping data for table `sales_orders`
 --
 
-INSERT DELAYED INTO `sales_orders` (`id`, `is_cart`, `icode`, `notes`, `customer_id`, `shipper_id`, `shipment_details`, `special`, `order_date`, `delivery_date`, `price`, `currency`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
-(1, 0, 'O2091', 'blah blah', 2, 1, 'do it quick', 0, '2009-05-21 06:13:11', '2009-05-21 06:13:11', 800.00, '', 1, 1, '2009-04-30 02:00:00', '2009-05-21 06:15:52', 'O2091 2QQQ 1QQQ doQQQ itQQQ quick 2009 05QQQ 21QQQ 06QQQ 13QQQ 11QQQ 2009 05QQQ 21QQQ 06QQQ 13QQQ 11QQQ 800QQQ blah blah', 0),
-(7, 0, '', '', 9, 1, '', 1, '2009-05-21 06:18:37', '2009-05-21 06:18:37', 0.00, '', 1, 1, '2009-05-21 06:19:17', '2009-05-21 06:19:22', ' 9QQQ 1QQQ special 2009 05QQQ 21QQQ 06QQQ 18QQQ 37QQQ 2009 05QQQ 21QQQ 06QQQ 18QQQ 37QQQ 0QQQ ', 0),
-(8, 0, '123456', 'dfd sadfasdf fdfd b34232', 10, 2, 'qwerfdgrtfg \r\n24334', 1, '6730-00-00 00:00:00', '0000-00-00 00:00:00', 234.00, '', 1, 1, '2009-05-21 18:50:30', '2009-05-21 19:08:00', '123456 10QQQ 2QQQ qwerfdgrtfg 24334 special 6730 00QQQ 00QQQ 00QQQ 00QQQ 00QQQ 0000 00QQQ 00QQQ 00QQQ 00QQQ 00QQQ 234QQQ dfdQQQ sadfasdf fdfd b34232', 0),
-(9, 1, '', '', 9, 2, '', 0, '2009-05-21 19:30:19', '2009-05-21 19:30:19', 0.00, '', 1, 1, '2009-05-21 19:30:19', '2009-05-22 00:55:09', ' 9QQQ 2QQQ 2009 05QQQ 21QQQ 19QQQ 30QQQ 19QQQ 2009 05QQQ 21QQQ 19QQQ 30QQQ 19QQQ 0QQQ ', 0);
+INSERT DELAYED INTO `sales_orders` (`id`, `is_cart`, `icode`, `notes`, `customer_id`, `shipper_id`, `shipment_details`, `special`, `order_date`, `delivery_date`, `price`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 0, 'O2091', 'blah blah', 2, 1, 'do it quick', 0, '2009-05-21 06:13:11', '2009-05-21 06:13:11', 800.00, 1, 1, '2009-04-30 02:00:00', '2009-05-21 06:15:52', 'O2091 2QQQ 1QQQ doQQQ itQQQ quick 2009 05QQQ 21QQQ 06QQQ 13QQQ 11QQQ 2009 05QQQ 21QQQ 06QQQ 13QQQ 11QQQ 800QQQ blah blah', 0),
+(7, 0, '', '', 9, 1, '', 1, '2009-05-21 06:18:37', '2009-05-21 06:18:37', 0.00, 1, 1, '2009-05-21 06:19:17', '2009-05-21 06:19:22', ' 9QQQ 1QQQ special 2009 05QQQ 21QQQ 06QQQ 18QQQ 37QQQ 2009 05QQQ 21QQQ 06QQQ 18QQQ 37QQQ 0QQQ ', 0),
+(8, 0, '123456', 'dfd sadfasdf fdfd b34232', 10, 2, 'qwerfdgrtfg \r\n24334', 1, '6730-00-00 00:00:00', '0000-00-00 00:00:00', 234.00, 1, 1, '2009-05-21 18:50:30', '2009-05-21 19:08:00', '123456 10QQQ 2QQQ qwerfdgrtfg 24334 special 6730 00QQQ 00QQQ 00QQQ 00QQQ 00QQQ 0000 00QQQ 00QQQ 00QQQ 00QQQ 00QQQ 234QQQ dfdQQQ sadfasdf fdfd b34232', 0),
+(9, 1, '', '', 9, 2, '', 0, '2009-05-21 19:30:19', '2009-05-21 19:30:19', 0.00, 1, 1, '2009-05-21 19:30:19', '2009-05-22 00:55:09', ' 9QQQ 2QQQ 2009 05QQQ 21QQQ 19QQQ 30QQQ 19QQQ 2009 05QQQ 21QQQ 19QQQ 30QQQ 19QQQ 0QQQ ', 0);
 
 -- --------------------------------------------------------
 

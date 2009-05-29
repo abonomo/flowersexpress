@@ -7,7 +7,6 @@ class ObjSalesOrderCompList
 	private static $OBJ_NAME = 'sales_order_comp';	//page names based on this
 	private static $NEEDED_FIELDS = '
 		sales_orders.id AS sales_order_id,
-		sales_orders.currency,
 		sales_order_comps.id AS sales_order_comp_id,
 		sales_order_comps.quantity_ordered,
 		sales_order_comps.total_cost,
@@ -67,7 +66,7 @@ class ObjSalesOrderCompList
 		//decide what is displayed with what labels
 		$obj_line[0] = '<td align="left">&nbsp;Product&nbsp;ID:&nbsp;</td><td align="left"><a href="page_product_view.php?f_id=' . $obj_info['product_id'] . '">' . IO::prepout_sl($obj_info['product_icode'], 40) . '&nbsp;:&nbsp;' . IO::prepout_sl($obj_info['product_name'], 40) . '</a></td>';
 		$obj_line[1] = '<td align="left">&nbsp;Quantity:&nbsp;</td><td align="left">' . IO::prepout_sl($obj_info['quantity_ordered'], 40) . '&nbsp;' . IO::prepout_sl($obj_info['units'], 40) . '</td>';
-		$obj_line[2] = '<td align="left">&nbsp;Total&nbsp;Cost:&nbsp;</td><td align="left">' . IO::prepout_sl($obj_info['total_cost'], 40) . '&nbsp;' . IO::prepout_sl($obj_info['currency'], 40) . '</td>';
+		$obj_line[2] = '<td align="left">&nbsp;Total&nbsp;Cost:&nbsp;</td><td align="left">' . IO::prepout_sl($obj_info['total_cost'], 40) . '&nbsp;</td>';
 		$obj_line[3] = '<td align="left">&nbsp;Purchase&nbsp;ID:&nbsp;</td><td align="left"><a href="page_purchase_view.php?f_id=' . $obj_info['purchase_id'] . '">' . IO::prepout_sl($obj_info['purchase_icode'], 40) . '</a></td>';
 		$obj_line[4] = '<td align="left">&nbsp;Supplier:&nbsp;</td><td align="left"><a href="page_supplier_view.php?f_id=' . $obj_info['supplier_id'] . '">' . IO::prepout_sl($obj_info['supplier_icode'] . ' : ' . $obj_info['supplier_company_name'], 40) . '</a></td>';
 	
