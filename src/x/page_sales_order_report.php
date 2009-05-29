@@ -113,7 +113,6 @@ class PageTemplate
 				<th>&nbsp;Order_Date&nbsp;</th> 
 				<th>&nbsp;Delivery_Date&nbsp;</th> 
 				<th>&nbsp;Price&nbsp;</th> 
-				<th>&nbsp;Currency&nbsp;</th> 
 				<th>&nbsp;Created Date&nbsp;</th> 
 				<th>&nbsp;Updated Date&nbsp;</th> 
 			</tr> '); 
@@ -134,7 +133,6 @@ class PageTemplate
 				<td>&nbsp;'. IO::prepout_sl($major_array['order_date'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['delivery_date'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['price'], false) . '&nbsp;</td>
-				<td>&nbsp;'. IO::prepout_sl($major_array['currency'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['created_date'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['updated_date'], false) . '&nbsp;</td>
 			</tr>
