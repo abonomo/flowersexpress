@@ -22,7 +22,6 @@ class PageSalesOrderView
 	private $f_order_date;
 	private $f_delivery_date;
 	private $f_price;
-	private $f_currency;
 	private $f_notes;
 	
 	private $f_shipper_comp_name;
@@ -82,7 +81,6 @@ class PageSalesOrderView
 						order_date, 
 						delivery_date, 
 						price, 
-						currency, 
 						notes, 
 						created_employee_id, 
 						updated_employee_id, 
@@ -100,7 +98,6 @@ class PageSalesOrderView
 			$this->f_order_date 			= $sales_order_info['order_date'];
 			$this->f_delivery_date 			= $sales_order_info['delivery_date'];
 			$this->f_price 					= $sales_order_info['price'];
-			$this->f_currency 				= $sales_order_info['currency'];
 			$this->f_notes 					= $sales_order_info['notes'];
 			$this->f_created_employee_id	= $sales_order_info['created_employee_id'];
 			$this->f_updated_employee_id	= $sales_order_info['updated_employee_id'];
@@ -244,7 +241,7 @@ class PageSalesOrderView
 				
 				<tr>
 					<td class="text_label">Price: </td>
-					<td class="form_input">' . IO::prepout_sl($this->f_price, false) . '&nbsp;' . IO::prepout_sl($this->f_currency, false) .  '</td>
+					<td class="form_input">' . IO::prepout_sl($this->f_price, false) . '&nbsp;</td>
 				</tr>
 				
 				 <tr>

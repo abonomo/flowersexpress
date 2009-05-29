@@ -426,7 +426,7 @@ class ObjPurchaseList
 class ObjSalesOrderList
 {
 	private static $OBJ_NAME = 'sales_order';	//page names based on this
-	private static $NEEDED_FIELDS = 'sales_orders.icode, sales_orders.id, is_cart, shipper_id, shippers.company_name as shipper_name, customer_id, customers.company_name as customer_name, shipment_details, special, order_date, delivery_date, price, currency, sales_orders.trash_flag';
+	private static $NEEDED_FIELDS = 'sales_orders.icode, sales_orders.id, is_cart, shipper_id, shippers.company_name as shipper_name, customer_id, customers.company_name as customer_name, shipment_details, special, order_date, delivery_date, price, sales_orders.trash_flag';
 	private static $NEEDED_JOINS = ', shippers, customers';
 	private static $EXTRA_WHERE_CLAUSE = 'AND is_cart = 0 AND shipper_id = shippers.id AND customer_id = customers.id';
 	
@@ -486,7 +486,7 @@ class ObjSalesOrderList
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;', $sales_order_info['shipment_details'], 20) . $m_in_warehouse;
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Order Date:&nbsp;', $sales_order_info['order_date'], 20);
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;', $sales_order_info['delivery_date'], 20);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Price:&nbsp;', $sales_order_info['price'], 20) . IO::prepout_sl_label(' ', $sales_order_info['currency'], 20);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Price:&nbsp;', $sales_order_info['price'], 20);
 
 		if( $sales_order_info['trash_flag'] == 1 )
 		{

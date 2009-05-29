@@ -32,7 +32,6 @@ class PageSalesOrderAddEdit
 	private $f_order_date;
 	private $f_delivery_date;
 	private $f_price;
-	private $f_currency;
 	private $f_notes;
 	
 	private $f_comp_id;
@@ -243,7 +242,6 @@ class PageSalesOrderAddEdit
 		$this->f_order_date 		= IO::get_input_sl_pg('f_order_date','string'); //date("Y-m-d H:i:s",strtotime(IO::get_input_sl_pg('f_order_date','string')));
 		$this->f_delivery_date 		= IO::get_input_sl_pg('f_delivery_date','string'); //date("Y-m-d H:i:s",strtotime(IO::get_input_sl_pg('f_delivery_date','string')));
 		$this->f_price 				= IO::get_input_sl_pg('f_price','float');
-		$this->f_currency 			= IO::get_input_sl_pg('f_currency','string');
 		$this->f_notes 				= IO::get_input_ml_pg('f_notes','string');		
 	}
 
@@ -260,7 +258,6 @@ class PageSalesOrderAddEdit
 		$this->f_order_date 		= $sales_order_info['order_date'];
 		$this->f_delivery_date 		= $sales_order_info['delivery_date'];
 		$this->f_price 				= $sales_order_info['price'];
-		$this->f_currency 			= $sales_order_info['currency'];
 		$this->f_notes 				= $sales_order_info['notes'];
 		
 		$this->m_customer_text = $sales_order_info['customer_icode'] . ' : ' . $sales_order_info['customer_company_name'];
@@ -288,7 +285,6 @@ class PageSalesOrderAddEdit
 			$this->f_order_date . ' ' .
 			$this->f_delivery_date . ' ' .
 			$this->f_price . ' ' .
-			$this->f_currency . ' ' .
 			$this->f_notes			
 		);
 	
@@ -306,7 +302,6 @@ class PageSalesOrderAddEdit
 		order_date=' . $the_order_date . ',
 		delivery_date=' . $the_delivery_date . ',
 		price=\'' . $this->f_price . '\',
-		currency=\'' . $this->f_currency . '\',
 		notes=\'' . $this->f_notes . '\',
 		updated_date=NOW(),
 		updated_employee_id=\'' . LoginManager::get_id() . '\',
@@ -406,11 +401,6 @@ class PageSalesOrderAddEdit
 			<tr>
 				<td class="text_label">Price: </td>
 				<td class="form_input"><input type="text" name="f_price" class="textbox" value="' . IO::prepout_sl($this->f_price, false) . '"></td>
-			</tr>
-			
-			<tr>
-				<td class="text_label">Currency: </td>
-				<td class="form_input"><input type="text" name="f_currency" class="textbox" value="' . IO::prepout_sl($this->f_currency, false) . '"></td>
 			</tr>
 			
 			<tr>
