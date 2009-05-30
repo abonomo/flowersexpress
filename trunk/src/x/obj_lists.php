@@ -17,7 +17,7 @@ abstract class ObjGenericList
 class ObjCustomerList
 {
 	private static $OBJ_NAME = 'customer';	//page names based on this
-	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number';
+	private static $NEEDED_FIELDS = 'icode, id, company_name, contact_name, contact_dept, address_line_1, city, office_phone_number, cell_phone_number, trash_flag';
 	private static $NEEDED_JOINS = '';
 	private static $EXTRA_WHERE_CLAUSE = '';
 	
@@ -61,12 +61,22 @@ class ObjCustomerList
 		$obj_line[0] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Contact Name:&nbsp;', $cust_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $cust_info['contact_dept'], 20);
 		$obj_line[1] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Address:&nbsp;', $cust_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $cust_info['city'], 20);
 		$obj_line[2] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $cust_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $cust_info['cell_phone_number'], 20);
-	
+
+		if( $cust_info['trash_flag'] == 1 )
+		{
+			$this->m_deleted = 'true';
+			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
+//			$m_in_trash = '<img src="../img/icon_trash.gif"/> [In trash bin] - ';
+			$m_in_trash = '&nbsp;<img src="../img/icon_trash.gif"/>&nbsp;';
+		}
+		
+		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0" >
+		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
 			<tr>
-				<td width="75%" align="left" valign="top">
+				<td align="left">
+					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $cust_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
 		';
 		
@@ -142,7 +152,8 @@ class ObjProductList
 		{
 			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
-			$m_in_trash = '[In trash bin] - ';
+//			$m_in_trash = '<img src="../img/icon_trash.gif"/> [In trash bin] - ';
+			$m_in_trash = '&nbsp;<img src="../img/icon_trash.gif"/>&nbsp;';
 		}
 		
 		//display the object title link and data lines
@@ -221,7 +232,8 @@ class ObjSupplierList
 		{
 			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
-			$m_in_trash = '[In trash bin] - ';
+//			$m_in_trash = '<img src="../img/icon_trash.gif"/> [In trash bin] - ';
+			$m_in_trash = '&nbsp;<img src="../img/icon_trash.gif"/>&nbsp;';
 		}
 		
 		//display the object title link and data lines
@@ -303,7 +315,8 @@ class ObjShipperList
 		{
 			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
-			$m_in_trash = '[In trash bin] - ';
+//			$m_in_trash = '<img src="../img/icon_trash.gif"/> [In trash bin] - ';
+			$m_in_trash = '&nbsp;<img src="../img/icon_trash.gif"/>&nbsp;';
 		}
 		
 		//display the object title link and data lines
@@ -394,7 +407,8 @@ class ObjPurchaseList
 		{
 			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
-			$m_in_trash = '[In trash bin] - ';
+//			$m_in_trash = '<img src="../img/icon_trash.gif"/> [In trash bin] - ';
+			$m_in_trash = '&nbsp;<img src="../img/icon_trash.gif"/>&nbsp;';
 		}
 		
 		//display the object title link and data lines
@@ -492,7 +506,8 @@ class ObjSalesOrderList
 		{
 			$this->m_deleted = 'true';
 			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
-			$m_in_trash = '[In trash bin] - ';
+//			$m_in_trash = '<img src="../img/icon_trash.gif"/> [In trash bin] - ';
+			$m_in_trash = '&nbsp;<img src="../img/icon_trash.gif"/>&nbsp;';
 		}
 		
 		//display the object title link and data lines
@@ -569,12 +584,21 @@ class ObjEmployeeList
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office Location:&nbsp;', $employee_info['office_location'], 30);
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $employee_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $employee_info['cell_phone_number'], 20);
 		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Fax:&nbsp;', $employee_info['fax_number'], 20);
-	
+
+		if( $employee_info['trash_flag'] == 1 )
+		{
+			$this->m_deleted = 'true';
+			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
+//			$m_in_trash = '<img src="../img/icon_trash.gif"/> [In trash bin] - ';
+			$m_in_trash = '&nbsp;<img src="../img/icon_trash.gif"/>&nbsp;';
+		}
+		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0" >
+		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
 			<tr>
 				<td width="75%" align="left" valign="top">
+					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $employee_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
 		';
 		

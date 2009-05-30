@@ -14,7 +14,7 @@ $order_by_options = array(
 		array('Country', 'country'),
 		array('Created Date', 'created_date'),
 		array('Updated Date', 'updated_date'),
-		array('In Trash Bin', 'trash_flag')	//specially lists stuff in trash first
+		array('In Trash Bin @', 'trash_flag')	//specially lists stuff in trash first
 	);
 
 $obj_supplier_list = new ObjSupplierList();

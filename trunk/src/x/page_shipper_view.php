@@ -170,7 +170,8 @@ class PageShipperView
 						 //if the shipper has been deleted, print trash icon
 						if( $this->f_trash_flag == '1' )
 						{
-							echo ('<img src="../img/trash.gif"/> ');
+							echo (' <img src="../img/icon_trash.gif"/> ');
+							echo (' (This item has been deleted!)');
 						}
 						
 						echo('</td>
