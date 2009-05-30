@@ -18,7 +18,7 @@ $order_by_options = array(
 		array('In Trash Bin', 'trash_flag')	//specially lists stuff in trash first
 	);
 	
-$obj_employee_list = new ObjEmployeeList();
+$obj_employee_list = new ObjEmployeeListLimited();
 
 //make a employee list page from constructing a generic list page with different parameters, and a different list object
 $page_employee_list = new PageGenericList(ObjOuterArea::$TAB_EMPLOYEES, 'employee', $order_by_options, $obj_employee_list);
