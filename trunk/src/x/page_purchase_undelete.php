@@ -94,7 +94,7 @@ class PagePurchaseUndelete
 		{
 			echo ('
 				<tr>
-					<td> Purchase has been undeleted.</td>
+					<td align="center"> Purchase has been undeleted.</td>
 				</tr>
 			');
 		}

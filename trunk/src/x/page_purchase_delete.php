@@ -94,7 +94,7 @@ class PagePurchaseDelete
 		{
 			echo ('
 				<tr>
-					<td> Purchase has been deleted.</td>
+					<td align="center"> Purchase has been deleted.</td>
 				</tr>
 			');
 		}

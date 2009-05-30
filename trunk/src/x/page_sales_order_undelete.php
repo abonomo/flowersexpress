@@ -94,7 +94,7 @@ class PageSalesOrderUndelete
 		{
 			echo ('
 				<tr>
-					<td> Sales order has been undeleted.</td>
+					<td align="center"> Sales order has been undeleted.</td>
 				</tr>
 			');
 		}

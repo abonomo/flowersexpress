@@ -94,7 +94,7 @@ class PageSupplierUndelete
 		{
 			echo ('
 				<tr>
-					<td> Supplier has been undeleted.</td>
+					<td align="center"> Supplier has been undeleted.</td>
 				</tr>
 			');
 		}

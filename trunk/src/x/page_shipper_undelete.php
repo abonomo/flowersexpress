@@ -94,7 +94,7 @@ class PageShipperUndelete
 		{
 			echo ('
 				<tr>
-					<td> Shipper has been undeleted.</td>
+					<td align="center"> Shipper has been undeleted.</td>
 				</tr>
 			');
 		}
