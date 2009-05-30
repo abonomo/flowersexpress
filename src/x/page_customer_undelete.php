@@ -94,7 +94,7 @@ class PageCustomerUndelete
 		{
 			echo ('
 				<tr>
-					<td> Customer has been undeleted.</td>
+					<td align="center"> Customer has been undeleted.</td>
 				</tr>
 			');
 		}

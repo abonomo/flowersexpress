@@ -94,7 +94,7 @@ class PageProductUndelete
 		{
 			echo ('
 				<tr>
-					<td> Product has been undeleted.</td>
+					<td align="center"> Product has been undeleted.</td>
 				</tr>
 			');
 		}

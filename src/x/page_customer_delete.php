@@ -94,7 +94,7 @@ class PageCustomerDelete
 		{
 			echo ('
 				<tr>
-					<td> Customer has been deleted.</td>
+					<td align="center"> Customer has been deleted.</td>
 				</tr>
 			');
 		}
