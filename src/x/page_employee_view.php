@@ -23,6 +23,7 @@ class PageEmployeeView
 	private $f_office_phone;
 	private $f_cell_phone;
 	private $f_fax_number;
+	private $f_trash_flag;
 	
 	private $f_created_id;
 	private $f_updated_id;	
@@ -82,6 +83,7 @@ class PageEmployeeView
 						employees.office_location,  
 						employees.email, 
 						employees.auth_level, 
+						employees.trash_flag,
 						
 						employees.created_employee_id, 
 						employees.updated_employee_id,
@@ -102,6 +104,7 @@ class PageEmployeeView
 			$this->f_office_phone 			= $emp_info['office_phone_number'];
 			$this->f_cell_phone 			= $emp_info['cell_phone_number'];
 			$this->f_fax_number 			= $emp_info['fax_number'];
+			$this->f_trash_flag 			= $emp_info['trash_flag'];	
 			
 			$this->f_created_employee_id 	= $emp_info['created_employee_id'];
 			$this->f_updated_employee_id 	= $emp_info['updated_employee_id'];
@@ -163,7 +166,16 @@ class PageEmployeeView
 					
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">ID Code:&nbsp;</td>
-						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_icode) . '</td>
+						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_icode) . '');
+						  
+						  //if the product has been deleted, print trash icon
+						  if( $this->f_trash_flag == '1' )
+						  {
+							echo (' <img src="../img/icon_trash.gif"/> ');
+							echo (' (This item has been deleted!)');
+						  }
+						
+						  echo('</td>
 						</tr>
 						
 						<tr>

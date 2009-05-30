@@ -27,6 +27,8 @@ class PageSupplierView
 	private $f_province;
 	private $f_country;
 	private $f_notes;
+	private $f_trash_flag;	
+
 	
 				//ADD THIS FOR UPDATED INFO FUNCTIONALITY
 	private $f_created_first;
@@ -101,6 +103,8 @@ class PageSupplierView
 						suppliers.province, 
 						suppliers.country, 
 						suppliers.notes,
+						suppliers.trash_flag,
+
 						
 						suppliers.created_employee_id, 
 						suppliers.updated_employee_id,
@@ -135,7 +139,8 @@ class PageSupplierView
 			$this->f_city = $suppl_info['city'];
 			$this->f_province = $suppl_info['province'];
 			$this->f_country = $suppl_info['country'];
-			$this->f_notes = $suppl_info['notes'];	
+			$this->f_notes = $suppl_info['notes'];
+			$this->f_trash_flag = $suppl_info['trash_flag'];
 			$this->f_last_contacted = $suppl_info['last_contacted'];
 			
 					//add these for UPDATED INFO
@@ -178,8 +183,18 @@ class PageSupplierView
 					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">ID Code:&nbsp;</td>
-						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_icode) . '</td>
+						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_icode) . '');
+						  
+						 //if the supplier has been deleted, print trash icon
+						if( $this->f_trash_flag == '1' )
+						{
+							echo (' <img src="../img/icon_trash.gif"/> ');
+							echo (' (This item has been deleted!)');
+						}
+						
+						echo('</td>
 						</tr>
+						
 						<tr>
 
 						  <td width="25%" align="right" valign="middle" class="text_label">Company Name:&nbsp;</td>
