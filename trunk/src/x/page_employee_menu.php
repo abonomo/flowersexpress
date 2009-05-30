@@ -52,6 +52,16 @@ class PageEmployeeMenu
 	{
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_EMPLOYEES);
 		
+		//different type of employee list for admins vs. everybody else
+		if (LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN))
+		{
+			$employee_list_page = 'page_employee_list.php';
+		}
+		else
+		{
+			$employee_list_page = 'page_employee_list_limited.php';
+		}
+		
 		//echo inner area html here
 			echo ('
 				<div align="center">
@@ -69,9 +79,9 @@ class PageEmployeeMenu
 			}
 			
 			echo ('
-					<a href="page_employee_list.php">List All Employees</a><br>
+					<a href="' . $employee_list_page . '">List All Employees</a><br>
 					<br>
-					<form method="post" action="page_employee_list.php">
+					<form method="post" action="' . $employee_list_page . '">
 						<input name="f_search" class="textbox" type="text" />
 						<input value="Search" type="submit" class="button"/><br>
 					</form>				

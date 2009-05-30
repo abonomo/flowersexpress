@@ -620,4 +620,88 @@ class ObjEmployeeList
 }
 
 
+class ObjEmployeeListLimited
+{
+	private static $OBJ_NAME = 'employee';	//page names based on this
+	private static $NEEDED_FIELDS = 'icode, id, email, auth_level, first_name, last_name, title, dept_name, office_location, office_phone_number, cell_phone_number, fax_number, trash_flag';
+	private static $NEEDED_JOINS = '';
+	private static $EXTRA_WHERE_CLAUSE = '';
+	
+	private $m_deleted = 'false';
+
+	public function get_needed_fields()
+	{
+		return self::$NEEDED_FIELDS;
+	}
+
+	public function get_needed_joins()
+	{
+		return self::$NEEDED_JOINS;
+	}
+
+	public function get_where_clause()
+	{
+		return self::$EXTRA_WHERE_CLAUSE;
+	}
+	
+	public function display($action_box_mode, $employee_info_arr, $action_box_param)
+	{
+		//display the list of results
+		$cnt = count($employee_info_arr);
+		for($i = 0; $i < $cnt; $i++)
+		{
+			$data_box_contents = $this->get_data_display($employee_info_arr[$i]);
+			//select a employee for a sales order mode
+			if($action_box_mode == ResultSelectMenu::$MODE_VAL) $action_box_contents = ResultSelectMenu::create('page_sales_order_add_edit.php?f_id=' . $action_box_param . '&f_action=saveemployee&f_employee_id=' . $employee_info_arr[$i]['id']);
+			//full action display
+			else $action_box_contents = $action_box_contents = ResultLimitedMenu::create(self::$OBJ_NAME, $employee_info_arr[$i]['id'],$this->m_deleted);
+		
+			ResultBox::display($data_box_contents, $action_box_contents);
+		}
+	}
+	
+	private function get_data_display($employee_info)
+	{
+		$line_index = 0;
+		//decide what is displayed with what labels
+		$obj_title_link_text = IO::prepout_sl_label('', $employee_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $employee_info['last_name'], 30) . IO::prepout_sl_label(', ', $employee_info['first_name'], 30);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Title:&nbsp;', $employee_info['title'], 30) . IO::prepout_sl_label(',&nbsp;', $employee_info['dept_name'], 30);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office Location:&nbsp;', $employee_info['office_location'], 30);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $employee_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $employee_info['cell_phone_number'], 20);
+		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Fax:&nbsp;', $employee_info['fax_number'], 20);
+
+		if( $employee_info['trash_flag'] == 1 )
+		{
+			$this->m_deleted = 'true';
+			$m_visibility = ' style="opacity:0.6;filter:alpha(opacity=60)"';
+//			$m_in_trash = '<img src="../img/icon_trash.gif"/> [In trash bin] - ';
+			$m_in_trash = '&nbsp;<img src="../img/icon_trash.gif"/>&nbsp;';
+		}
+		
+		//display the object title link and data lines
+		$obj_data_display =
+		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
+			<tr>
+				<td width="75%" align="left" valign="top">
+					' . $m_in_trash . '
+					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $employee_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+		';
+		
+		//append the data lines
+		for($i = 0; $i < count($obj_line); $i++)
+		{
+			$obj_data_display .= $obj_line[$i] . '<br>';
+		}
+		
+		$obj_data_display .=
+		'		</td>
+				<td width="75%" align="right" valign="top">
+				</td>				
+			</tr>
+		</table>';
+	
+		return $obj_data_display;
+	}
+}
+
 ?>
