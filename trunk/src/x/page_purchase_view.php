@@ -234,10 +234,12 @@ class PagePurchaseView
 								
 				<tr>
 					<td>&nbsp;</td>
+					<td>&nbsp;</td>
 				 </tr>	
 				 
 				 <tr>
-					<td class="text_title">Contains:&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="text_title">Purchase Contents:&nbsp;</td>
 				</tr>
 				
 			</table>
@@ -256,7 +258,7 @@ class PagePurchaseView
 				'WHERE purchase_comps.purchase_id=\'' . $this->f_id . '\''
 			);
 			
-			$this->m_obj_purchase_comp_list->display('empty', $this->m_comp_info_arr);
+			$this->m_obj_purchase_comp_list->display('empty', $this->m_comp_info_arr, true);
 			
 
 			

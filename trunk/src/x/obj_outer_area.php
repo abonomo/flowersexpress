@@ -128,8 +128,11 @@ class ObjOuterArea
 		//inner area comes next
 	}
 	
-public static function echo_bottom($has_back_btn = true)
+	public static function echo_bottom($has_back_btn = true)
 	{
+		//NOTE: back button turned off in all cases for now
+		$has_back_btn = false;
+
 		if($has_back_btn == true)
 		{
 			//print the back button

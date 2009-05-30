@@ -274,11 +274,12 @@ class PageSalesOrderView
 				
 				<tr>
 					<td>&nbsp;</td>
+					<td>&nbsp;</td>
 				 </tr>	
 				 
 				 <tr>
-					<td class="text_title">Contains:&nbsp;</td>
-					
+					<td>&nbsp;</td>
+					<td class="text_title">Sales Order Contents:&nbsp;</td>
 				</tr>
 				
 				
@@ -297,7 +298,7 @@ class PageSalesOrderView
 				'WHERE sales_order_comps.sales_order_id=\'' . $this->f_id . '\''
 			);
 			
-			$this->m_obj_sales_order_comp_list->display('empty', $this->m_comp_info_arr);
+			$this->m_obj_sales_order_comp_list->display('empty', $this->m_comp_info_arr, true);
 
 			ObjOuterArea::echo_bottom();
 	

@@ -53,28 +53,31 @@ class PageEmployeeMenu
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_EMPLOYEES);
 		
 		//echo inner area html here
-		//  TODO : Search algorithm
 			echo ('
-			<form name="form">
-				<div class="text_title">Employee Menu</div>
-				<input name="f_employee_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_employee_list.php?f_search=\' + form.f_employee_search.value)" /><br>
+				<div align="center">
+			
+					<div class="text_title">Employee Actions Menu</div><br>
+					<a href="page_employee_add_edit.php?f_mode=edit&f_id=' . LoginManager::get_id() . '">Edit My Profile</a><br>
 			');
 			
-			// ** ADMIN required to view - can add employee **
+			// ** READ/WRITE required to view  **
 			if (LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN) == true)
 			{
-				echo ('
-				<a href="page_employee_add_edit.php">Add Employee</a><br>
+			echo ('
+						<a href="page_employee_add_edit.php">Add Employee</a><br>
 				');
 			}
-			echo
-			('
-				<a href="page_employee_add_edit.php?f_mode=edit&f_id=' . LoginManager::get_id() . '">Edit Profile</a><br>
-			');
+			
 			echo ('
-				<a href="page_employee_list.php">List All Employees</a><br>
-			</form>
-			');
+					<a href="page_employee_list.php">List All Employees</a><br>
+					<br>
+					<form method="post" action="page_employee_list.php">
+						<input name="f_search" class="textbox" type="text" />
+						<input value="Search" type="submit" class="button"/><br>
+					</form>				
+				
+				</div>
+			');		
 					
 		ObjOuterArea::echo_bottom();
 	
