@@ -55,8 +55,11 @@ class PageReportMenu
 		//echo inner area html here
 		//  TODO : Search algorithm
 			echo ('
+			<div align="center">
+			<table cellspacing="0" cellpadding="0">
+			<tr><td align="left">
 			<form name="form">
-				<div class="text_title">Report Menu</div>
+				<div class="text_title">Generate Reports</div><br>
 				<a href="page_report_sales_menu.php">Sales Report</a><br>
 				<a href="page_report_purchase_menu.php">Purchase Report</a><br>
 				<a href="page_product_report.php">Product Information Report</a><br>
@@ -65,6 +68,9 @@ class PageReportMenu
 				<a href="page_suppliers_report.php">Suppliers Report</a><br>
 				<a href="page_customer_report.php">Customer Report</a><br>
 				<a href="page_shipper_report.php">Shipper Information Report</a><br>			</form>
+			</td></tr>
+			</table>
+			</div>
 			');
 			
 			

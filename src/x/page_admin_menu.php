@@ -52,21 +52,33 @@ class PageAdminMenu
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_ADMIN);
 		
 		//echo inner area html here
-		//  TODO : Search algorithm
 			echo ('
-			<form name="form">
-				<div class="text_title">Employee Menu</div>
-				<input name="f_employee_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_employee_list.php?f_search=\' + form.f_employee_search.value)" /><br>
-				<a href="page_employee_add_edit.php">Add Employee</a><br>
-				<a href="page_employee_list.php">List All Employees</a><br>
-				<br>
-				<div class="text_title">Admin Commands </div>
-				<a href="page_admin_empty_trash.php">Empty Trash</a><br>
-			</form>
+				<div align="center">
+			
+					<div class="text_title">Employee Management</div><br>
+					<a href="page_employee_add_edit.php?f_mode=edit&f_id=' . LoginManager::get_id() . '">Edit My Profile</a><br>
 			');
 			
+			// ** READ/WRITE required to view  **
+			if (LoginManager::meets_auth_level(LoginManager::$AUTH_ADMIN) == true)
+			{
+			echo ('
+						<a href="page_employee_add_edit.php">Add Employee</a><br>
+				');
+			}
 			
-
+			echo ('
+					<a href="page_employee_list.php">List All Employees</a><br>
+					<br>
+					<form method="post" action="page_employee_list.php">
+						<input name="f_search" class="textbox" type="text" />
+						<input value="Search" type="submit" class="button"/><br>
+					</form>				
+					<br>
+					<div class="text_title">Special Admin Commands </div>
+					<a href="page_admin_empty_trash.php">Empty Trash</a><br>				
+				</div>
+			');	
 
 
 		

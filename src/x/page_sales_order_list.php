@@ -23,7 +23,7 @@ $order_by_options = array(
 $obj_sales_order_list = new ObjSalesOrderList();
 
 //make a sales_order list page from constructing a generic list page with different parameters, and a different list object
-$page_sales_order_list = new PageGenericList(ObjOuterArea::$TAB_SALES_ORDERS, 'sales_order', $order_by_options, $obj_sales_order_list);
+$page_sales_order_list = new PageGenericList(ObjOuterArea::$TAB_SALES_ORDERS, 'sales_order', $order_by_options, $obj_sales_order_list, 'sales_order', true, 'Sales Orders');
 $page_sales_order_list->run();
 
 ?>

@@ -47,7 +47,7 @@ class ObjSalesOrderCompList
 		return self::$EXTRA_WHERE_CLAUSE;
 	}
 	
-	public function display($action_box_mode, $obj_info_arr)
+	public function display($action_box_mode, $obj_info_arr, $empty_action_box=false)
 	{
 		//display the list of results
 		$cnt = count($obj_info_arr);
@@ -55,7 +55,8 @@ class ObjSalesOrderCompList
 		{
 			$data_box_contents = $this->get_data_display($obj_info_arr[$i]);
 			//$action_box_contents = ResultDeleteMenu::create('page_sales_order_add_edit.php?f_id=' . $obj_info_arr[$i]['sales_order_id'] . '&f_action=removecomp&f_comp_id=' . $obj_info_arr[$i]['sales_order_comp_id']);
-			$action_box_contents = ResultDeleteMenu::create("form_sales_order.f_action.value='removecomp'; form_sales_order.f_id.value='" . $obj_info_arr[$i]['sales_order_id'] . "'; form_sales_order.f_comp_id.value='" . $obj_info_arr[$i]['sales_order_comp_id'] . "'; document.form_sales_order.submit();");
+			if($empty_action_box) $action_box_contents = '';
+			else $action_box_contents = ResultDeleteMenu::create("form_sales_order.f_action.value='removecomp'; form_sales_order.f_id.value='" . $obj_info_arr[$i]['sales_order_id'] . "'; form_sales_order.f_comp_id.value='" . $obj_info_arr[$i]['sales_order_comp_id'] . "'; document.form_sales_order.submit();");
 
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
@@ -227,14 +228,15 @@ class ObjEditPurchaseCompList
 		return self::$NEEDED_JOINS;
 	}
 	
-	public function display($action_box_mode, $obj_info_arr)	//TODO: remove actionboxparam
+	public function display($action_box_mode, $obj_info_arr, $empty_action_box=false)
 	{
 		//display the list of results
 		$cnt = count($obj_info_arr);
 		for($i = 0; $i < $cnt; $i++)
 		{
 			$data_box_contents = $this->get_data_display($obj_info_arr[$i]);
-			$action_box_contents = ResultFullPurchaseCompMenu::create($obj_info_arr[$i]['purchase_id'], $obj_info_arr[$i]['id']);
+			if($empty_action_box) $action_box_contents = '';
+			else $action_box_contents = ResultFullPurchaseCompMenu::create($obj_info_arr[$i]['purchase_id'], $obj_info_arr[$i]['id']);
 
 			ResultBox::display($data_box_contents, $action_box_contents);
 		}
