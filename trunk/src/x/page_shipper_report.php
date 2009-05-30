@@ -101,15 +101,9 @@ class PageShipperReport
 		}
 		
 		echo ('	
-		<table>
-			<tr>
-				<td>
-					<h2>Shipper Information Report</h2>
-				</td>
-			</tr>
-		</table>
+			<h2>Shipper Information Report</h2>
 
-		<table border="1" width="98%" cellspacing="0" cellpadding="0" class="report_table"> 
+			<table border="1" width="98%" cellspacing="0" cellpadding="0" class="report_table"> 
 			<tr> 
 				<th>&nbsp;Shipper ID&nbsp;</th> 
 				<th>&nbsp;Notes&nbsp;</th> 

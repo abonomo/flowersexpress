@@ -2,13 +2,13 @@
 
 require_once('framework.php');
 
-class PageSuppliersReport
+class PageCustomerReport
 {
 	//*** CONSTANTS ***
-	private static $THIS_PAGE = 'page_suppliers_report.php';
+	private static $THIS_PAGE = 'page_customer_report.php';
 	
 	//*** MEMBERS ***
-	private $m_supplier_info_arr; 	//holds information about the supplier
+	private $m_customer_info_arr; 	//holds information about the customer
 	private $f_excel;
 	
 	//*** FUNCTIONS ***
@@ -31,7 +31,7 @@ class PageSuppliersReport
 	
 	private function get_input()
 	{
-		//TODO: get supplier boundary conditions?
+		//TODO: get customer boundary conditions?
 		$this->f_excel = IO::get_input_sl_pg('f_excel','string');
 	}
 	
@@ -42,11 +42,11 @@ class PageSuppliersReport
 	
 	private function process_input()
 	{
-		//get supplier information
-		$this->m_supplier_info_arr = DB::get_all_rows_fq
+		//get customer information
+		$this->m_customer_info_arr = DB::get_all_rows_fq
 		('
-			SELECT suppliers.*
-			FROM suppliers
+			SELECT customers.*
+			FROM customers
 		');
 	}
 	
@@ -70,7 +70,7 @@ class PageSuppliersReport
 		if( $this->f_excel == 'true' )
 		{
 			header("Content-type: application/vnd.ms-excel");
-			header("Content-Disposition: attachment; filename=supplier_report.xls");
+			header("Content-Disposition: attachment; filename=customer_report.xls");
 		}
 		else
 		{
@@ -78,7 +78,7 @@ class PageSuppliersReport
 			('
 			<html>
 			<head>
-				<title>Supplier Information Report</title>
+				<title>Customer Informatino Report</title>
 				<link href="style_report.css" rel="stylesheet">
 				<link rel="stylesheet" type="text/css" media="print" href="style_print.css" />
 			</head>
@@ -87,11 +87,11 @@ class PageSuppliersReport
 		}
 		
 		echo ('
-			<h2>Supplier Information Report</h2>
+			<h2>Customer Information Report</h2>
 			
 			<table border="1" width="98%" cellspacing="0" cellpadding="0" class="report_table"> 
 			<tr> 
-				<th>&nbsp;Supplier ID&nbsp;</th> 
+				<th>&nbsp;Customer ID&nbsp;</th> 
 				<th>&nbsp;Notes&nbsp;</th> 
 				<th>&nbsp;Company Name&nbsp;</th> 
 				<th>&nbsp;Contact Name&nbsp;</th> 
@@ -110,10 +110,10 @@ class PageSuppliersReport
 			</tr>
 		');
 
-		$cnt = count($this->m_supplier_info_arr);
+		$cnt = count($this->m_customer_info_arr);
 		for($i = 0; $i < $cnt; $i++)
 		{
-			$major_array = $this->m_supplier_info_arr[$i];
+			$major_array = $this->m_customer_info_arr[$i];
 			$created_employee_name = $this->getEmployeeName($major_array['created_employee_id']);
 			$updated_employee_name = $this->getEmployeeName($major_array['updated_employee_id']);
 			echo 
@@ -144,7 +144,7 @@ class PageSuppliersReport
 		if( $this->f_excel != 'true' )
 		{
 			echo ('
-			<p class="print_hide"><a href="page_suppliers_report.php?f_excel=true">Download as an Excel file</a></p>
+			<p class="print_hide"><a href="page_customer_report.php?f_excel=true">Download as an Excel file</a></p>
 			
 		</body>
 		</html>
@@ -159,7 +159,7 @@ class PageSuppliersReport
 }
 
 //create an instance of the page and run it
-$page_suppliers_report = new PageSuppliersReport();
-$page_suppliers_report->run();
+$page_customer_report = new PageCustomerReport();
+$page_customer_report->run();
 
 ?>
