@@ -56,7 +56,7 @@ class PageReportPurchaseMenu
 		//  TODO : Search algorithm
 			echo ('
 			<form name="form_report_menu" method="post" action="page_purchase_report.php">
-				<div class="text_title">Purchase Report Menu</div>
+				<div class="text_title">Purchase Order Report Menu</div>
 				<input name="f_report_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_report_list.php?f_search=\' + form.f_report_search.value)" /><br><br>
 				
 				Select Range of Delivery dates:<br>

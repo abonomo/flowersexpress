@@ -60,14 +60,14 @@ class PageReportMenu
 			<tr><td align="left">
 			<form name="form">
 				<div class="text_title">Generate Reports</div><br>
-				<a href="page_report_sales_menu.php">Sales Report</a><br>
-				<a href="page_report_purchase_menu.php">Purchase Report</a><br>
+				<a href="page_report_sales_menu.php">Sales Order Report</a><br>
+				<a href="page_report_purchase_menu.php">Purchase Order Report</a><br>
 				<a href="page_product_report.php">Product Information Report</a><br>
 				<a href="page_purchase_comp_list.php">Available Product Report</a><br>
-				<a href="page_in_stock_report.php">In Stock Report</a><br>
-				<a href="page_suppliers_report.php">Suppliers Report</a><br>
-				<a href="page_customer_report.php">Customer Report</a><br>
-				<a href="page_shipper_report.php">Shipper Information Report</a><br>			</form>
+				<a href="page_customer_report.php">Customer Information Report</a><br>
+				<a href="page_suppliers_report.php">Suppliers Information Report</a><br>
+				<a href="page_shipper_report.php">Shipper Information Report</a><br>
+			</form>
 			</td></tr>
 			</table>
 			</div>

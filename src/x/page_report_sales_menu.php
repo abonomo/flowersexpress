@@ -56,7 +56,7 @@ class PageSalesMenu
 		//  printing the calendar and getting date inputs
 			echo ('
 			<form name="form_report_menu" method="post" action="page_sales_order_report.php">
-				<div class="text_title">Sales Report Menu</div>
+				<div class="text_title">Sales Order Report Menu</div>
 				<input name="f_report_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_report_list.php?f_search=\' + form.f_report_search.value)" /><br><br>
 				
 				Select Range of dates:<br>
