@@ -9,6 +9,7 @@
 require_once('framework.php');
 require_once('obj_comp_lists.php');
 require_once('purchase_cart.php');
+require_once('our_time.php');
 
 class PagePurchaseAddEdit
 {
@@ -241,10 +242,13 @@ class PagePurchaseAddEdit
 		$this->f_shipper_id 		= IO::get_input_sl_pg('f_shipper_id','integer');
 		$this->f_shipment_details 	= IO::get_input_ml_pg('f_shipment_details','string');
 		$this->f_in_warehouse 			= IO::get_input_sl_pg('f_in_warehouse','integer');
-		$this->f_order_date 		= IO::get_input_sl_pg('f_order_date','string'); //date("Y-m-d H:i:s",strtotime(IO::get_input_sl_pg('f_order_date','string')));
-		$this->f_delivery_date 		= IO::get_input_sl_pg('f_delivery_date','string'); //date("Y-m-d H:i:s",strtotime(IO::get_input_sl_pg('f_delivery_date','string')));
+		$this->f_order_date 		= IO::get_input_sl_pg('f_order_date','string');
+		$this->f_delivery_date 		= IO::get_input_sl_pg('f_delivery_date','string'); 
 		$this->f_price 				= IO::get_input_sl_pg('f_price','float');
-		$this->f_notes 				= IO::get_input_ml_pg('f_notes','string');		
+		$this->f_notes 				= IO::get_input_ml_pg('f_notes','string');
+
+		$this->f_order_date = OurTime::js_to_datetime($this->f_order_date, 0);
+		$this->f_delivery_date = OurTime::js_to_datetime($this->f_delivery_date, 0);
 	}
 
 	private function get_input_from_db()
@@ -256,9 +260,11 @@ class PagePurchaseAddEdit
 		$this->f_supplier_id 		= $purchase_info['supplier_id'];
 		$this->f_shipper_id 		= $purchase_info['shipper_id'];
 		$this->f_shipment_details 	= $purchase_info['shipment_details'];
-		$this->f_in_warehouse 			= $purchase_info['in_warehouse'];
+		$this->f_in_warehouse 		= $purchase_info['in_warehouse'];
 		$this->f_order_date 		= $purchase_info['order_date'];
+		echo $this->f_order_date;
 		$this->f_delivery_date 		= $purchase_info['delivery_date'];
+		echo $this->f_delivery_date;
 		$this->f_price 				= $purchase_info['price'];
 		$this->f_notes 				= $purchase_info['notes'];
 		
@@ -393,7 +399,7 @@ class PagePurchaseAddEdit
 			<tr>
 				<td class="text_label">Bought Date: </td>
 				<td>
-					<input name="f_order_date" class="textbox" type="text" /> <a href="#" onclick="calord.select(document.form_purchase.f_order_date, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx">Select Date</a>
+					<input name="f_order_date" class="textbox" type="text" value="' . IO::prepout_sl($this->f_order_date, false) . '" /> <a href="#" onclick="calord.select(document.form_purchase.f_order_date, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx">Select Date</a>
 					<div id="orderCal" style="position:absolute;visibility:hidden;"></div><br>
 				</td>
 			</tr>
@@ -401,7 +407,7 @@ class PagePurchaseAddEdit
 			<tr>
 				<td class="text_label">Delivery Date: </td>
 				<td>
-					<input name="f_delivery_date" class="textbox" type="text" /> <a href="#" onclick="caldel.select(document.form_purchase.f_delivery_date, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx">Select Date</a>
+					<input name="f_delivery_date" class="textbox" type="text" value="' . IO::prepout_sl($this->f_delivery_date, false) . '" /> <a href="#" onclick="caldel.select(document.form_purchase.f_delivery_date, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx">Select Date</a>
 					<div id="deliveryCal" style="position:absolute;visibility:hidden;"></div><br>
 				</td>
 			</tr>
