@@ -54,7 +54,7 @@ class PageHome
 	echo(' 
 			<div align="center">
 			  <form name="page_home" method="post" action="page_home">
-				<table width="600" border="0" cellpadding="0" cellspacing="0">
+				<table border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td>&nbsp;</td>
 				</tr>
