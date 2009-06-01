@@ -28,7 +28,11 @@ calbeg.showNavigationDropdowns();
 var calend = new CalendarPopup("testdiv2");
 calend.showNavigationDropdowns();
 
+var calord = new CalendarPopup("orderCal");
+calord.showNavigationDropdowns();
 
+var caldel = new CalendarPopup("deliveryCal");
+caldel.showNavigationDropdowns();
 
 // ===================================================================
 // Author: Matt Kruse <matt@mattkruse.com>

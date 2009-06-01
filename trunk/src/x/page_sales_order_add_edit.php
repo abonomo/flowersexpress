@@ -390,12 +390,18 @@ class PageSalesOrderAddEdit
 			
 			<tr>
 				<td class="text_label">Order Date: </td>
-				<td class="form_input"><input type="text" name="f_order_date" class="textbox" value="' . IO::prepout_sl($this->f_order_date, false) . '"></td>
+				<td>
+					<input name="f_order_date" class="textbox" type="text" /> <a href="#" onclick="calord.select(document.form_sales_order.f_order_date, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx">Select Date</a>
+					<div id="orderCal" style="position:absolute;visibility:hidden;"></div><br>
+				</td>
 			</tr>
 			
 			<tr>
 				<td class="text_label">Delivery Date: </td>
-				<td class="form_input"><input type="text" name="f_delivery_date" class="textbox" value="' . IO::prepout_sl($this->f_delivery_date, false) . '"></td>
+				<td>
+					<input name="f_delivery_date" class="textbox" type="text" /> <a href="#" onclick="caldel.select(document.form_sales_order.f_delivery_date, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx">Select Date</a>
+					<div id="deliveryCal" style="position:absolute;visibility:hidden;"></div><br>
+				</td>
 			</tr>
 			
 			<tr>
