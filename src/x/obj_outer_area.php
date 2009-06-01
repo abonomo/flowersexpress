@@ -42,7 +42,7 @@ class ObjOuterArea
 
 		<!-- top row of page: header -->
 			<tr>
-			  <td height="120" valign="top" align="right" colspan="6" style="background-image: url(\'../img/top_logo.jpg\'); background-position: 50% 50%; background-repeat: no-repeat;">
+			  <td height="120" valign="top" align="right" colspan="6" style="background-image: url(\'../img/top_logo.png\'); background-position: 50% 50%; background-repeat: no-repeat;">
 		');
 		
 		//if logged in, echo a logout button
