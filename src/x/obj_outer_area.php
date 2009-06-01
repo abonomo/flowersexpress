@@ -56,8 +56,17 @@ class ObjOuterArea
 				FROM employees
 				WHERE employees.id=\'' . LoginManager::get_id() . '\''
 			);
-			echo('Welcome,&nbsp;<strong>' . IO::prepout_sl($login_info['first_name'] , false) . '&nbsp;' .   IO::prepout_sl($login_info['last_name'] , false) . '&nbsp;&nbsp;</strong>');
-			echo('<a href="op_logout.php" style="padding-right:10px">Logout</a>');
+			echo('<font color="#DDDDDD">');
+			
+			$cur_time = localtime();
+			$cur_hour = $cur_time[2];
+			
+			if($cur_hour > 11 && $cur_hour < 18) $greeting = 'Good afternoon';
+			else if($cur_hour > 17) $greeting = 'Good evening';
+			else $greeting = 'Good morning';
+			
+			echo($greeting . ',&nbsp;<strong>' . IO::prepout_sl($login_info['first_name'] , false) . '&nbsp;' .   IO::prepout_sl($login_info['last_name'] , false) . '&nbsp;&nbsp;</strong></font>');
+			echo('<a href="op_logout.php" class="light_link" style="padding-right:10px">Logout</a>');
 		}		
 		
 		echo('
@@ -73,10 +82,7 @@ class ObjOuterArea
 		<!-- left menu links -->
 				<table width="120" cellspacing="0" cellpadding="0" id="navigation">
 				  <tbody>
-					<tr>
-
-		<!-- leading space between banner and menu -->
-					  <td bgcolor="#FFFFFF">&nbsp;</td></tr><tr>
+						<td style="background-image: url(\'../img/top_logo.png\'); background-position: 0% 0%; background-repeat: no-repeat;">&nbsp;</td><tr>
 					  <td><a class="' . (($active_tab == self::$TAB_HOME) ? 'active_menu' : 'menu') . '" href="page_home.php">Home</a></tr><tr>
 					  <td><a class="' . (($active_tab == self::$TAB_SALES_ORDERS) ? 'active_menu' : 'menu') . '" href="page_sales_order_menu.php">Sales Order</a></td></tr><tr>
 					  <td><a class="' . (($active_tab == self::$TAB_PURCHASES) ? 'active_menu' : 'menu') . '" href="page_purchase_menu.php">Purchase</a></td></tr><tr>
@@ -163,7 +169,7 @@ class ObjOuterArea
 			  <td colspan="3" valign="bottom">
 				<p style="text-align: center">
 
-				<a href="#top">top</a>
+				&nbsp;
 
 				</p><br>
 			  </td>
@@ -171,7 +177,7 @@ class ObjOuterArea
 		<!-- end of 3rd row of page: link -->
 
 		<!-- bottom row: footer -->
-
+		<!--
 			<tr>
 			  <td valign="top" class="footer" colspan="6">
 				<p style="text-align: center">
@@ -181,6 +187,7 @@ class ObjOuterArea
 				</p>
 			  </td>
 			</tr>
+		-->
 		<!-- end of bottom row, footer -->
 
 		  </tbody>
@@ -190,6 +197,7 @@ class ObjOuterArea
 				<p style="text-align: center">
 
 				  <font size="0">
+				  <a href="#top">Top</a><br>
 		<br><i>Submitted for CS 130 Software Engineering, Spring \'09, UCLA</i>
 				  </font>
 

@@ -36,8 +36,9 @@
 
 .button{
 	font-family: Verdana, Arial, Helvetica, sans-serif,sans-serif; 
-	font-size: 1.00em;
+	font-size: 0.9em;
 	text-decoration: bold;
+	color: #2F4F2F;
 }
 
 /* search result styles */
@@ -61,12 +62,16 @@ img {
 p		{ margin-top: 0; margin-bottom: 0; }
 
 /* any links */
+.light_link{
+	text-decoration: underline; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.00em;
+	color: #DDDDDD;
+}
 a { 
-	text-decoration: underline; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.00em; background-color:#FFFFFF;
+	text-decoration: underline; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.00em;
 	color: #B23232;
 }
 a:hover {
-	text-decoration: underline; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.00em; background-color:#FFFFFF;
+	text-decoration: underline; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.00em;
 	color: #73A742;
 }
 

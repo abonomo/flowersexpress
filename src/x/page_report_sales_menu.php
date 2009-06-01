@@ -57,7 +57,7 @@ class PageSalesMenu
 			echo ('
 			<form name="form_report_menu" method="post" action="page_sales_order_report.php">
 				<div class="text_title">Sales Order Report Menu</div>
-				<input name="f_report_search" class="textbox" type="text" /><input value="Search" type="button" onclick="document.location=(\'page_report_list.php?f_search=\' + form.f_report_search.value)" /><br><br>
+				<input name="f_report_search" class="textbox" type="text" /><input class="button" value="Search" type="button" onclick="document.location=(\'page_report_list.php?f_search=\' + form.f_report_search.value)" /><br><br>
 				
 				Select Range of dates:<br>
 				<input name="f_report_start" class="textbox" type="text" /> <a href="#" onclick="calbeg.select(document.forms[0].f_report_start, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx"> Select Begin Date</a>

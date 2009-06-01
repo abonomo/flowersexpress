@@ -366,7 +366,7 @@ class PagePurchaseAddEdit
 				<td class="form_input">
 					<input type="text" size="48" disabled="true" name="f_supplier_text" class="textbox" value="' . $this->m_supplier_text . '">
 					<input type="hidden" name="f_supplier_id" class="textbox" value="' . IO::prepout_sl($this->f_supplier_id, false) . '">
-					<input type="submit" value="Select New" onclick="form_purchase.f_action.value=\'selectsupplier\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">
+					<input type="submit" class="button" value="Select New" onclick="form_purchase.f_action.value=\'selectsupplier\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">
 				</td>
 			
 			</tr>
@@ -376,7 +376,7 @@ class PagePurchaseAddEdit
 				<td class="form_input">
 					<input type="text" size="48" disabled="true" name="f_shipper_text" class="textbox" value="' . $this->m_shipper_text . '">
 					<input type="hidden" name="f_shipper_id" class="textbox" value="' . IO::prepout_sl($this->f_shipper_id, false) . '">
-					<input type="submit" value="Select New" onclick="form_purchase.f_action.value=\'selectshipper\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">
+					<input type="submit" class="button" value="Select New" onclick="form_purchase.f_action.value=\'selectshipper\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">
 				</td>
 			</tr>
 			
@@ -430,7 +430,7 @@ class PagePurchaseAddEdit
 		echo ('
 		<table width="100%">
 			<tr>
-				<td align="left" width="25%" valign="top"><input type="button" value="New" onclick="form_purchase.f_action.value=\'gotoaddcomp\'; form_purchase.f_id.value=\'' . $this->f_id . '\'; form_purchase.submit();"></td>
+				<td align="left" width="25%" valign="top"><input type="button" class="button" value="Add New Item" onclick="form_purchase.f_action.value=\'gotoaddcomp\'; form_purchase.f_id.value=\'' . $this->f_id . '\'; form_purchase.submit();"></td>
 				<td align="left" valign="top" class="text_title">
 					Purchase Contents:
 				</td>
