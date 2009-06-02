@@ -153,6 +153,7 @@ class PagePurchaseAddEdit
 				$this->f_supplier_id = IO::get_input_sl_pg('f_supplier_id','integer');
 				$this->action_save();
 				$this->get_input_from_db();
+				//IO::navigate_to('page_purchase_add_edit.php?f_id=' . $this->f_id);	
 			}
 			else if($this->f_action == 'saveshipper')
 			{	
@@ -160,6 +161,7 @@ class PagePurchaseAddEdit
 				$this->f_shipper_id = IO::get_input_sl_pg('f_shipper_id','integer');
 				$this->action_save();
 				$this->get_input_from_db();
+				//IO::navigate_to('page_purchase_add_edit.php?f_id=' . $this->f_id);	
 			}			
 			else if($this->f_action == 'selectsupplier')
 			{
@@ -193,7 +195,9 @@ class PagePurchaseAddEdit
 			}			
 		}
 
-		//TODO:
+		//BUG FIX: avoids double addition/postback question on back button		
+		if($this->f_action != '') IO::navigate_to('page_purchase_add_edit.php?f_id=' . $this->f_id);	
+		
 		//get purchase components for later listing
 		$this->get_purchase_comps();
 	}
