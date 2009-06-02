@@ -18,5 +18,18 @@ class OurTime
 		else 
 			return "$year-$month-$day 23:59:59"; 
 	}
+	
+	public function datetime_to_js($datetime)
+	{
+		//convert YYYY-MM-DD to mm/dd/YYYY
+		$first_dash_pos = strpos($datetime, '-');
+		$second_dash_pos = strpos(substr($datetime, $first_dash_pos+1), '-') + $first_dash_pos + 1;
+				
+		$year = substr($datetime, 0, $first_dash_pos);
+		$month = substr($datetime, $first_dash_pos+1, 2);
+		$day = substr($datetime, $second_dash_pos+1, 2);
+		
+		return "$month/$day/$year";
+	}
 }
 ?>

@@ -261,10 +261,8 @@ class PagePurchaseAddEdit
 		$this->f_shipper_id 		= $purchase_info['shipper_id'];
 		$this->f_shipment_details 	= $purchase_info['shipment_details'];
 		$this->f_in_warehouse 		= $purchase_info['in_warehouse'];
-		$this->f_order_date 		= $purchase_info['order_date'];
-		echo $this->f_order_date;
-		$this->f_delivery_date 		= $purchase_info['delivery_date'];
-		echo $this->f_delivery_date;
+		$this->f_order_date 		= OurTime::datetime_to_js($purchase_info['order_date']);
+		$this->f_delivery_date 		= OurTime::datetime_to_js($purchase_info['delivery_date']);
 		$this->f_price 				= $purchase_info['price'];
 		$this->f_notes 				= $purchase_info['notes'];
 		
