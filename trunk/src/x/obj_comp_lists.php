@@ -102,7 +102,7 @@ class ObjSalesOrderCompList
 class ObjPurchaseCompList
 {
 	public $RENAME_MAIN_TABLE = 'obj_table';
-	private static $EXTRA_WHERE_CLAUSE = ' AND purchases.is_cart = 0';
+	private static $EXTRA_WHERE_CLAUSE = ' AND purchases.is_cart = 0 AND purchases.trash_flag = 0';
 
 	private static $OBJ_NAME = 'purchase_comp';	//page names based on this
 	private static $NEEDED_FIELDS = '

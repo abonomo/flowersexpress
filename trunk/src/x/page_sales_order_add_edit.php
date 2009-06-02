@@ -196,8 +196,11 @@ class PageSalesOrderAddEdit
 		$this->get_input_from_db();
 	
 		$this->f_comp_id = IO::get_input_sl_pg('f_comp_id','integer');
-		$this->f_quantity = IO::get_input_sl_pg('f_quantity','integer'); //TODO: error on fractional
+		$this->f_quantity = IO::get_input_sl_pg('f_quantity','integer');
 		$this->f_total_cost = IO::get_input_sl_pg('f_total_cost','float');
+		
+		//a little bit of input checking
+		if($this->f_quantity < 0) $this->f_quantity = 0;
 		
 		$this->m_sales_order->add_component($this->f_comp_id, $this->f_quantity, $this->f_total_cost);
 	}

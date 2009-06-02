@@ -111,6 +111,9 @@ class PagePurchaseAddEdit
 		$this->f_quantity_sellable 			= IO::get_input_ml_pg('f_quantity_sellable','integer');
 		$this->f_expiration_date 			= IO::get_input_sl_pg('f_expiration_date','string');
 		$this->f_min_price_per_unit 		= IO::get_input_sl_pg('f_min_price_per_unit','string');
+		
+		if($this->f_quantity_purchased < 0) $this->f_quantity_purchased = 0;
+		if($this->f_quantity_sellable < 0) $this->f_quantity_sellable = 0;
 	}
 
 	private function get_input_from_db()
