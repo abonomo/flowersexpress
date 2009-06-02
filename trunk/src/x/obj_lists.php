@@ -57,10 +57,11 @@ class ObjCustomerList
 	private function get_data_display($cust_info)
 	{
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $cust_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $cust_info['company_name'], 30, 'No Company Name');
-		$obj_line[0] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Contact Name:&nbsp;', $cust_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $cust_info['contact_dept'], 20);
-		$obj_line[1] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Address:&nbsp;', $cust_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $cust_info['city'], 20);
-		$obj_line[2] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $cust_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $cust_info['cell_phone_number'], 20);
+		$obj_title_link_text = IO::prepout_sl_label('', $cust_info['icode'], 20, 'No&nbsp;Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $cust_info['company_name'], 20, 'No&nbsp;Company&nbsp;Name') . '</font>';
+		$obj_line[0] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Contact&nbsp;Name:&nbsp;</font></td><td><font class="data_value">', $cust_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $cust_info['contact_dept'], 20) . '</font>';
+		$obj_line[1] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Address:&nbsp;</font></td><td><font class="data_value">', $cust_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $cust_info['city'], 20) . '</font>';
+		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office:&nbsp;</font></td><td><font class="data_value">', $cust_info['office_phone_number'], 20) . '</font>';
+		$obj_line[3] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Mobile:&nbsp;</font></td><td><font class="data_value">', $cust_info['cell_phone_number'], 20) . '</font>';
 
 		if( $cust_info['trash_flag'] == 1 )
 		{
@@ -73,25 +74,21 @@ class ObjCustomerList
 		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
-			<tr>
-				<td align="left">
+		'
+			<font ' . $m_visibility . '>
 					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $cust_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+			</font>
+			<table cellspacing="0" cellpadding="0"' . $m_visibility . '>
 		';
 		
 		//append the data lines
 		for($i = 0; $i < count($obj_line); $i++)
 		{
-			$obj_data_display .= $obj_line[$i] . '<br>';
+			$obj_data_display .= '<tr><td>' . $obj_line[$i] . '</td></tr>';
 		}
 		
-		$obj_data_display .=
-		'		</td>
-				<td width="75%" align="right" valign="top">
-				</td>				
-			</tr>
-		</table>';
+		$obj_data_display .= '</table>';
 	
 		return $obj_data_display;
 	}
@@ -141,12 +138,13 @@ class ObjProductList
 	private function get_data_display($prod_info)
 	{
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $prod_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $prod_info['name'], 30, 'No Name');
-		$obj_line[0] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Type:&nbsp;', $prod_info['type'], 20);
-		$obj_line[1] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Sub Type 1:&nbsp;', $prod_info['subtype1'], 20) . IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Sub Type 2:&nbsp;', $prod_info['subtype2'], 20);
-		$obj_line[2] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Lifespan:&nbsp;', $prod_info['typical_lifespan_days'], 20) . ' days';
-		$obj_line[3] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Units:&nbsp;', $prod_info['typical_units'], 20) . IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Min price per unit:&nbsp;', $prod_info['typical_min_price_per_unit'], 20);
-		$obj_line[4] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Description:&nbsp;', $prod_info['description'], 50);
+		$obj_title_link_text = IO::prepout_sl_label('', $prod_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $prod_info['name'], 20, 'No Name') . '</font>';
+		$obj_line[0] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Type:&nbsp;</font></td><td><font class="data_value">', $prod_info['type'], 20) . '</font>';
+		$obj_line[1] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Subtype1:&nbsp;</font></td><td><font class="data_value">', $prod_info['subtype1'], 20) . '</font>';
+		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Subtype2:&nbsp;</font></td><td><font class="data_value">', $prod_info['subtype2'], 20) . '</font>';
+		$obj_line[3] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Lifespan:&nbsp;</font></td><td><font class="data_value">', $prod_info['typical_lifespan_days'], 20) . ' days' . '</font>';
+		$obj_line[4] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Units:&nbsp;</font></td><td><font class="data_value">', $prod_info['typical_units'], 20) . IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Min price per unit:&nbsp;', $prod_info['typical_min_price_per_unit'], 20) . '</font>';
+		$obj_line[5] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Description:&nbsp;</font></td><td><font class="data_value">', $prod_info['description'], 50) . '</font>';
 
 		if( $prod_info['trash_flag'] == 1 )
 		{
@@ -158,23 +156,21 @@ class ObjProductList
 		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
-			<tr>
-				<td align="left">
+		'
+			<font ' . $m_visibility . '>
 					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $prod_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+			</font>
+			<table cellspacing="0" cellpadding="0"' . $m_visibility . '>
 		';
 		
 		//append the data lines
 		for($i = 0; $i < count($obj_line); $i++)
 		{
-			$obj_data_display .= $obj_line[$i] . '<br>';
+			$obj_data_display .= '<tr><td>' . $obj_line[$i] . '</td></tr>';
 		}
 		
-		$obj_data_display .=
-		'		</td>
-			</tr>
-		</table>';
+		$obj_data_display .= '</table>';
 	
 		return $obj_data_display;
 	}
@@ -223,11 +219,12 @@ class ObjSupplierList
 	private function get_data_display($supplier_info)
 	{
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $supplier_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $supplier_info['company_name'], 30, 'No Company Name');
-		$obj_line[0] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Contact Name:&nbsp;', $supplier_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $supplier_info['contact_dept'], 20);
-		$obj_line[1] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Address:&nbsp;', $supplier_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $supplier_info['city'], 20);
-		$obj_line[2] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $supplier_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $supplier_info['cell_phone_number'], 20);
-
+		$obj_title_link_text = IO::prepout_sl_label('', $supplier_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $supplier_info['company_name'], 20, 'No Company Name') . '</font>';
+		$obj_line[0] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Contact&nbsp;Name:&nbsp;</font></td><td><font class="data_value">', $supplier_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $supplier_info['contact_dept'], 20) . '</font>';
+		$obj_line[1] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Address:&nbsp;</font></td><td><font class="data_value">', $supplier_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $supplier_info['city'], 20) . '</font>';
+		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office:&nbsp;</font></td><td><font class="data_value">', $supplier_info['office_phone_number'], 20) . '</font>';
+		$obj_line[3] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Mobile:&nbsp;</font></td><td><font class="data_value">', $supplier_info['cell_phone_number'], 20) . '</font>';
+		
 		if( $supplier_info['trash_flag'] == 1 )
 		{
 			$this->m_deleted = 'true';
@@ -237,25 +234,24 @@ class ObjSupplierList
 		}
 		
 		//display the object title link and data lines
+		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
-			<tr>
-				<td align="left">
+		'
+			<font ' . $m_visibility . '>
 					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $supplier_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+			</font>
+			<table cellspacing="0" cellpadding="0"' . $m_visibility . '>
 		';
 		
 		//append the data lines
 		for($i = 0; $i < count($obj_line); $i++)
 		{
-			$obj_data_display .= $obj_line[$i] . '<br>';
+			$obj_data_display .= '<tr><td>' . $obj_line[$i] . '</td></tr>';
 		}
 		
-		$obj_data_display .=
-		'		</td>
-			</tr>
-		</table>';
-	
+		$obj_data_display .= '</table>';
+		
 		return $obj_data_display;
 	}
 }
@@ -306,11 +302,12 @@ class ObjShipperList
 	private function get_data_display($shipper_info)
 	{
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $shipper_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $shipper_info['company_name'], 30, 'No Company Name');
-		$obj_line[0] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Contact Name:&nbsp;', $shipper_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $shipper_info['contact_dept'], 20);
-		$obj_line[1] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Address:&nbsp;', $shipper_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $shipper_info['city'], 20);
-		$obj_line[2] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $shipper_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $shipper_info['cell_phone_number'], 20);
-
+		$obj_title_link_text = IO::prepout_sl_label('', $shipper_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $shipper_info['company_name'], 20, 'No Company Name');
+		$obj_line[0] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Contact&nbsp;Name:&nbsp;</font></td><td><font class="data_value">', $shipper_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $shipper_info['contact_dept'], 20) . '</font>';
+		$obj_line[1] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Address:&nbsp;</font></td><td><font class="data_value">', $shipper_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $shipper_info['city'], 20) . '</font>';
+		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office:&nbsp;</font></td><td><font class="data_value">', $shipper_info['office_phone_number'], 20) . '</font>';
+		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Mobile:&nbsp;</font></td><td><font class="data_value">', $shipper_info['cell_phone_number'], 20) . '</font>';
+		
 		if( $shipper_info['trash_flag'] == 1 )
 		{
 			$this->m_deleted = 'true';
@@ -321,24 +318,22 @@ class ObjShipperList
 		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
-			<tr>
-				<td align="left">
+		'
+			<font ' . $m_visibility . '>
 					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $shipper_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+			</font>
+			<table cellspacing="0" cellpadding="0"' . $m_visibility . '>
 		';
 		
 		//append the data lines
 		for($i = 0; $i < count($obj_line); $i++)
 		{
-			$obj_data_display .= $obj_line[$i] . '<br>';
+			$obj_data_display .= '<tr><td>' . $obj_line[$i] . '</td></tr>';
 		}
 		
-		$obj_data_display .=
-		'		</td>
-			</tr>
-		</table>';
-	
+		$obj_data_display .= '</table>';
+		
 		return $obj_data_display;
 	}
 }
@@ -392,16 +387,23 @@ class ObjPurchaseList
 		
 		if( $purchase_info['in_warehouse'] == 1 )
 		{
-			$m_in_warehouse = "&nbsp;&nbsp;&nbsp;&nbsp;In Warehouse";
+			$m_in_warehouse = 'In Warehouse';
+			$status_color = "#0000DD";
+		}
+		else
+		{
+			$m_in_warehouse = 'In Transit';
+			$status_color = "#DD0000";			
 		}
 		
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('Purchase: ', $purchase_info['icode'], 30, 'No Code');
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Supplier:&nbsp;', $purchase_info['supplier_name'], 40);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipper:&nbsp;', $purchase_info['shipper_name'], 40);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;', $purchase_info['shipment_details'], 20) . $m_in_warehouse;
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;', $purchase_info['delivery_date'], 20);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Price:&nbsp;', $purchase_info['price'], 20);
+		$obj_title_link_text = IO::prepout_sl_label('Purchase: ', $purchase_info['icode'], 20, 'No Code');
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Status:&nbsp;</font></td><td><font style="font-weight: bold; color: ' . $status_color . ';" class="data_value">', $m_in_warehouse, 40) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Supplier:&nbsp;</font></td><td><font class="data_value">', $purchase_info['supplier_name'], 40) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Shipper:&nbsp;</font></td><td><font class="data_value">', $purchase_info['shipper_name'], 40) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;</font></td><td><font class="data_value">', $purchase_info['shipment_details'], 20) .'</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;</font></td><td><font class="data_value">', $purchase_info['delivery_date'], 20)  . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Price:&nbsp;</font></td><td><font class="data_value">', $purchase_info['price'], 20)  . '</font>';
 
 		if( $purchase_info['trash_flag'] == 1 )
 		{
@@ -413,24 +415,22 @@ class ObjPurchaseList
 		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
-			<tr>
-				<td align="left">
+		'
+			<font ' . $m_visibility . '>
 					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $purchase_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+			</font>
+			<table cellspacing="0" cellpadding="0"' . $m_visibility . '>
 		';
 		
 		//append the data lines
 		for($i = 0; $i < count($obj_line); $i++)
 		{
-			$obj_data_display .= $obj_line[$i] . '<br>';
+			$obj_data_display .= '<tr><td>' . $obj_line[$i] . '</td></tr>';
 		}
 		
-		$obj_data_display .=
-		'		</td>
-			</tr>
-		</table>';
-	
+		$obj_data_display .= '</table>';
+		
 		return $obj_data_display;
 	}
 }
@@ -494,13 +494,13 @@ class ObjSalesOrderList
 		}
 		
 		//decide what is displayed with what labels
-		$obj_title_link_text = $m_special . IO::prepout_sl_label('Sales Order: ', $sales_order_info['icode'], 30, 'No Code');
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Customer:&nbsp;', $sales_order_info['customer_name'], 40);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipper:&nbsp;', $sales_order_info['shipper_name'], 40);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;', $sales_order_info['shipment_details'], 20) . $m_in_warehouse;
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Order Date:&nbsp;', $sales_order_info['order_date'], 20);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;', $sales_order_info['delivery_date'], 20);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Price:&nbsp;', $sales_order_info['price'], 20);
+		$obj_title_link_text = $m_special . IO::prepout_sl_label('Sales Order: ', $sales_order_info['icode'], 20, 'No Code');
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Customer:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['customer_name'], 40) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Shipper:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['shipper_name'], 40) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['shipment_details'], 20) . '<i>' . $m_in_warehouse . '</i></font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Order Date:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['order_date'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['delivery_date'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Price:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['price'], 20) . '</font>';
 
 		if( $sales_order_info['trash_flag'] == 1 )
 		{
@@ -512,24 +512,22 @@ class ObjSalesOrderList
 		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
-			<tr>
-				<td align="left">
+		'
+			<font ' . $m_visibility . '>
 					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $sales_order_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+			</font>
+			<table cellspacing="0" cellpadding="0"' . $m_visibility . '>
 		';
 		
 		//append the data lines
 		for($i = 0; $i < count($obj_line); $i++)
 		{
-			$obj_data_display .= $obj_line[$i] . '<br>';
+			$obj_data_display .= '<tr><td>' . $obj_line[$i] . '</td></tr>';
 		}
 		
-		$obj_data_display .=
-		'		</td>
-			</tr>
-		</table>';
-	
+		$obj_data_display .= '</table>';
+		
 		return $obj_data_display;
 	}
 }
@@ -579,11 +577,11 @@ class ObjEmployeeList
 	{
 		$line_index = 0;
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $employee_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $employee_info['last_name'], 30) . IO::prepout_sl_label(', ', $employee_info['first_name'], 30);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Title:&nbsp;', $employee_info['title'], 30) . IO::prepout_sl_label(',&nbsp;', $employee_info['dept_name'], 30);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office Location:&nbsp;', $employee_info['office_location'], 30);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $employee_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $employee_info['cell_phone_number'], 20);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Fax:&nbsp;', $employee_info['fax_number'], 20);
+		$obj_title_link_text = IO::prepout_sl_label('', $employee_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $employee_info['last_name'], 20) . IO::prepout_sl_label(', ', $employee_info['first_name'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Title:&nbsp;</font></td><td><font class="data_value">', $employee_info['title'], 20) . IO::prepout_sl_label(',&nbsp;', $employee_info['dept_name'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office&nbsp;Location:&nbsp;</font></td><td><font class="data_value">', $employee_info['office_location'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office:&nbsp;</font></td><td><font class="data_value">', $employee_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $employee_info['cell_phone_number'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Fax:&nbsp;</font></td><td><font class="data_value">', $employee_info['fax_number'], 20) . '</font>';
 
 		if( $employee_info['trash_flag'] == 1 )
 		{
@@ -595,26 +593,22 @@ class ObjEmployeeList
 		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
-			<tr>
-				<td width="75%" align="left" valign="top">
+		'
+			<font ' . $m_visibility . '>
 					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $employee_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+			</font>
+			<table cellspacing="0" cellpadding="0"' . $m_visibility . '>
 		';
 		
 		//append the data lines
 		for($i = 0; $i < count($obj_line); $i++)
 		{
-			$obj_data_display .= $obj_line[$i] . '<br>';
+			$obj_data_display .= '<tr><td>' . $obj_line[$i] . '</td></tr>';
 		}
 		
-		$obj_data_display .=
-		'		</td>
-				<td width="75%" align="right" valign="top">
-				</td>				
-			</tr>
-		</table>';
-	
+		$obj_data_display .= '</table>';
+		
 		return $obj_data_display;
 	}
 }
@@ -664,11 +658,11 @@ class ObjEmployeeListLimited
 	{
 		$line_index = 0;
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $employee_info['icode'], 30, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $employee_info['last_name'], 30) . IO::prepout_sl_label(', ', $employee_info['first_name'], 30);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Title:&nbsp;', $employee_info['title'], 30) . IO::prepout_sl_label(',&nbsp;', $employee_info['dept_name'], 30);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office Location:&nbsp;', $employee_info['office_location'], 30);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Office:&nbsp;', $employee_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $employee_info['cell_phone_number'], 20);
-		$obj_line[$line_index++] = IO::prepout_sl_label('&nbsp;&nbsp;&nbsp;Fax:&nbsp;', $employee_info['fax_number'], 20);
+		$obj_title_link_text = IO::prepout_sl_label('', $employee_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $employee_info['last_name'], 20) . IO::prepout_sl_label(', ', $employee_info['first_name'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Title:&nbsp;</font></td><td><font class="data_value">', $employee_info['title'], 20) . IO::prepout_sl_label(',&nbsp;', $employee_info['dept_name'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office&nbsp;Location:&nbsp;</font></td><td><font class="data_value">', $employee_info['office_location'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office:&nbsp;</font></td><td><font class="data_value">', $employee_info['office_phone_number'], 20) . IO::prepout_sl_label(',&nbsp;Mobile:&nbsp;', $employee_info['cell_phone_number'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Fax:&nbsp;</font></td><td><font class="data_value">', $employee_info['fax_number'], 20) . '</font>';
 
 		if( $employee_info['trash_flag'] == 1 )
 		{
@@ -680,26 +674,22 @@ class ObjEmployeeListLimited
 		
 		//display the object title link and data lines
 		$obj_data_display =
-		'<table width="100%" cellspacing="0" cellpadding="0"' . $m_visibility . '>
-			<tr>
-				<td width="75%" align="left" valign="top">
+		'
+			<font ' . $m_visibility . '>
 					' . $m_in_trash . '
 					<a href="page_' . self::$OBJ_NAME .'_view.php?f_id=' . $employee_info['id'] . '"><b>' . $obj_title_link_text . '</b></a><br>
+			</font>
+			<table cellspacing="0" cellpadding="0"' . $m_visibility . '>
 		';
 		
 		//append the data lines
 		for($i = 0; $i < count($obj_line); $i++)
 		{
-			$obj_data_display .= $obj_line[$i] . '<br>';
+			$obj_data_display .= '<tr><td>' . $obj_line[$i] . '</td></tr>';
 		}
 		
-		$obj_data_display .=
-		'		</td>
-				<td width="75%" align="right" valign="top">
-				</td>				
-			</tr>
-		</table>';
-	
+		$obj_data_display .= '</table>';
+		
 		return $obj_data_display;
 	}
 }

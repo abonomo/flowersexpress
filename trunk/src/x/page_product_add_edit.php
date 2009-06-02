@@ -49,7 +49,7 @@ class PageProductAddEdit
 	{
 		$this->f_mode = IO::get_input_sl_g('f_mode','string');	
 		$this->f_action = IO::get_input_sl_g('f_action','string');
-	
+
 		//if submitting in ADD or EDIT mode, get fields from form
 		if($this->f_action == 'submit')
 		{
@@ -78,7 +78,7 @@ class PageProductAddEdit
 			$this->f_id = IO::get_input_sl_g('f_id','string');
 		
 			//get values from database
-			$supplier_info = DB::get_single_row_fq('
+			$product_info = DB::get_single_row_fq('
 				SELECT icode, name, type, subtype1, subtype2, typical_lifespan_days, typical_units, typical_min_price_per_unit, description, notes
 				FROM products WHERE id=\'' . $this->f_id . '\''
 			);
@@ -92,7 +92,7 @@ class PageProductAddEdit
 			$this->f_typical_units = $product_info['typical_units'];
 			$this->f_typical_min_price_per_unit = $product_info['typical_min_price_per_unit'];
 			$this->f_description = $product_info['description'];
-			$this->f_notes = $product_info['notes'];	
+			$this->f_notes = $product_info['notes'];				
 		}
 		//if NOT submitting, and in ADD mode, do nothing (empty textboxes)
 	}
