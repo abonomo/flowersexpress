@@ -270,8 +270,8 @@ class PagePurchaseAddEdit
 		$this->f_price 				= $purchase_info['price'];
 		$this->f_notes 				= $purchase_info['notes'];
 		
-		$this->m_supplier_text = $purchase_info['supplier_icode'] . ' : ' . $purchase_info['supplier_company_name'];
-		$this->m_shipper_text = $purchase_info['shipper_icode'] . ' : ' . $purchase_info['shipper_company_name'];			
+		$this->m_supplier_text = IO::prepout_sl($purchase_info['supplier_icode'], 20) . ' : ' . IO::prepout_sl($purchase_info['supplier_company_name'], 30);
+		$this->m_shipper_text = IO::prepout_sl($purchase_info['shipper_icode'], 20) . ' : ' . IO::prepout_sl($purchase_info['shipper_company_name'], 30);			
 	}
 	
 	private function verify_input()
