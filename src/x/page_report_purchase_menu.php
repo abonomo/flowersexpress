@@ -53,13 +53,13 @@ class PageReportPurchaseMenu
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_REPORTS);
 		
 		//echo inner area html here
-		//  TODO : Search algorithm
 			echo ('
+			<div align="center">
+			<table cellspacing="0" cellpadding="0" border="0"><tr><td>
 			<form name="form_report_menu" method="post" action="page_purchase_report.php">
-				<div class="text_title">Purchase Order Report Menu</div>
-				<input name="f_report_search" class="textbox" type="text" /><input class="button" value="Search" type="button" onclick="document.location=(\'page_report_list.php?f_search=\' + form.f_report_search.value)" /><br><br>
-				
-				Select Range of Delivery dates:<br>
+				<div class="text_title">Generate Supplier Purchase Report</div>
+				<br>
+				Select Delivery Dates Range:<br>
 				<input name="f_report_start" class="textbox" type="text" /> <a href="#" onclick="calbeg.select(document.forms[0].f_report_start, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx"> Select Begin Date</a>
 				<div id="testdiv1" style="position:absolute;visibility:hidden;"></div><br>
 				
@@ -68,9 +68,11 @@ class PageReportPurchaseMenu
 				
 				<input name="f_excel" type="checkbox" value="true"/> Download as Excel<br><br>
 				
-				<a href="#" onclick="form_report_menu.submit(); return false;">Get Purchase Orders</a><br>
+				<input type="submit" class="button" value="Generate!"><br>
 				
 			</form>
+			</td></tr></table>
+			</div>
 			');
 			
 
