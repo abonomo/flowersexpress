@@ -124,7 +124,7 @@ class PageSalesOrderAddEdit
 			}
 			else if($this->f_action == 'addcomp')
 			{
-				$this->add_sales_comp_from_purchase_comp();
+				$this->add_sales_comp_from_purchase_comp();				
 			}
 			else if($this->f_action == 'gotoaddcomp')
 			{
@@ -187,6 +187,9 @@ class PageSalesOrderAddEdit
 			}			
 		}
 
+		//BUG FIX: avoids double addition/postback question on back button		
+		if($this->f_action != '') IO::navigate_to('page_sales_order_add_edit.php?f_id=' . $this->f_id);	
+		
 		//get sales order components for later listing
 		$this->get_sales_order_comps();
 	}
