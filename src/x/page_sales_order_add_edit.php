@@ -262,8 +262,8 @@ class PageSalesOrderAddEdit
 		$this->f_shipper_id 		= $sales_order_info['shipper_id'];
 		$this->f_shipment_details 	= $sales_order_info['shipment_details'];
 		$this->f_special 			= $sales_order_info['special'];
-		$this->f_order_date 		= $sales_order_info['order_date'];
-		$this->f_delivery_date 		= $sales_order_info['delivery_date'];
+		$this->f_order_date 		= OurTime::datetime_to_js($sales_order_info['order_date']);
+		$this->f_delivery_date 		= OurTime::datetime_to_js($sales_order_info['delivery_date']);
 		$this->f_price 				= $sales_order_info['price'];
 		$this->f_notes 				= $sales_order_info['notes'];
 		
