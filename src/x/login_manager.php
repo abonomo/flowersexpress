@@ -46,7 +46,7 @@ class LoginManager
 	public static function login($the_email, $the_password)
 	{
 		$the_password = self::encryptPassword($the_password);
-		$login_result = DB::get_result_fq('SELECT id FROM employees WHERE email=\'' . $the_email . '\' AND password=\'' . $the_password . '\'');
+		$login_result = DB::get_result_fq('SELECT id FROM employees WHERE email=\'' . $the_email . '\' AND password=\'' . $the_password . '\' AND trash_flag=0');
 		
 		//if login is successful	
 		if(DB::is_unique_result($login_result))
