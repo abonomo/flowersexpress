@@ -20,6 +20,7 @@ class PageGenericList
 	private $m_search_obj_name;
 	private $m_has_trash_flag;
 	private $m_obj_text_name;
+	private $m_where_clause;
 	
 	
 	//*** MEMBERS ***
@@ -66,6 +67,21 @@ class PageGenericList
 		$this->process_input();
 		
 		$this->show_output();
+	}
+	
+	//gets only the content that the page would display
+	// this should probably just be a separate object but it would be a lot of duplicate code
+	public function get_output_only($the_where_clause = '')
+	{	
+		$this->m_where_clause = $the_where_clause;
+		
+		$this->get_input(); 
+		
+		$this->verify_input();
+		
+		$this->process_input();
+		
+		$this->include_output();
 	}
 	
 	private function get_input()
@@ -124,7 +140,7 @@ class PageGenericList
 				1 AS relevance
 				FROM ' . $this->m_obj_name . 's ' . $this->m_list_object->RENAME_MAIN_TABLE . ' ' .
 				$this->m_list_object->get_needed_joins() . ' ' .
-				'WHERE 1 ' .  $this->m_list_object->get_where_clause() . ' ' .
+				'WHERE 1 ' .  $this->m_list_object->get_where_clause() . ' ' . $this->m_where_clause . ' ' . 
 				$order_by_clause .
 				'LIMIT ' . $offset . ',' . $limit
 			);				
@@ -181,6 +197,21 @@ class PageGenericList
 	
 		//output is always the last thing done when called
 		exit();
+	}
+	
+	private function include_output($err_msg = '')
+	{
+		//display the top page number navigation bar
+		//public function echo_top_bar($bar_width, $ws_border_top, $ws_border_bottom, $page_num, $num_results, $results_per_page, $action_script_left, $action_script_right, $max_pages=5, $left_col='', $last_page=-1)
+		$page_nav_bar = new ObjPageNavBar();
+		$page_nav_bar->echo_top_bar('80%', 0, 10, $this->f_page, $this->m_num_results, self::$RESULTS_PER_PAGE, 'form_search.f_action_box_param.value=' . $this->f_action_box_param . '; form_search.f_action_box_param2.value=' . $this->f_action_box_param2 . '; form_search.f_page.value=', '; form_search.submit();', self::$MAX_PAGES_IN_NAV_BAR);		
+		
+		//draw results
+		//prototype: display($action_box_mode, $cust_info_arr, $num_total_results, $cur_page_num, $page_name)
+		$this->m_list_object->display($this->f_mode, $this->m_rows, $this->f_action_box_param, $this->f_action_box_param2);
+		
+		//display the bottom page number navigation bar
+		$page_nav_bar->echo_bottom_bar(0, 0);		
 	}
 }
 
