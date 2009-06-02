@@ -1,6 +1,8 @@
 <?php
 
 require_once('framework.php');
+require_once('page_generic_list.php');
+require_once('obj_lists.php');
 
 //TODO: html button submit?
 
@@ -315,6 +317,23 @@ class PageCustomerView
 			  </form>
 			</div>		
 		');
+		
+		echo ('
+			<p class="text_title">Past Orders:</p><br>
+		');
+		
+		$order_by_options = array(
+			array('Relevance', 'relevance'),
+			array('Sales Order Code', 'icode'),
+			array('In Trash Bin', 'trash_flag')	//specially lists stuff in trash first
+		);
+
+		$obj_sales_order_list = new ObjSalesOrderList();
+
+		//make a sales_order list page from constructing a generic list page with different parameters, and a different list object
+		$page_sales_order_list = new PageGenericList(ObjOuterArea::$TAB_SALES_ORDERS, 'sales_order', $order_by_options, $obj_sales_order_list, 'sales_order', true, 'Sales Orders');
+		$page_sales_order_list->get_output_only('AND customer_id = ' . $this->f_id);
+
 
 		ObjOuterArea::echo_bottom();
 	
