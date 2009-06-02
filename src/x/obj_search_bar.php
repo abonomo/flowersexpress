@@ -16,7 +16,7 @@ class SearchBar
 						<input name="f_page" type="hidden" value="' . $cur_page_num . '"/>
 						<input name="f_action_box_param" type="hidden" value="' . $action_box_param . '"/>
 						<input name="f_action_box_param2" type="hidden" value="' . $action_box_param2 . '"/>
-						<input name="f_search" type="text" width="30" class="textbox" value="' . IO::prepout_sl($search_box_value, false) . '"/>
+						<input name="f_search" type="text" width="22" class="textbox" value="' . IO::prepout_sl($search_box_value, false) . '"/>
 						<input name="f_search_btn" class="button" type="submit" value="Search"/>
 					</td>
 					<td align="left" valign="middle" width="33%">
