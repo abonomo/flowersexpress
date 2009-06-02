@@ -136,7 +136,7 @@ class PagePurchaseAddEdit
 		$this->f_expiration_date 			= $purchase_comp_info['expiration_date'];	//TODO: autofill expiration date
 		$this->f_min_price_per_unit 		= $purchase_comp_info['min_price_per_unit'];
 
-		$this->m_product_text = $purchase_comp_info['product_icode'] . ' : ' . $purchase_comp_info['product_name'];		
+		$this->m_product_text = IO::prepout_sl($purchase_comp_info['product_icode'], 20) . ' : ' . IO::prepout_sl($purchase_comp_info['product_name'], 30);		
 	}
 	
 	private function save_and_redirect($to_where)

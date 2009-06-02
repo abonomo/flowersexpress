@@ -270,8 +270,8 @@ class PageSalesOrderAddEdit
 		$this->f_price 				= $sales_order_info['price'];
 		$this->f_notes 				= $sales_order_info['notes'];
 		
-		$this->m_customer_text = $sales_order_info['customer_icode'] . ' : ' . $sales_order_info['customer_company_name'];
-		$this->m_shipper_text = $sales_order_info['shipper_icode'] . ' : ' . $sales_order_info['shipper_company_name'];			
+		$this->m_customer_text = IO::prepout_sl($sales_order_info['customer_icode'], 20) . ' : ' . IO::prepout_sl($sales_order_info['customer_company_name'], 30);
+		$this->m_shipper_text = IO::prepout_sl($sales_order_info['shipper_icode'], 20) . ' : ' . IO::prepout_sl($sales_order_info['shipper_company_name'], 30);			
 	}
 	
 	private function verify_input()
