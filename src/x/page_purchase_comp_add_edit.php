@@ -222,7 +222,7 @@ class PagePurchaseAddEdit
 			<tr>
 				<td class="text_label">Product: </td>
 				<td class="form_input">
-					<input type="text" size="48" disabled="true" name="f_product_text" class="textbox" value="' . IO::prepout_sl($this->m_product_text, false) . '">
+					<input type="text" size="48" disabled="true" name="f_product_text" class="textbox" value="' . $this->m_product_text . '">
 					<input type="hidden" name="f_product_id" class="textbox" value="' . IO::prepout_sl($this->f_product_id, false) . '">
 					<input type="submit" value="Select Product" onclick="form_purchase_comp.f_action.value=\'selectproduct\'; form_purchase_comp.f_id.value=\'' . $this->f_id . '\';">
 				</td>

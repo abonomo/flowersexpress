@@ -266,8 +266,8 @@ class PagePurchaseAddEdit
 		$this->f_shipper_id 		= $purchase_info['shipper_id'];
 		$this->f_shipment_details 	= $purchase_info['shipment_details'];
 		$this->f_in_warehouse 		= $purchase_info['in_warehouse'];
-		$this->f_order_date 		= OurTime::datetime_to_js($purchase_info['order_date']);
-		$this->f_delivery_date 		= OurTime::datetime_to_js($purchase_info['delivery_date']);
+		$this->f_order_date 		= $purchase_info['order_date'];
+		$this->f_delivery_date 		= $purchase_info['delivery_date'];
 		$this->f_price 				= $purchase_info['price'];
 		$this->f_notes 				= $purchase_info['notes'];
 		
@@ -404,7 +404,7 @@ class PagePurchaseAddEdit
 			<tr>
 				<td class="text_label">Bought Date: </td>
 				<td>
-					<input name="f_order_date" class="textbox" type="text" value="' . IO::prepout_sl($this->f_order_date, false) . '" /> <a href="#" onclick="calord.select(document.forms[0].f_order_date, \'datexx1\', \'MM/dd/yyyy\'); return false; " name="datexx1" id="datexx1">Select Date</a>
+					<input name="f_order_date" class="textbox" type="text" value="' . IO::prepout_sl(OurTime::datetime_to_js($this->f_order_date), false) . '" /> <a href="#" onclick="calord.select(document.forms[0].f_order_date, \'datexx1\', \'MM/dd/yyyy\'); return false; " name="datexx1" id="datexx1">Select Date</a>
 					<div id="orderCal" style="position:absolute;visibility:hidden;"></div><br>
 				</td>
 			</tr>
@@ -412,7 +412,7 @@ class PagePurchaseAddEdit
 			<tr>
 				<td class="text_label">Delivery Date: </td>
 				<td>
-					<input name="f_delivery_date" class="textbox" type="text" value="' . IO::prepout_sl($this->f_delivery_date, false) . '" /> <a href="#" onclick="caldel.select(document.forms[0].f_delivery_date, \'datexx2\', \'MM/dd/yyyy\'); return false; " name="datexx2" id="datexx2">Select Date</a>
+					<input name="f_delivery_date" class="textbox" type="text" value="' . IO::prepout_sl(OurTime::datetime_to_js($this->f_delivery_date), false) . '" /> <a href="#" onclick="caldel.select(document.forms[0].f_delivery_date, \'datexx2\', \'MM/dd/yyyy\'); return false; " name="datexx2" id="datexx2">Select Date</a>
 					<div id="deliveryCal" style="position:absolute;visibility:hidden;"></div><br>
 				</td>
 			</tr>
