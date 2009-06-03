@@ -1,5 +1,6 @@
 <?php
 
+require_once('our_time.php');
 include('obj_result_box.php');
 
 class ObjSalesOrderCompList
@@ -167,8 +168,8 @@ class ObjPurchaseCompList
 		$obj_line[0] = '<td align="left"><font class="data_label">&nbsp;Product&nbsp;ID:&nbsp;</font></td><td align="left"><a href="page_product_view.php?f_id=' . $obj_info['product_id'] . '">' . IO::prepout_sl($obj_info['product_icode'], 20) . '&nbsp;:&nbsp;' . IO::prepout_sl($obj_info['product_name'], 20) . '</a></td>';
 		$obj_line[1] = '<td align="left"><font class="data_label">&nbsp;Available:&nbsp;</font></td><td align="left"><font style="font-weight: bold; color: ' . $quantity_left_color . ';">' . IO::prepout_sl($obj_info['quantity_left'], 20) . '</font>&nbsp;' . IO::prepout_sl($obj_info['units'], 20) . '&nbsp;<i>' . IO::prepout_sl($transit_status, 20) . '</i></font></td>';
 		$obj_line[2] = '<td align="left"><font class="data_label">&nbsp;Min&nbsp;Price/Unit:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl($obj_info['min_price_per_unit'], 20) . '</font></td>';
-		$obj_line[3] = '<td align="left"><font class="data_label">&nbsp;Expires:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl($obj_info['expiration_date'], 20) . '</font></td>';
-		$obj_line[4] = '<td align="left"><font class="data_label">&nbsp;Expected:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl($obj_info['delivery_date'], 20) . '</font></td>';
+		$obj_line[3] = '<td align="left"><font class="data_label">&nbsp;Expires:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl(OurTime::datetime_to_js($obj_info['expiration_date']), 20) . '</font></td>';
+		$obj_line[4] = '<td align="left"><font class="data_label">&nbsp;Expected:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl(OurTime::datetime_to_js($obj_info['delivery_date']), 20) . '</font></td>';
 		$obj_line[5] = '<td align="left"><font class="data_label">&nbsp;Purchase&nbsp;ID:&nbsp;</font></td><td align="left"><a href="page_purchase_view.php?f_id=' . $obj_info['purchase_id'] . '">' . IO::prepout_sl($obj_info['purchase_icode'], 20) . '&nbsp;(' . IO::prepout_sl($obj_info['supplier_company_name'], 20) . ')</a></td>';
 	
 		//display the object title link and data lines
@@ -255,7 +256,7 @@ class ObjEditPurchaseCompList
 		$obj_line[2] = '<td align="left"><font class="data_label">&nbsp;Quantity&nbsp;Sellable:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl($obj_info['quantity_sellable'], 20) . '&nbsp;' . IO::prepout_sl($obj_info['units'], 20) . '</font></td>';
 		$obj_line[3] = '<td align="left"><font class="data_label">&nbsp;Units:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl($obj_info['units'], 20) . '</font></td>';		
 		$obj_line[4] = '<td align="left"><font class="data_label">&nbsp;Min&nbsp;Price/Unit:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl($obj_info['min_price_per_unit'], 20) . '</font></td>';
-		$obj_line[5] = '<td align="left"><font class="data_label">&nbsp;Expires:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl($obj_info['expiration_date'], 20) . '</td>';
+		$obj_line[5] = '<td align="left"><font class="data_label">&nbsp;Expires:&nbsp;</font></td><td align="left"><font class="data_value">' . IO::prepout_sl(OurTime::datetime_to_js($obj_info['expiration_date']), 20) . '</td>';
 	
 		//display the object title link and data lines
 		$obj_data_display =
