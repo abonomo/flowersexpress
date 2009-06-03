@@ -207,8 +207,19 @@ class PageProductAddEdit
 	
 	private function show_output($outputarray)
 	{
+		$title = '';
+		
 		//echo the outer area with the correct tab highlighted for this page
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_PRODUCTS);
+		
+		if($this->f_mode == 'edit')
+		{
+			$title = "Edit Product Information";
+		}
+		else
+		{
+			$title = "Add New Product";
+		}
 		
 		//echo inner area html here
 		echo('
@@ -219,7 +230,7 @@ class PageProductAddEdit
                         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                               <td width="25%" align="right" valign="middle">&nbsp;</td>
-                              <td width="75%" align="left" valign="middle" class="text_title">Add New Product</td>
+                              <td width="75%" align="left" valign="middle" class="text_title">' . $title . '</td>
                             </tr>
                         </table></td>
                       </tr>	
