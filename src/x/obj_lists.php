@@ -1,6 +1,7 @@
 <?php
 
 include('obj_result_box.php');
+require_once('our_time.php');
 
 /*
 //this is what the abstract class would look like, but PHP doesn't need it:
@@ -402,7 +403,7 @@ class ObjPurchaseList
 		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Supplier:&nbsp;</font></td><td><font class="data_value">', $purchase_info['supplier_name'], 40) . '</font>';
 		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Shipper:&nbsp;</font></td><td><font class="data_value">', $purchase_info['shipper_name'], 40) . '</font>';
 		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;</font></td><td><font class="data_value">', $purchase_info['shipment_details'], 20) .'</font>';
-		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;</font></td><td><font class="data_value">', $purchase_info['delivery_date'], 20)  . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;</font></td><td><font class="data_value">', OurTime::datetime_to_js($purchase_info['delivery_date']), 20)  . '</font>';
 		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Price:&nbsp;</font></td><td><font class="data_value">', $purchase_info['price'], 20)  . '</font>';
 
 		if( $purchase_info['trash_flag'] == 1 )
@@ -498,8 +499,8 @@ class ObjSalesOrderList
 		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Customer:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['customer_name'], 40) . '</font>';
 		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Shipper:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['shipper_name'], 40) . '</font>';
 		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Shipment Details:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['shipment_details'], 20) . '<i>' . $m_in_warehouse . '</i></font>';
-		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Order Date:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['order_date'], 20) . '</font>';
-		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['delivery_date'], 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Order Date:&nbsp;</font></td><td><font class="data_value">', OurTime::datetime_to_js($sales_order_info['order_date']), 20) . '</font>';
+		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Delivery Date:&nbsp;</font></td><td><font class="data_value">', OurTime::datetime_to_js($sales_order_info['delivery_date']), 20) . '</font>';
 		$obj_line[$line_index++] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Price:&nbsp;</font></td><td><font class="data_value">', $sales_order_info['price'], 20) . '</font>';
 
 		if( $sales_order_info['trash_flag'] == 1 )
