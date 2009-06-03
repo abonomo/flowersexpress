@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
 --
 
 INSERT DELAYED INTO `employees` (`id`, `icode`, `email`, `password`, `auth_level`, `first_name`, `last_name`, `title`, `dept_name`, `office_location`, `office_phone_number`, `cell_phone_number`, `fax_number`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
-(1, '', 'test@test.com', '098f6bcd4621d373cade4e832627b4f6', 4, 'Testo', 'Testigi', '', '', '', '', '', '', 0, 1, '2009-01-01 00:00:00', '2009-01-01 00:00:00', ' test test comQQQ Testo Testigi', 0);
+(1, '', 'test@test.com', '098f6bcd4621d373cade4e832627b4f6', 4, 'Testo', 'Testigi', '', '', '', '', '', '', 1, 1, '2009-01-01 00:00:00', '2009-01-01 00:00:00', ' test test comQQQ Testo Testigi', 0);
 
 -- --------------------------------------------------------
 
