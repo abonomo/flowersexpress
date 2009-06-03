@@ -58,7 +58,7 @@ class ObjCustomerList
 	private function get_data_display($cust_info)
 	{
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $cust_info['icode'], 20, 'No&nbsp;Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $cust_info['company_name'], 20, 'No&nbsp;Company&nbsp;Name') . '</font>';
+		$obj_title_link_text = IO::prepout_sl_label('', $cust_info['icode'], 20, 'No&nbsp;Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $cust_info['company_name'], 40, 'No&nbsp;Company&nbsp;Name') . '</font>';
 		$obj_line[0] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Contact&nbsp;Name:&nbsp;</font></td><td><font class="data_value">', $cust_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $cust_info['contact_dept'], 20) . '</font>';
 		$obj_line[1] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Address:&nbsp;</font></td><td><font class="data_value">', $cust_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $cust_info['city'], 20) . '</font>';
 		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office:&nbsp;</font></td><td><font class="data_value">', $cust_info['office_phone_number'], 20) . '</font>';
@@ -139,7 +139,7 @@ class ObjProductList
 	private function get_data_display($prod_info)
 	{
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $prod_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $prod_info['name'], 20, 'No Name') . '</font>';
+		$obj_title_link_text = IO::prepout_sl_label('', $prod_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $prod_info['name'], 30, 'No Name') . '</font>';
 		$obj_line[0] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Type:&nbsp;</font></td><td><font class="data_value">', $prod_info['type'], 20) . '</font>';
 		$obj_line[1] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Subtype1:&nbsp;</font></td><td><font class="data_value">', $prod_info['subtype1'], 20) . '</font>';
 		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Subtype2:&nbsp;</font></td><td><font class="data_value">', $prod_info['subtype2'], 20) . '</font>';
@@ -220,7 +220,7 @@ class ObjSupplierList
 	private function get_data_display($supplier_info)
 	{
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $supplier_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $supplier_info['company_name'], 20, 'No Company Name') . '</font>';
+		$obj_title_link_text = IO::prepout_sl_label('', $supplier_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $supplier_info['company_name'], 40, 'No Company Name') . '</font>';
 		$obj_line[0] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Contact&nbsp;Name:&nbsp;</font></td><td><font class="data_value">', $supplier_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $supplier_info['contact_dept'], 20) . '</font>';
 		$obj_line[1] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Address:&nbsp;</font></td><td><font class="data_value">', $supplier_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $supplier_info['city'], 20) . '</font>';
 		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office:&nbsp;</font></td><td><font class="data_value">', $supplier_info['office_phone_number'], 20) . '</font>';
@@ -303,7 +303,7 @@ class ObjShipperList
 	private function get_data_display($shipper_info)
 	{
 		//decide what is displayed with what labels
-		$obj_title_link_text = IO::prepout_sl_label('', $shipper_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $shipper_info['company_name'], 20, 'No Company Name');
+		$obj_title_link_text = IO::prepout_sl_label('', $shipper_info['icode'], 20, 'No Code') . IO::prepout_sl_label('&nbsp;-&nbsp;', $shipper_info['company_name'], 40, 'No Company Name');
 		$obj_line[0] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Contact&nbsp;Name:&nbsp;</font></td><td><font class="data_value">', $shipper_info['contact_name'], 20) . IO::prepout_sl_label(',&nbsp;', $shipper_info['contact_dept'], 20) . '</font>';
 		$obj_line[1] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Address:&nbsp;</font></td><td><font class="data_value">', $shipper_info['address_line_1'], 20) . IO::prepout_sl_label(',&nbsp;', $shipper_info['city'], 20) . '</font>';
 		$obj_line[2] = IO::prepout_sl_label('<font class="data_label">&nbsp;&nbsp;&nbsp;Office:&nbsp;</font></td><td><font class="data_value">', $shipper_info['office_phone_number'], 20) . '</font>';
