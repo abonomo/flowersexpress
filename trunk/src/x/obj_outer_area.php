@@ -82,7 +82,7 @@ class ObjOuterArea
 		<!-- left menu links -->
 				<table width="120" cellspacing="0" cellpadding="0" id="navigation">
 				  <tbody>
-						<td style="background-image: url(\'../img/top_logo.png\'); background-position: 0% 0%; background-repeat: no-repeat;">&nbsp;</td><tr>
+					<tr>
 					  <td><a class="' . (($active_tab == self::$TAB_HOME) ? 'active_menu' : 'menu') . '" href="page_home.php">Home</a></tr><tr>
 					  <td><a class="' . (($active_tab == self::$TAB_SALES_ORDERS) ? 'active_menu' : 'menu') . '" href="page_sales_order_menu.php">Sales Order</a></td></tr><tr>
 					  <td><a class="' . (($active_tab == self::$TAB_PURCHASES) ? 'active_menu' : 'menu') . '" href="page_purchase_menu.php">Purchase</a></td></tr><tr>
