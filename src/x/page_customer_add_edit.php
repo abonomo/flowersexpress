@@ -233,6 +233,15 @@ class PageCustomerAddEdit
 		//echo the outer area with the correct tab highlighted for this page
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_CUSTOMERS);
 		
+		if($this->f_mode == 'edit')
+		{
+			$title = "Edit Customer Information";
+		}
+		else
+		{
+			$title = "Add New Customer";
+		}
+		
 		//echo inner area html here
 		echo('
                <div align="center">
@@ -242,7 +251,7 @@ class PageCustomerAddEdit
                         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                               <td width="25%" align="right" valign="middle">&nbsp;</td>
-                              <td width="75%" align="left" valign="middle" class="text_title">Add New Customer</td>
+                              <td width="75%" align="left" valign="middle" class="text_title">' . $title . '</td>
                             </tr>
                         </table></td>
                       </tr>	
