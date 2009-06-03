@@ -411,7 +411,6 @@ class PageEmployeeAddEdit
 								if ($this->f_auth_level == LoginManager::$AUTH_ADMIN)
 								{
 									echo('								
-									<option value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
                             		<option value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
                             		<option value="' . LoginManager::$AUTH_READ_WRITE . '"> Read/Write</option>
                             		<option selected="yes" value="' . LoginManager::$AUTH_ADMIN . '">Admin</option>
@@ -419,24 +418,21 @@ class PageEmployeeAddEdit
 								}
 								else if ($this->f_auth_level == LoginManager::$AUTH_READ_ONLY)
 								{
-									echo('								
-									<option value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
+									echo('
                             		<option selected="yes" value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
                             		<option value="' . LoginManager::$AUTH_READ_WRITE . '"> Read/Write</option>
                             		<option value="' . LoginManager::$AUTH_ADMIN . '">Admin</option>
 									');
 								}else if ($this->f_auth_level == LoginManager::$AUTH_READ_WRITE)
 								{
-									echo('								
-									<option value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
+									echo('
                             		<option value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
                             		<option selected="yes" value="' . LoginManager::$AUTH_READ_WRITE . '"> Read/Write</option>
                             		<option value="' . LoginManager::$AUTH_ADMIN . '">Admin</option>
 									');
 								}else
 								{
-									echo('								
-									<option selected="yes" value="' . LoginManager::$AUTH_LOGIN . '">Login</option>
+									echo('
                             		<option value="' . LoginManager::$AUTH_READ_ONLY . '">Read Only</option>
                             		<option value="' . LoginManager::$AUTH_READ_WRITE . '"> Read/Write</option>
                             		<option value="' . LoginManager::$AUTH_ADMIN . '">Admin</option>
