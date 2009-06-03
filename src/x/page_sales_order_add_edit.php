@@ -404,7 +404,7 @@ class PageSalesOrderAddEdit
 			<tr>
 				<td class="text_label">Order Date: </td>
 				<td>
-					<input name="f_order_date" class="textbox" type="text" value="' . IO::prepout_sl($this->f_order_date, false) . '" /> <a href="#" onclick="calord.select(document.form_sales_order.f_order_date, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx">Select Date</a>
+					<input name="f_order_date" class="textbox" type="text" value="' . IO::prepout_sl($this->f_order_date, false) . '" /> <a href="#" onclick="calord.select(document.forms[0].f_order_date, \'datexx1\', \'MM/dd/yyyy\'); return false; " name="datexx1" id="datexx1">Select Date</a>
 					<div id="orderCal" style="position:absolute;visibility:hidden;"></div><br>
 				</td>
 			</tr>
@@ -412,7 +412,7 @@ class PageSalesOrderAddEdit
 			<tr>
 				<td class="text_label">Delivery Date: </td>
 				<td>
-					<input name="f_delivery_date" class="textbox" type="text" value="' . IO::prepout_sl($this->f_delivery_date, false) . '" /> <a href="#" onclick="caldel.select(document.form_sales_order.f_delivery_date, \'datexx\', \'MM/dd/yyyy\'); return false; " name="datexx" id="datexx">Select Date</a>
+					<input name="f_delivery_date" class="textbox" type="text" value="' . IO::prepout_sl($this->f_delivery_date, false) . '" /> <a href="#" onclick="caldel.select(document.forms[0].f_delivery_date, \'datexx2\', \'MM/dd/yyyy\'); return false; " name="datexx2" id="datexx2">Select Date</a>
 					<div id="deliveryCal" style="position:absolute;visibility:hidden;"></div><br>
 				</td>
 			</tr>
