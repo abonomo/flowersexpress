@@ -1,8 +1,6 @@
 <?php
 
 require_once('framework.php');
-require_once('page_generic_list.php');
-require_once('obj_lists.php');
 
 //TODO: html button submit?
 
@@ -176,8 +174,34 @@ class PageCustomerView
 						  <td width="75%" align="left" valign="middle" class="text_title">View Customer</td>
 						</tr>
 					</table></td>
-				  </tr>	
+				  </tr>
 				  
+<!-- Link of Edit, Delete & Undeleted starts here -->
+				  <tr>
+					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+					<td width="27%" align="right" valign="middle">&nbsp;</td>
+					<td width="73%" align="left" valign="middle"> ');
+					
+// show edit & delete link below the title if trash_flag != 1
+// show undelete link below the title if trash_flag == 1
+				if( $this->f_trash_flag != '1' )
+				{
+					echo (' <img src="../img/icon_edit.gif"/> ');
+					echo (' <a href="page_customer_add_edit.php?f_mode=edit&amp;f_id=' . $this->f_id . '">Edit</a>');
+					echo ('  ');
+					echo (' <img src="../img/icon_delete.gif"/> ');
+					echo (' <a href="#" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { document.location=\'page_customer_delete.php?f_id=' . $this->f_id .'\'; } return false;"/>Delete</a></td>');
+				}
+				else
+				{
+					echo (' <img src="../img/icon_undelete.gif"/> ');
+					echo (' <a href="page_customer_undelete.php?f_id=' . $this->f_id . '">Undelete</a></td>');
+				}
+				echo ('	</tr>
+					</table></td>
+				  </tr>
+<!-- end of Link eddition -->
 				  <tr>
 					<td>&nbsp;</td>
 				  </tr>	
@@ -317,23 +341,6 @@ class PageCustomerView
 			  </form>
 			</div>		
 		');
-		
-		echo ('
-			<p class="text_title">Past Orders:</p><br>
-		');
-		
-		$order_by_options = array(
-			array('Relevance', 'relevance'),
-			array('Sales Order Code', 'icode'),
-			array('In Trash Bin', 'trash_flag')	//specially lists stuff in trash first
-		);
-
-		$obj_sales_order_list = new ObjSalesOrderList();
-
-		//make a sales_order list page from constructing a generic list page with different parameters, and a different list object
-		$page_sales_order_list = new PageGenericList(ObjOuterArea::$TAB_SALES_ORDERS, 'sales_order', $order_by_options, $obj_sales_order_list, 'sales_order', true, 'Sales Orders');
-		$page_sales_order_list->get_output_only('AND customer_id = ' . $this->f_id);
-
 
 		ObjOuterArea::echo_bottom();
 	

@@ -158,17 +158,60 @@ class PageSalesOrderView
 		ObjOuterArea::echo_top(ObjOuterArea::$TAB_SALES_ORDERS);
 		
 		//echo inner area html
-		echo ('
-		<!-- Title of the page -->
+//		echo ('
+//		<!-- Title of the page -->
+//		<form name="sales_order_view" method="post" action="page_sales_order_view.php?f_id=' . IO::prepout_url($this->f_id) . '">
+//		<table width="100%">
+//			<tr>
+//				<td width="25%"> </td>
+//				<td width="75%" class="text_title">
+//				View Sales Order
+//				</td>
+//			</tr>
+//		</table>
+
+echo('
+		<div align="center">
 		<form name="sales_order_view" method="post" action="page_sales_order_view.php?f_id=' . IO::prepout_url($this->f_id) . '">
-		<table width="100%">
-			<tr>
-				<td width="25%"> </td>
-				<td width="75%" class="text_title">
-				View Sales Order
-				</td>
-			</tr>
-		</table>
+		<table width="600" border="0" cellpadding="0" cellspacing="0">
+
+				  <tr>
+					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+						  <td width="25%" align="right" valign="middle">&nbsp;</td>
+						  <td width="75%" align="left" valign="middle" class="text_title">View Sales Order</td>
+						</tr>
+					</table></td>
+				  </tr>
+
+<!-- Link of Edit, Delete & Undeleted starts here -->
+				  <tr>
+					<td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+					<td width="27%" align="right" valign="middle">&nbsp;</td>
+					<td width="73%" align="left" valign="middle"> ');
+					
+// show edit & delete link below the title if trash_flag != 1
+// show undelete link below the title if trash_flag == 1
+				if( $this->f_trash_flag != '1' )
+				{
+					echo (' <img src="../img/icon_edit.gif"/> ');
+					echo (' <a href="page_sales_order_add_edit.php?f_mode=edit&amp;f_id=' . $this->f_id . '">Edit</a>');
+					echo ('  ');
+					echo (' <img src="../img/icon_delete.gif"/> ');
+					echo (' <a href="#" onclick="if(window.confirm(\'Are you sure you want to delete this entry?\')) { document.location=\'page_sales_order_delete.php?f_id=' . $this->f_id .'\'; } return false;"/>Delete</a></td>');
+				}
+				else
+				{
+					echo (' <img src="../img/icon_undelete.gif"/> ');
+					echo (' <a href="page_sales_order_undelete.php?f_id=' . $this->f_id . '">Undelete</a></td>');
+				}
+				echo ('	</tr>
+					</table></td>
+				  </tr>
+<!-- end of Link eddition -->
+
+
 			<!-- View fields of a sales order -->
 			<table width="100%">
 			
