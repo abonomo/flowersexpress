@@ -100,20 +100,21 @@ body 		{ font-size: 62.5%; font-family: Verdana, Arial, Helvetica, sans-serif; c
 /* left tab bar */
 table,td,tr,th 	{ font-size: 1.0em; font-family: Verdana, Arial, Helvetica, sans-serif; color: #555555; padding: 0;  
 		  background:#FFFFFF}
-		  
+
 a.menu		{ font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.00em; background-color:#982023; color:
-		  #FFFFFF; text-decoration: none }
+		  #FFFFFF; text-decoration: none; display: block; }
 a.active_menu	{ border-bottom:1px solid #FCCD61; background-position: left top; font-size: 1.00em; font-family: Verdana, 
 		  Arial, Helvetica, sans-serif; color: maroon; text-indent: 0; word-spacing: 0; text-align: left;   
 		  margin-top: 0; line-height:40px; background-color:#ECCB13; padding-left:10px; padding-right:3px;   
 		  padding-top:3px; padding-bottom:3px; background-repeat:repeat-x; background-attachment:fixed;   
-		  border-left-width:1px; border-right-width:1px; border-top-width:1px }
-		  
+		  border-left-width:1px; border-right-width:1px; border-top-width:1px; display: block; }
+#navigation {
+	border-top: 1px solid #FCCD61;
+}
 #navigation a	{ border-bottom: 1px solid #FCCD61; font-family: Verdana, Arial, Helvetica, sans-serif; line-height:40px;  
 		  font-size: 1.00em; text-decoration: none; display:block; padding-left:10px; padding-  
 		  right:3px; padding-top:3px; padding-bottom:3px }	
 #navigation a:hover { color:#FFD628; background-color:#6E0001; }
-
 .left		{ background:#6E0001;}         
 }
 html {overflow-y: scroll;}
