@@ -1,0 +1,340 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.9.4
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 03, 2009 at 01:33 AM
+-- Server version: 4.1.22
+-- PHP Version: 5.2.6
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `maxvujo_flowersexpressmax`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `action_log`
+--
+
+DROP TABLE IF EXISTS `action_log`;
+CREATE TABLE IF NOT EXISTS `action_log` (
+  `id` int(11) NOT NULL auto_increment,
+  `employee_id` int(11) NOT NULL default '0',
+  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `table` varchar(255) NOT NULL default '',
+  `row_id` int(11) NOT NULL default '0',
+  `action` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `employee_id` (`employee_id`,`table`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `action_log`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+DROP TABLE IF EXISTS `customers`;
+CREATE TABLE IF NOT EXISTS `customers` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `company_name` varchar(255) NOT NULL default '',
+  `contact_name` varchar(255) NOT NULL default '',
+  `contact_dept` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
+  `address_line_1` varchar(255) NOT NULL default '',
+  `address_line_2` varchar(255) NOT NULL default '',
+  `city` varchar(255) NOT NULL default '',
+  `province` varchar(255) NOT NULL default '',
+  `country` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `last_contacted` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customers`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employees`
+--
+
+DROP TABLE IF EXISTS `employees`;
+CREATE TABLE IF NOT EXISTS `employees` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `email` varchar(255) NOT NULL default '',
+  `password` varchar(255) NOT NULL default '',
+  `auth_level` int(11) NOT NULL default '0',
+  `first_name` varchar(255) NOT NULL default '',
+  `last_name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `dept_name` varchar(255) NOT NULL default '',
+  `office_location` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT DELAYED INTO `employees` (`id`, `icode`, `email`, `password`, `auth_level`, `first_name`, `last_name`, `title`, `dept_name`, `office_location`, `office_phone_number`, `cell_phone_number`, `fax_number`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, '', 'test@test.com', '098f6bcd4621d373cade4e832627b4f6', 4, 'Testo', 'Testigi', '', '', '', '', '', '', 0, 1, '2009-01-01 00:00:00', '2009-01-01 00:00:00', ' test test comQQQ Testo Testigi', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `name` varchar(255) NOT NULL default '',
+  `type` varchar(255) NOT NULL default '',
+  `subtype1` varchar(255) NOT NULL default '',
+  `subtype2` varchar(255) NOT NULL default '',
+  `description` text NOT NULL,
+  `typical_lifespan_days` int(11) NOT NULL default '0',
+  `typical_units` varchar(255) NOT NULL default '',
+  `typical_min_price_per_unit` decimal(10,2) NOT NULL default '0.00',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `products`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+DROP TABLE IF EXISTS `purchases`;
+CREATE TABLE IF NOT EXISTS `purchases` (
+  `id` int(11) NOT NULL auto_increment,
+  `is_cart` int(11) NOT NULL default '0',
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `supplier_id` int(11) NOT NULL default '0',
+  `shipper_id` int(11) NOT NULL default '0',
+  `shipment_details` text NOT NULL,
+  `in_warehouse` tinyint(1) NOT NULL default '0',
+  `order_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `delivery_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `price` decimal(10,2) NOT NULL default '0.00',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchases`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_comps`
+--
+
+DROP TABLE IF EXISTS `purchase_comps`;
+CREATE TABLE IF NOT EXISTS `purchase_comps` (
+  `id` int(11) NOT NULL auto_increment,
+  `purchase_id` int(11) NOT NULL default '0',
+  `product_id` int(11) NOT NULL default '-1',
+  `units` varchar(255) NOT NULL default '',
+  `quantity_purchased` int(11) NOT NULL default '0',
+  `quantity_sellable` int(11) NOT NULL default '0',
+  `expiration_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `min_price_per_unit` decimal(10,2) NOT NULL default '0.00',
+  PRIMARY KEY  (`id`),
+  KEY `purchase_id` (`purchase_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_comps`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_orders`
+--
+
+DROP TABLE IF EXISTS `sales_orders`;
+CREATE TABLE IF NOT EXISTS `sales_orders` (
+  `id` int(11) NOT NULL auto_increment,
+  `is_cart` int(11) NOT NULL default '0',
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `customer_id` int(11) NOT NULL default '0',
+  `shipper_id` int(11) NOT NULL default '0',
+  `shipment_details` text NOT NULL,
+  `special` int(11) NOT NULL default '0',
+  `order_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `delivery_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `price` decimal(10,2) NOT NULL default '0.00',
+  `currency` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_orders`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_order_comps`
+--
+
+DROP TABLE IF EXISTS `sales_order_comps`;
+CREATE TABLE IF NOT EXISTS `sales_order_comps` (
+  `id` int(11) NOT NULL auto_increment,
+  `sales_order_id` int(11) NOT NULL default '0',
+  `purchase_comp_id` int(11) NOT NULL default '0',
+  `quantity_ordered` int(11) NOT NULL default '0',
+  `total_cost` decimal(10,2) NOT NULL default '0.00',
+  PRIMARY KEY  (`id`),
+  KEY `sales_order_id` (`sales_order_id`),
+  KEY `sales_order_3id` (`purchase_comp_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_order_comps`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shippers`
+--
+
+DROP TABLE IF EXISTS `shippers`;
+CREATE TABLE IF NOT EXISTS `shippers` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `company_name` varchar(255) NOT NULL default '',
+  `contact_name` varchar(255) NOT NULL default '',
+  `contact_dept` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
+  `address_line_1` varchar(255) NOT NULL default '',
+  `address_line_2` varchar(255) NOT NULL default '',
+  `city` varchar(255) NOT NULL default '',
+  `province` varchar(255) NOT NULL default '',
+  `country` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `shippers`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suppliers`
+--
+
+DROP TABLE IF EXISTS `suppliers`;
+CREATE TABLE IF NOT EXISTS `suppliers` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `company_name` varchar(255) NOT NULL default '',
+  `contact_name` varchar(255) NOT NULL default '',
+  `contact_dept` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
+  `address_line_1` varchar(255) NOT NULL default '',
+  `address_line_2` varchar(255) NOT NULL default '',
+  `city` varchar(255) NOT NULL default '',
+  `province` varchar(255) NOT NULL default '',
+  `country` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `last_contacted` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `suppliers`
+--
+
