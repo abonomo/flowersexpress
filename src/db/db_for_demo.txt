@@ -1,0 +1,375 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.9.4
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jun 03, 2009 at 03:09 AM
+-- Server version: 4.1.22
+-- PHP Version: 5.2.6
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `maxvujo_flowersexpressmax`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `action_log`
+--
+
+DROP TABLE IF EXISTS `action_log`;
+CREATE TABLE IF NOT EXISTS `action_log` (
+  `id` int(11) NOT NULL auto_increment,
+  `employee_id` int(11) NOT NULL default '0',
+  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `table` varchar(255) NOT NULL default '',
+  `row_id` int(11) NOT NULL default '0',
+  `action` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `employee_id` (`employee_id`,`table`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `action_log`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+DROP TABLE IF EXISTS `customers`;
+CREATE TABLE IF NOT EXISTS `customers` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `company_name` varchar(255) NOT NULL default '',
+  `contact_name` varchar(255) NOT NULL default '',
+  `contact_dept` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
+  `address_line_1` varchar(255) NOT NULL default '',
+  `address_line_2` varchar(255) NOT NULL default '',
+  `city` varchar(255) NOT NULL default '',
+  `province` varchar(255) NOT NULL default '',
+  `country` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `last_contacted` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT DELAYED INTO `customers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `office_phone_number`, `cell_phone_number`, `fax_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `last_contacted`, `search_words`, `trash_flag`) VALUES
+(1, 'C0001', '', 'Rupak''s Flower Emporium', 'Rupak', 'Flower QA', '(310)593-3242', '(310)825-8225', '(310)794-5057', '4532BH UCLA', '', 'LA', 'CA', 'USA', 1, 1, '2009-06-03 01:49:47', '2009-06-03 02:04:12', '0000-00-00 00:00:00', 'C0001 Rupak sQQQ Flower Emporium Rupak Flower QAQQQ 310QQQ 593QQQ 3242 310QQQ 825QQQ 8225 310QQQ 794QQQ 5057 4532BH UCLA LAQQQ CAQQQ USAQQQ ', 0),
+(2, 'C0002', '', 'Chuong''s Super Roses', 'Chuong', 'Flower TA', '1-800-SUPER-ROSE', '', '', 'Daisy Hill Farm', '', 'LA', 'CA', 'USA', 1, 1, '2009-06-03 01:53:55', '2009-06-03 02:02:40', '0000-00-00 00:00:00', 'C0002 Chuong sQQQ Super Roses Chuong Flower TAQQQ 1QQQ 800QQQ SUPER ROSE Daisy Hill Farm LAQQQ CAQQQ USAQQQ ', 0),
+(3, 'C0003', '', 'Tushar''s Chocolate & Soil', 'Tushar', 'Gardening', '05132 342.594', '0363 65.21.34', '05132 342.595', 'Via Arezzo, 36', '', '51936 Prato (PO)', 'Tuscany', 'Italia', 1, 1, '2009-06-03 02:01:16', '2009-06-03 02:01:16', '0000-00-00 00:00:00', 'C0003 Tushar sQQQ Chocolate Soil Tushar Gardening 05132 342QQQ 594QQQ 0363 65QQQ 21QQQ 34QQQ 05132 342QQQ 595QQQ ViaQQQ Arezzo 36QQQ 51936 Prato POQQQ Tuscany Italia ', 0),
+(4, 'C0004', 'Shippers have difficultly locating this customer.', 'Paul''s Pansy''s', 'Paolo', 'Products', '(310)825-9192', '(310)221-0126', '(310)825-9193', '808 Peppertree Lane', 'Partition# 301', 'Pasadena', 'PA', 'Papua New Guinea', 1, 1, '2009-06-03 02:09:13', '2009-06-03 02:09:13', '0000-00-00 00:00:00', 'C0004 Paul sQQQ Pansy sQQQ Paolo Products 310QQQ 825QQQ 9192 310QQQ 221QQQ 0126 310QQQ 825QQQ 9193 808QQQ Peppertree Lane Partition 301QQQ Pasadena PAQQQ Papua NewQQQ Guinea Shippers have difficultly locating this customer ', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employees`
+--
+
+DROP TABLE IF EXISTS `employees`;
+CREATE TABLE IF NOT EXISTS `employees` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `email` varchar(255) NOT NULL default '',
+  `password` varchar(255) NOT NULL default '',
+  `auth_level` int(11) NOT NULL default '0',
+  `first_name` varchar(255) NOT NULL default '',
+  `last_name` varchar(255) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `dept_name` varchar(255) NOT NULL default '',
+  `office_location` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT DELAYED INTO `employees` (`id`, `icode`, `email`, `password`, `auth_level`, `first_name`, `last_name`, `title`, `dept_name`, `office_location`, `office_phone_number`, `cell_phone_number`, `fax_number`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 'EMP001', 'maxvujovic@gmail.com', '098f6bcd4621d373cade4e832627b4f6', 4, 'Max', 'Vujovic', 'Regional Manager', 'Sales', 'Building B, Office 108', '(310)555-6990', '(310)555-2788', '(310)555-2789', 1, 1, '2009-01-01 00:00:00', '2009-06-03 01:39:53', ' 310QQQ 555QQQ 2788 Sales maxvujovic gmail comQQQ 310QQQ 555QQQ 2789 MaxQQQ EMP001 Vujovic Building BQQQ Office 108QQQ 310QQQ 555QQQ 6990 Regional Manager', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `name` varchar(255) NOT NULL default '',
+  `type` varchar(255) NOT NULL default '',
+  `subtype1` varchar(255) NOT NULL default '',
+  `subtype2` varchar(255) NOT NULL default '',
+  `description` text NOT NULL,
+  `typical_lifespan_days` int(11) NOT NULL default '0',
+  `typical_units` varchar(255) NOT NULL default '',
+  `typical_min_price_per_unit` decimal(10,2) NOT NULL default '0.00',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT DELAYED INTO `products` (`id`, `icode`, `notes`, `name`, `type`, `subtype1`, `subtype2`, `description`, `typical_lifespan_days`, `typical_units`, `typical_min_price_per_unit`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 'P0001', '', 'Full Blossom Wild Rose', 'Rose', 'White-Pink Mix', 'Thornless Long-Stemmed', 'Great for hot dates.', 7, 'dozen', 20.00, 1, 1, '2009-06-03 02:10:58', '2009-06-03 02:19:33', 'P0001 Full Blossom Wild Rose Rose White Pink MixQQQ Thornless Long Stemmed 7QQQ dozen 20QQQ Great forQQQ hotQQQ dates ', 0),
+(2, 'P2403', 'One of Rupak''s favorites', 'Early Pearl', 'Daffodil', 'White', 'Long-stemmed', 'Daffodils have clusters of florets (usually more than three) on a stem.\r\nThe foliage and stem are very broad. These flowers are very fragrant.', 7, 'boxes', 10.00, 1, 1, '2009-06-03 02:17:04', '2009-06-03 02:17:04', 'P2403 Early Pearl Daffodil White Long stemmed 7QQQ boxes 10QQQ Daffodils have clusters ofQQQ florets usually more than three onQQQ aQQQ stem TheQQQ foliage andQQQ stem areQQQ very broad These flowers areQQQ very fragrant OneQQQ ofQQQ Rupak sQQQ favorites', 0),
+(3, 'P6585', '', 'French Marigold', 'Marigold', 'Orange', 'Short-stemmed', 'Marigolds are easy to grow and have a long flowering period.  The scent is strong and somewhat unpleasant, and is effective in repelling many garden pests.', 10, 'boxes', 8.00, 1, 1, '2009-06-03 02:19:19', '2009-06-03 02:19:19', 'P6585 French Marigold Marigold Orange Short stemmed 10QQQ boxes 8QQQ Marigolds areQQQ easy toQQQ grow andQQQ have aQQQ long flowering period TheQQQ scent isQQQ strong andQQQ somewhat unpleasant andQQQ isQQQ effective inQQQ repelling many garden pests ', 0),
+(4, 'P9544', 'Short lifespan.', 'African Violets', 'Violets', 'Purple', '', 'The plants are small and often stemless, hairy, perennial herbs, with basal long-stalked leaves and two-lipped, almost white to violet or red flowers in few flowered cymes.', 4, 'dozens', 7.00, 1, 1, '2009-06-03 02:28:16', '2009-06-03 02:28:16', 'P9544 African Violets Violets Purple 4QQQ dozens 7QQQ TheQQQ plants areQQQ small andQQQ often stemless hairy perennial herbs with basal long stalked leaves andQQQ twoQQQ lipped almost white toQQQ violet orQQQ redQQQ flowers inQQQ fewQQQ flowered cymes Short lifespan ', 0),
+(5, 'P8765', '', 'European Lily of the Valley', 'Lily', 'Wild', 'Long-stemmed', 'The European Lily Of The Valley has green foliage and conspicuous white flowers, with conspicuous brown fruits or seeds', 12, 'bunches', 9.50, 1, 1, '2009-06-03 02:31:53', '2009-06-03 02:45:44', 'P8765 European Lily ofQQQ theQQQ Valley Lily Wild Long stemmed 12QQQ bunches 9QQQ 5QQQ TheQQQ European Lily OfQQQ TheQQQ Valley hasQQQ green foliage andQQQ conspicuous white flowers with conspicuous brown fruits orQQQ seeds ', 0),
+(6, 'P0985', 'Begonias like you.', 'Tuberous Begonia', 'Begonia', 'tuberous', 'purple', 'Begonias are popular in flowerbeds, for hanging baskets, as container plants, and for indoor houseplants.', 9, 'boxes', 9.00, 1, 1, '2009-06-03 02:33:26', '2009-06-03 02:33:26', 'P0985 Tuberous Begonia Begonia tuberous purple 9QQQ boxes 9QQQ Begonias areQQQ popular inQQQ flowerbeds forQQQ hanging baskets asQQQ container plants andQQQ forQQQ indoor houseplants Begonias like youQQQ ', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+DROP TABLE IF EXISTS `purchases`;
+CREATE TABLE IF NOT EXISTS `purchases` (
+  `id` int(11) NOT NULL auto_increment,
+  `is_cart` int(11) NOT NULL default '0',
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `supplier_id` int(11) NOT NULL default '0',
+  `shipper_id` int(11) NOT NULL default '0',
+  `shipment_details` text NOT NULL,
+  `in_warehouse` tinyint(1) NOT NULL default '0',
+  `order_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `delivery_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `price` decimal(10,2) NOT NULL default '0.00',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT DELAYED INTO `purchases` (`id`, `is_cart`, `icode`, `notes`, `supplier_id`, `shipper_id`, `shipment_details`, `in_warehouse`, `order_date`, `delivery_date`, `price`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 0, 'L2342', '', 1, 1, '', 0, '2009-05-31 00:00:00', '2009-06-01 00:00:00', 250.00, 1, 1, '2009-06-03 02:49:34', '2009-06-03 03:01:29', 'L2342 1QQQ 1QQQ 2009 05QQQ 31QQQ 00QQQ 00QQQ 00QQQ 2009 06QQQ 01QQQ 00QQQ 00QQQ 00QQQ 250QQQ ', 0),
+(2, 0, 'W3344', '', 3, 3, 'Super shipment!', 1, '2009-05-29 00:00:00', '2009-05-31 00:00:00', 200.00, 1, 1, '2009-06-03 02:54:27', '2009-06-03 03:01:04', 'W3344 3QQQ 3QQQ Super shipment warehouse 2009 05QQQ 29QQQ 00QQQ 00QQQ 00QQQ 2009 05QQQ 31QQQ 00QQQ 00QQQ 00QQQ 200QQQ ', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_comps`
+--
+
+DROP TABLE IF EXISTS `purchase_comps`;
+CREATE TABLE IF NOT EXISTS `purchase_comps` (
+  `id` int(11) NOT NULL auto_increment,
+  `purchase_id` int(11) NOT NULL default '0',
+  `product_id` int(11) NOT NULL default '-1',
+  `units` varchar(255) NOT NULL default '',
+  `quantity_purchased` int(11) NOT NULL default '0',
+  `quantity_sellable` int(11) NOT NULL default '0',
+  `expiration_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `min_price_per_unit` decimal(10,2) NOT NULL default '0.00',
+  PRIMARY KEY  (`id`),
+  KEY `purchase_id` (`purchase_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `purchase_comps`
+--
+
+INSERT DELAYED INTO `purchase_comps` (`id`, `purchase_id`, `product_id`, `units`, `quantity_purchased`, `quantity_sellable`, `expiration_date`, `min_price_per_unit`) VALUES
+(1, 1, 1, 'boxes of 30', 30, 30, '2009-06-10 02:48:53', 20.00),
+(2, 1, 4, '50', 50, 50, '2009-06-07 02:49:13', 10.00),
+(3, 2, 3, 'boxes', 100, 100, '2009-06-13 02:53:11', 10.00),
+(4, 2, 5, 'dozen', 20, 20, '2009-06-15 02:53:45', 8.00),
+(5, 2, 6, 'boxes', 40, 40, '2009-06-12 02:54:10', 8.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_orders`
+--
+
+DROP TABLE IF EXISTS `sales_orders`;
+CREATE TABLE IF NOT EXISTS `sales_orders` (
+  `id` int(11) NOT NULL auto_increment,
+  `is_cart` int(11) NOT NULL default '0',
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `customer_id` int(11) NOT NULL default '0',
+  `shipper_id` int(11) NOT NULL default '0',
+  `shipment_details` text NOT NULL,
+  `special` int(11) NOT NULL default '0',
+  `order_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `delivery_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `price` decimal(10,2) NOT NULL default '0.00',
+  `currency` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `sales_orders`
+--
+
+INSERT DELAYED INTO `sales_orders` (`id`, `is_cart`, `icode`, `notes`, `customer_id`, `shipper_id`, `shipment_details`, `special`, `order_date`, `delivery_date`, `price`, `currency`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 0, 'S6432', '', 1, 1, '', 0, '2009-06-09 00:00:00', '2009-06-13 00:00:00', 20.00, '', 1, 1, '2009-06-03 02:50:44', '2009-06-03 02:50:44', 'S6432 1QQQ 1QQQ 2009 06QQQ 09QQQ 00QQQ 00QQQ 00QQQ 2009 06QQQ 13QQQ 00QQQ 00QQQ 00QQQ 20QQQ ', 0),
+(2, 1, '', '', 0, 0, '', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0.00, '', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_order_comps`
+--
+
+DROP TABLE IF EXISTS `sales_order_comps`;
+CREATE TABLE IF NOT EXISTS `sales_order_comps` (
+  `id` int(11) NOT NULL auto_increment,
+  `sales_order_id` int(11) NOT NULL default '0',
+  `purchase_comp_id` int(11) NOT NULL default '0',
+  `quantity_ordered` int(11) NOT NULL default '0',
+  `total_cost` decimal(10,2) NOT NULL default '0.00',
+  PRIMARY KEY  (`id`),
+  KEY `sales_order_id` (`sales_order_id`),
+  KEY `sales_order_3id` (`purchase_comp_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `sales_order_comps`
+--
+
+INSERT DELAYED INTO `sales_order_comps` (`id`, `sales_order_id`, `purchase_comp_id`, `quantity_ordered`, `total_cost`) VALUES
+(1, 1, 1, 10, 200.00),
+(2, 1, 2, 20, 200.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shippers`
+--
+
+DROP TABLE IF EXISTS `shippers`;
+CREATE TABLE IF NOT EXISTS `shippers` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `company_name` varchar(255) NOT NULL default '',
+  `contact_name` varchar(255) NOT NULL default '',
+  `contact_dept` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
+  `address_line_1` varchar(255) NOT NULL default '',
+  `address_line_2` varchar(255) NOT NULL default '',
+  `city` varchar(255) NOT NULL default '',
+  `province` varchar(255) NOT NULL default '',
+  `country` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `shippers`
+--
+
+INSERT DELAYED INTO `shippers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `office_phone_number`, `cell_phone_number`, `fax_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `search_words`, `trash_flag`) VALUES
+(1, 'E2655', 'Slow to ship', 'The Great Exporter', 'Mr. Exporter', 'Deparment of Customer Dissatisfaction', '234-665-4432', '234-665-4432', '234-665-7765', '2454 Sunset Ave.', '', 'Marizrol', 'Marizrola', 'Marizrolan', 1, 1, '2009-06-03 02:29:44', '2009-06-03 02:29:44', 'E2655 TheQQQ Great Exporter MrQQQ Exporter Deparment ofQQQ Customer Dissatisfaction 234QQQ 665QQQ 4432 234QQQ 665QQQ 4432 234QQQ 665QQQ 7765 2454 Sunset AveQQQ Marizrol Marizrola Marizrolan Slow toQQQ ship', 0),
+(2, 'T0923', '', 'Shipquik', 'Bob', 'Bob''s Department', '1232 2323', '1232 2323', '1232 2323', '20200 Marigold Sewers', '', 'Rainbow', 'Unicorn', 'Feathers', 1, 1, '2009-06-03 02:39:38', '2009-06-03 02:39:38', 'T0923 Shipquik BobQQQ BobQQQ sQQQ Department 1232 2323 1232 2323 1232 2323 20200 Marigold Sewers Rainbow Unicorn Feathers ', 0),
+(3, 'O2432', '', 'iShip', 'Guy', 'Customer Relations', '143-2429', '135-3243', '234-8092', '9878 Blahdiblah', '', 'Indigo', 'Violet', 'Italy', 1, 1, '2009-06-03 02:41:51', '2009-06-03 02:41:51', 'O2432 iShip GuyQQQ Customer Relations 143QQQ 2429 135QQQ 3243 234QQQ 8092 9878 Blahdiblah Indigo Violet Italy ', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suppliers`
+--
+
+DROP TABLE IF EXISTS `suppliers`;
+CREATE TABLE IF NOT EXISTS `suppliers` (
+  `id` int(11) NOT NULL auto_increment,
+  `icode` varchar(255) NOT NULL default '',
+  `notes` text NOT NULL,
+  `company_name` varchar(255) NOT NULL default '',
+  `contact_name` varchar(255) NOT NULL default '',
+  `contact_dept` varchar(255) NOT NULL default '',
+  `office_phone_number` varchar(255) NOT NULL default '',
+  `cell_phone_number` varchar(255) NOT NULL default '',
+  `fax_number` varchar(255) NOT NULL default '',
+  `address_line_1` varchar(255) NOT NULL default '',
+  `address_line_2` varchar(255) NOT NULL default '',
+  `city` varchar(255) NOT NULL default '',
+  `province` varchar(255) NOT NULL default '',
+  `country` varchar(255) NOT NULL default '',
+  `created_employee_id` int(11) NOT NULL default '0',
+  `updated_employee_id` int(11) NOT NULL default '0',
+  `created_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `last_contacted` datetime NOT NULL default '0000-00-00 00:00:00',
+  `search_words` text NOT NULL,
+  `trash_flag` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  FULLTEXT KEY `search_words` (`search_words`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `suppliers`
+--
+
+INSERT DELAYED INTO `suppliers` (`id`, `icode`, `notes`, `company_name`, `contact_name`, `contact_dept`, `office_phone_number`, `cell_phone_number`, `fax_number`, `address_line_1`, `address_line_2`, `city`, `province`, `country`, `created_employee_id`, `updated_employee_id`, `created_date`, `updated_date`, `last_contacted`, `search_words`, `trash_flag`) VALUES
+(1, 'S2678', '', 'Flower King', 'Your Majesty', 'Customer Service', '(154) 555-2346', '(154) 555-2346', '(154) 555-6743', '2454 Castle Rd.', '', 'Kingdom', 'CA', 'USA', 1, 1, '2009-06-03 02:21:44', '2009-06-03 02:22:39', '0000-00-00 00:00:00', 'S2678 Flower King Your Majesty Customer Service 154QQQ 555QQQ 2346 154QQQ 555QQQ 2346 154QQQ 555QQQ 6743 2454 Castle RdQQQ Kingdom CAQQQ USAQQQ ', 0),
+(2, 'S9243', '', 'The Secret Garden', 'Unknown', 'Secret Door', 'xxx-xxx-xxxx', 'xxx-xxx-xxxx', 'xxx-xxx-xxxx', '2943 Main St.', '', 'Springfield', 'IL', 'USA', 1, 1, '2009-06-03 02:35:20', '2009-06-03 02:35:20', '0000-00-00 00:00:00', 'S9243 TheQQQ Secret Garden Unknown Secret Door xxxQQQ xxxQQQ xxxx xxxQQQ xxxQQQ xxxx xxxQQQ xxxQQQ xxxx 2943 Main StQQQ Springfield ILQQQ USAQQQ ', 0),
+(3, 'S8675', '', 'Mama Bonnie''s Flower World', 'Mama Bonnie', 'External Relations', '434 3423 2345', '434 3423 2345', '434 3423 2445', '6563 1st St.', '', 'Donde', 'Rover', 'Mars', 1, 1, '2009-06-03 02:37:32', '2009-06-03 02:37:32', '0000-00-00 00:00:00', 'S8675 Mama Bonnie sQQQ Flower World Mama Bonnie External Relations 434QQQ 3423 2345 434QQQ 3423 2345 434QQQ 3423 2445 6563 1stQQQ StQQQ Donde Rover Mars ', 0);
