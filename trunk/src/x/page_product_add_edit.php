@@ -87,7 +87,7 @@ class PageProductAddEdit
 			$this->f_name = $product_info['name'];
 			$this->f_type = $product_info['type'];
 			$this->f_subtype1 = $product_info['subtype1'];
-			$this->f_subtype2 = $product_info['subtyp2'];
+			$this->f_subtype2 = $product_info['subtype2'];
 			$this->f_typical_lifespan_days = $product_info['typical_lifespan_days'];
 			$this->f_typical_units = $product_info['typical_units'];
 			$this->f_typical_min_price_per_unit = $product_info['typical_min_price_per_unit'];

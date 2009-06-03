@@ -226,7 +226,7 @@ class PageProductView
 						
 					<tr>
 						<td width="25%" align="right" valign="middle" class="text_label">Description:&nbsp;</td>
-						<td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_desciption) . '</td>
+						<td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_description) . '</td>
 					</tr>	
 						
 					<tr>
