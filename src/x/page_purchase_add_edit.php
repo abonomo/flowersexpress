@@ -20,7 +20,8 @@ class PagePurchaseAddEdit
 	private $m_comp_info_arr;
 	private $m_purchase;
 	private $obj_purchase_comp_list;
-		
+	private $m_is_trash;
+	
 	private $f_action;
 	
 	private $f_id;
@@ -272,6 +273,8 @@ class PagePurchaseAddEdit
 		
 		$this->m_supplier_text = IO::prepout_sl($purchase_info['supplier_icode'], 20) . ' : ' . IO::prepout_sl($purchase_info['supplier_company_name'], 30);
 		$this->m_shipper_text = IO::prepout_sl($purchase_info['shipper_icode'], 20) . ' : ' . IO::prepout_sl($purchase_info['shipper_company_name'], 30);			
+	
+		$this->m_is_trash = $purchase_info['trash_flag'];
 	}
 	
 	private function verify_input()
@@ -471,12 +474,23 @@ class PagePurchaseAddEdit
 		//buttons if is existing purchase
 		else
 		{
+			if($this->m_is_trash == 0)
+			{
+				$delete_btn_val = 'Delete Purchase';
+				$delete_btn_page = 'page_purchase_delete.php';
+			}
+			else
+			{
+				$delete_btn_val = 'Undelete Purchase';
+				$delete_btn_page = 'page_purchase_undelete.php';			
+			}		
+		
 			echo('
 			<br>
 			<table width="100%">
 				<tr>
 					<td align="left">
-						<input type="button" name="f_submit_btn" value="Delete Purchase" onclick="document.location=\'page_purchase_delete.php?f_id=' . IO::prepout_url($this->f_id) . '\';">
+						<input type="button" name="f_submit_btn" value="' . $delete_btn_val . '" class="button" onclick="document.location=\'' . $delete_btn_page . '?f_id=' . IO::prepout_url($this->f_id) . '\'">
 					</td>					
 					<td align="right">
 						<input type="submit" name="f_submit_btn" value="Save Changes" class="button" onclick="form_purchase.f_action.value=\'save\'; form_purchase.f_id.value=\'' . $this->f_id . '\';">

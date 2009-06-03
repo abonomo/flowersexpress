@@ -20,7 +20,8 @@ class PageSalesOrderAddEdit
 	private $m_comp_info_arr;
 	private $m_sales_order;
 	private $obj_sales_order_comp_list;
-		
+	private $m_is_trash;
+	
 	private $f_action;
 	
 	private $f_id;
@@ -37,7 +38,7 @@ class PageSalesOrderAddEdit
 	
 	private $f_comp_id;
 	private $f_quantity;
-	private $f_total_cost;	
+	private $f_total_cost;
 	
 	//*** FUNCTIONS ***
 	//execution entry point
@@ -272,6 +273,8 @@ class PageSalesOrderAddEdit
 		
 		$this->m_customer_text = IO::prepout_sl($sales_order_info['customer_icode'], 20) . ' : ' . IO::prepout_sl($sales_order_info['customer_company_name'], 30);
 		$this->m_shipper_text = IO::prepout_sl($sales_order_info['shipper_icode'], 20) . ' : ' . IO::prepout_sl($sales_order_info['shipper_company_name'], 30);			
+	
+		$this->m_is_trash = $sales_order_info['trash_flag'];
 	}
 	
 	private function verify_input()
@@ -470,12 +473,23 @@ class PageSalesOrderAddEdit
 		//buttons if is existing sales order
 		else
 		{
+			if($this->m_is_trash == 0)
+			{
+				$delete_btn_val = 'Delete Order';
+				$delete_btn_page = 'page_sales_order_delete.php';
+			}
+			else
+			{
+				$delete_btn_val = 'Undelete Order';
+				$delete_btn_page = 'page_sales_order_undelete.php';			
+			}
+		
 			echo('
 			<br>
 			<table width="100%">
 				<tr>
 					<td align="left">
-						<input type="button" name="f_submit_btn" value="Delete Order" onclick="document.location=\'page_sales_order_delete.php?f_id=' . IO::prepout_url($this->f_id) . '\'">
+						<input type="button" name="f_submit_btn" value="' . $delete_btn_val . '" class="button" onclick="document.location=\'' . $delete_btn_page . '?f_id=' . IO::prepout_url($this->f_id) . '\'">
 					</td>					
 					<td align="right">
 						<input type="submit" name="f_submit_btn" value="Save Changes" class="button" onclick="form_sales_order.f_action.value=\'save\'; form_sales_order.f_id.value=\'' . $this->f_id . '\';">
