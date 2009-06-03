@@ -18,6 +18,9 @@ class PagePurchaseView
 	private $f_supplier_id;
 	private $f_shipper_id;
 	private $f_shipment_details;
+	private $f_order_date;
+	private $f_delivery_date;
+	private $f_price;
 	private $f_notes;
 	private $trash_flag;
 	
@@ -76,6 +79,9 @@ class PagePurchaseView
 						supplier_id, 
 						shipper_id, 
 						shipment_details, 
+						order_date,
+						delivery_date,
+						price,
 						notes,	
 						trash_flag,
 						
@@ -90,6 +96,9 @@ class PagePurchaseView
 			$this->f_supplier_id 			= $purch_info['supplier_id'];
 			$this->f_shipper_id 			= $purch_info['shipper_id'];
 			$this->f_shipment_details 		= $purch_info['shipment_details'];
+			$this->f_order_date 		= $purch_info['order_date'];
+			$this->f_delivery_date 		= $purch_info['delivery_date'];
+			$this->f_price 			= $purch_info['price'];
 			$this->f_notes 					= $purch_info['notes'];
 			$this->f_trash_flag				= $purch_info['trash_flag'];
 			
@@ -242,10 +251,24 @@ echo('
 				 </tr>	
 				 
 				<tr>
-					<td class="text_label">Shipment&nbsp;Details:&nbsp;</td>
+					<td width="25%" align="right" valign="middle" class="text_label">Shipment&nbsp;Details:&nbsp;</td>
 					<td class="form_input"><div>' . IO::prepout_ml_textarea($this->f_shipment_details) . '</div></td>
 				</tr>
 				
+				<tr>
+					<td>&nbsp;</td>
+				</tr>	
+
+				<tr>
+				  	<td class="text_label">Ordered&nbsp;Date:&nbsp;</td>
+					<td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_order_date) . '</td>
+				</tr>	
+
+				<tr>
+				  	<td class="text_label">Delivery&nbsp;Date:&nbsp;</td>
+					<td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_delivery_date) . '</td>
+				</tr>	
+
 				<tr>
 					<td>&nbsp;</td>
 				</tr>	
