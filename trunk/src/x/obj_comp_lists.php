@@ -214,6 +214,7 @@ class ObjEditPurchaseCompList
 		purchase_comps.quantity_sellable,
 		purchase_comps.expiration_date,
 		purchase_comps.min_price_per_unit,
+		products.id AS product_id,
 		products.icode AS product_icode,
 		products.name AS product_name
 		';	//CHANGE: in_warehouse, delivery_date table belonging
