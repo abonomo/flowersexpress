@@ -272,6 +272,16 @@ echo('
 				<tr>
 					<td>&nbsp;</td>
 				</tr>	
+
+				<tr>
+				  	<td class="text_label">Price:&nbsp;</td>
+					<td width="75%" align="left" valign="middle">' . $this->f_price . '</td>
+				</tr>	
+
+
+				<tr>
+					<td>&nbsp;</td>
+				</tr>	
 				  
 				<tr>
 				  <td width="25%" align="right" valign="middle" class="text_label">Created:&nbsp;</td>
