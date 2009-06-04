@@ -110,7 +110,9 @@ class PageTemplate
 				<th>&nbsp;Shipper&nbsp;</th> 
 				<th>&nbsp;Shipment Details&nbsp;</th> 
 				<th>&nbsp;In Warehouse&nbsp;</th> 
+				<th>&nbsp;Ordered Date&nbsp;</th> 
 				<th>&nbsp;Delivery Date&nbsp;</th> 
+				<th>&nbsp;Price&nbsp;</th> 
 				<th>&nbsp;Created Date&nbsp;</th> 
 				<th>&nbsp;Updated Date&nbsp;</th> 
 			</tr> '); 
@@ -133,7 +135,9 @@ class PageTemplate
 				else
 					echo('<td>&nbsp;No&nbsp;</td>');
 			echo ('
+				<td>&nbsp;'. IO::prepout_sl($major_array['order_date'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['delivery_date'], false) . '&nbsp;</td>
+				<td>&nbsp;'. IO::prepout_sl($major_array['price'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['created_date'], false) . '&nbsp;</td>
 				<td>&nbsp;'. IO::prepout_sl($major_array['updated_date'], false) . '&nbsp;</td>
 			</tr>
