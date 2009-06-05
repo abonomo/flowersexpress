@@ -230,6 +230,11 @@ class PageEmployeeView
 						</tr>	
 						
 						<tr>
+						  <td width="25%" align="right" valign="middle" class="text_label">Email Address:&nbsp;</td>
+						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_email) . '</td>
+						</tr>
+						
+						<tr>
 						  <td width="25%" align="right" valign="middle" class="text_label">Office Phone:&nbsp;</td>
 						  <td width="75%" align="left" valign="middle">' . IO::prepout_ml_html($this->f_office_phone) . '</td>
 						</tr>

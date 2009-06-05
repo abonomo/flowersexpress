@@ -71,22 +71,22 @@ class PageGenericList
 	
 	//gets only the content that the page would display
 	// this should probably just be a separate object but it would be a lot of duplicate code
-	public function get_output_only($the_where_clause = '')
+	public function get_output_only($the_where_clause = '', $the_page, $the_obj_id)
 	{	
 		$this->m_where_clause = $the_where_clause;
 		
-		$this->get_input(); 
+		$this->get_input($the_page); 
 		
 		$this->verify_input();
 		
 		$this->process_input();
 		
-		$this->include_output();
+		$this->include_output($the_obj_id);
 	}
 	
-	private function get_input()
+	private function get_input($the_page=1)
 	{
-		$this->f_page = IO::get_input_sl_pg('f_page', 'integer', 1);
+		$this->f_page = IO::get_input_sl_pg('f_page', 'integer', $the_page);
 		$this->f_mode = IO::get_input_sl_pg('f_mode', 'string');
 		$this->f_search = IO::get_input_sl_pg('f_search', 'string');
 		$this->f_order_by = IO::get_input_sl_pg('f_order_by', 'string', $this->m_order_by_options[self::$DEFAULT_ORDER_BY_OPTION_INX][1]);
@@ -188,7 +188,10 @@ class PageGenericList
 		
 		//draw results
 		//prototype: display($action_box_mode, $cust_info_arr, $num_total_results, $cur_page_num, $page_name)
-		$this->m_list_object->display($this->f_mode, $this->m_rows, $this->f_action_box_param, $this->f_action_box_param2);
+		if(count($this->m_rows) > 0)
+			$this->m_list_object->display($this->f_mode, $this->m_rows, $this->f_action_box_param, $this->f_action_box_param2);
+		else
+			echo 'No results found.';
 		
 		//display the bottom page number navigation bar
 		$page_nav_bar->echo_bottom_bar(0, 0);		
@@ -199,17 +202,20 @@ class PageGenericList
 		exit();
 	}
 	
-	private function include_output($err_msg = '')
+	private function include_output($the_obj_id, $err_msg = '')
 	{
 		//display the top page number navigation bar
 		//public function echo_top_bar($bar_width, $ws_border_top, $ws_border_bottom, $page_num, $num_results, $results_per_page, $action_script_left, $action_script_right, $max_pages=5, $left_col='', $last_page=-1)
 		$page_nav_bar = new ObjPageNavBar();
-		$page_nav_bar->echo_top_bar('80%', 0, 10, $this->f_page, $this->m_num_results, self::$RESULTS_PER_PAGE, 'form_search.f_action_box_param.value=' . $this->f_action_box_param . '; form_search.f_action_box_param2.value=' . $this->f_action_box_param2 . '; form_search.f_page.value=', '; form_search.submit();', self::$MAX_PAGES_IN_NAV_BAR);		
+		$page_nav_bar->echo_top_bar('80%', 0, 10, $this->f_page, $this->m_num_results, self::$RESULTS_PER_PAGE, 'document.location=\'page_customer_view.php?f_id=' . $the_obj_id . '&f_page=', '\';', self::$MAX_PAGES_IN_NAV_BAR);		
 		
 		//draw results
 		//prototype: display($action_box_mode, $cust_info_arr, $num_total_results, $cur_page_num, $page_name)
-		$this->m_list_object->display($this->f_mode, $this->m_rows, $this->f_action_box_param, $this->f_action_box_param2);
-		
+		if(count($this->m_rows) > 0)
+			$this->m_list_object->display($this->f_mode, $this->m_rows, $this->f_action_box_param, $this->f_action_box_param2);
+		else
+			echo 'No results found.';
+			
 		//display the bottom page number navigation bar
 		$page_nav_bar->echo_bottom_bar(0, 0);		
 	}
