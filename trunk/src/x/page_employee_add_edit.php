@@ -187,20 +187,24 @@ class PageEmployeeAddEdit
 				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Title is too long.';
 			if(($this->f_auth_level < 1 || $this->f_auth_level > 4) && $this->isAdmin())
 				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Invalid Authorization Level.';
+				
+			if($this->f_action != 'edit' && strlen($this->f_new_password) < 6)
+				$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Password must be at least 6 characters.';
 		
 			//change password stuff
 			if($this->m_isChangePassword)
 			{
+			
 				//verify length
 				if(strlen($this->f_old_password) > Config::$DEFAULT_VARCHAR_LEN)
 					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Old Password Length is too long.';
 				if(strlen($this->f_new_password) > Config::$DEFAULT_VARCHAR_LEN
-					|| strlen($this->f_confirm_password > Config::$DEFAULT_VARCHAR_LEN))
+					|| strlen($this->f_confirm_password) > Config::$DEFAULT_VARCHAR_LEN)
 					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: New Password Length is too long.';
 				
 				//verify other password stuff
 				if((!LoginManager::verify_password_again($this->f_old_password, $this->f_id)) && $this->f_mode == 'edit')
-					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Inccorect Current Password.';
+					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Incorrect Current Password.';
 				if($this->f_confirm_password != $this->f_new_password)
 					$this->m_err_msg[sizeof($this->m_err_msg)] = 'Error: Passwords  do not match.';
 			}
@@ -447,11 +451,16 @@ class PageEmployeeAddEdit
 			     <td>&nbsp;</td>
 			  </tr>
                           <tr>
-                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0"> ');
+			if($this->f_mode == 'edit')
+			{
+				echo ('
                           <tr>
                             <td width="25%" align="right" valign="middle" class="text_label">Old Password:&nbsp;</td>
                             <td width="75%" align="left" valign="middle"><input name="f_old_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_old_password, false) . '"></td>
-                          </tr>
+                          </tr> ');
+			}
+				echo ('
                           <tr>
                             <td width="25%" align="right" valign="middle" class="text_label">New Password:&nbsp;</td>
                             <td width="75%" align="left" valign="middle"><input name="f_new_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_new_password, false) . '"></td>
@@ -460,8 +469,6 @@ class PageEmployeeAddEdit
                             <td width="25%" align="right" valign="middle" class="text_label">Confirm Password:&nbsp;</td>
                             <td width="75%" align="left" valign="middle"><input name="f_confirm_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_confirm_password, false) . '"></td>
                           </tr>
-                        </table></td>
-                      </tr>
                         </table></td>
                       </tr>
                       <tr>
@@ -533,11 +540,16 @@ class PageEmployeeAddEdit
                         <td>&nbsp;</td>
                       </tr>
 					  <tr>
-                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0"> ');
+			if($this->f_mode == 'edit')
+			{
+				echo ('
                           <tr>
                             <td width="25%" align="right" valign="middle" class="text_label">Old Password:&nbsp;</td>
                             <td width="75%" align="left" valign="middle"><input name="f_old_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_old_password, false) . '"></td>
-                          </tr>
+                          </tr> ');
+			}
+				echo ('
                           <tr>
                             <td width="25%" align="right" valign="middle" class="text_label">New Password:&nbsp;</td>
                             <td width="75%" align="left" valign="middle"><input name="f_new_password" type="password" size="40" class="textbox" value="' . IO::prepout_sl($this->f_new_password, false) . '"></td>
