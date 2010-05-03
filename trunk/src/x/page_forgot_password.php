@@ -107,7 +107,7 @@ class PageForgotPassword
 		$headers .= "Return-path: do_not_reply@flowersexpress.com";
 		$message = "Your Password has been Reset!\n\n" .	
 					"Your new password is " . $password . "\n\n" .
-					"THIS IS AN AUTOMATICALLY GENERATED EMAILY - PLEASE DO NOT REPLY";
+					"THIS IS AN AUTOMATICALLY GENERATED EMAIL - PLEASE DO NOT REPLY";
 		
 		// once the variables have been defined, they can be included
 		// in the mail function call which will send you an email
